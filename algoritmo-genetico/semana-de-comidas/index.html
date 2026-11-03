@@ -590,6 +590,15 @@
   .meals li.meal-head { display: block; border-bottom: none; padding: 10px 0 2px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
   .meals li.meal-head:first-child { padding-top: 4px; }
   .meals-pick { border: 0; padding: 0; margin: 0 0 24px; }
+  /* Dos caminos para armar la semana: platos listos (aquí) o lo que tienes en casa (otra página que recibe tu meta) */
+  .modo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 28px; }
+  .modo-op { display: block; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border); background: var(--soft); color: var(--text); text-decoration: none; }
+  .modo-op b { display: block; font: 400 18px/1.2 Gloock, Georgia, serif; margin-bottom: 4px; }
+  .modo-op span { display: block; font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+  .modo-op.on { border: 2px solid var(--gold); background: transparent; }
+  .modo-op.on b::before { content: "✓ "; color: var(--gold-ink); }
+  a.modo-op:hover { border-color: var(--gold); }
+  @media (max-width: 560px) { .modo { grid-template-columns: 1fr; } }
   .meals-pick legend { padding: 0; margin-bottom: 10px; }
   .meal-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px 16px; }
   .meal-checks label.check { flex-wrap: wrap; align-items: center; }
@@ -1153,7 +1162,7 @@
 <ol class="stepper" id="stepper" aria-label="Pasos">
   <li><button data-go="1"><span class="n">Paso 1</span><span class="label">Tus datos</span></button></li>
   <li><button data-go="3"><span class="n">Paso 2</span><span class="label">Tu semana</span></button></li>
-  <li class="star"><button data-go="4"><span class="n">Paso 3</span><span class="label">Armando</span></button></li>
+  <li class="star"><button data-go="4"><span class="n">Paso 3</span><span class="label">Evolución</span></button></li>
   <li><button data-go="5"><span class="n">Paso 4</span><span class="label">Tu plan</span></button></li>
 </ol>
 
@@ -1274,6 +1283,7 @@
     <h2>Tu semana</h2>
     <p class="hint">Elige qué comidas quieres y cómo prefieres tu semana.</p>
   </div></div>
+  <div class="modo" id="modo" data-no-i18n></div>
   <fieldset class="meals-pick">
     <legend class="field">¿Qué comidas quieres en tu plan?</legend>
     <div class="meal-checks">
@@ -1347,7 +1357,7 @@
     <div class="as-go"><p class="as-time">Tarda unos 10 segundos. Al final verás la semana de Ana.</p>
       <button type="button" class="btn primary go" onclick="empezarAna()">Empezar la búsqueda →</button></div>
   </div>
-  <div class="res-head"><h2 id="gaTitle">Armando tu semana</h2><span class="hint" id="gaGenLabel"></span></div><p class="sr-only" id="gaDone" role="status"></p>
+  <div class="res-head"><h2 id="gaTitle">Tu semana está evolucionando</h2><span class="hint" id="gaGenLabel"></span></div><p class="sr-only" id="gaDone" role="status"></p>
   <div class="ga-progress"><div id="gaBar"></div></div>
   <ol class="ga-steps" id="gaSteps"></ol>
   <div class="ga-pop">
@@ -2792,6 +2802,55 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
 
 }
 
+// Camino «con lo que tengo en casa»: guarda tu meta en este dispositivo y abre la otra página, que la lee sola.
+const EN_CASA_URL = 'en-casa/';
+function paintModo() {
+  const en = LANG === 'en';
+  document.getElementById('modo').innerHTML =
+    `<div class="modo-op on"><b>${en ? 'With ready-made dishes' : 'Con platos listos'}</b><span>${en ? 'Pick from a menu of dishes already combined. It is what you see below.' : 'Eliges de un menú de platos ya combinados. Es lo que ves abajo.'}</span></div>` +
+    `<a class="modo-op" href="${EN_CASA_URL}" onclick="return irEnCasa()"><b>${en ? 'With what I have at home →' : 'Con lo que tengo en casa →'}</b><span>${en ? 'Tick what is in your fridge and the algorithm combines only that. Your goal goes with you. (In Spanish for now.)' : 'Marcas lo que hay en tu nevera y el algoritmo combina solo eso. Tu meta va contigo.'}</span></a>`;
+}
+function irEnCasa() {
+  const n = calculatedNeeds; if (!n) { go(1); return false; }
+  guardarParaVolver();
+  const g = (id, alt) => { const x = +document.getElementById(id).value; return Math.round(x > 0 ? x : alt); };
+  try {
+    localStorage.setItem('ds.metaDiaria', JSON.stringify({ v: 1, fecha: Date.now(), kcal: Math.round(n.targetCalories), prot: Math.round(n.proteinG),
+      lang: LANG, fatMin: g('minFat', n.ranges.fat[0]), fatMax: g('maxFat', n.ranges.fat[1]), carbMin: g('minCarb', n.ranges.carb[0]), carbMax: g('maxCarb', n.ranges.carb[1]) }));
+  } catch (e) {}
+  if (!exampleMode) track('3-va-a-en-casa');
+  return true;   // el enlace sigue su camino
+}
+paintModo();
+// Al irte a «en casa» se guarda todo lo del paso 1 y 2; al volver con ?paso2 la app te deja en el paso 2 como lo dejaste.
+const VOLVER_KEY = 'ds.volverPaso2';
+const VOLVER_FIELDS = ['calcWeight', 'calcHeightFt', 'calcHeightIn', 'calcAge', 'calcSex', 'calcActivity', 'calcGoal', 'calcProtPerKg', 'calcFatPct', 'calcCutFrom',
+  'minProt', 'maxProt', 'minFat', 'maxFat', 'minCarb', 'maxCarb', 'avoidLactose', 'prefProtein', 'prefFat', 'prefCarb', 'prefShop'];
+function guardarParaVolver() {
+  try {
+    const fields = {};
+    VOLVER_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) fields[id] = el.type === 'checkbox' ? el.checked : el.value; });
+    const off = [...document.querySelectorAll('.foodCheck')].filter(cb => !cb.checked).map(cb => cb.dataset.group + '|' + cb.dataset.idx);
+    localStorage.setItem(VOLVER_KEY, JSON.stringify({ v: 1, fecha: Date.now(), fields, off }));
+  } catch (e) {}
+}
+function volverAlPaso2() {
+  let d = null;
+  try { d = JSON.parse(localStorage.getItem(VOLVER_KEY)); } catch (e) {}
+  if (!d || d.v !== 1 || Date.now() - d.fecha > 2 * 864e5) return false;   // solo si te fuiste hace poco
+  const put = id => { const el = document.getElementById(id); if (el && id in d.fields) { if (el.type === 'checkbox') el.checked = d.fields[id]; else el.value = d.fields[id]; } };
+  document.body.classList.remove('in-choose', 'in-intro');
+  exampleMode = false; showExampleNotes();
+  OWN_IDS.concat(['calcProtPerKg', 'calcFatPct', 'calcCutFrom']).forEach(put);
+  recalc();   // calcula tu meta con tus datos
+  VOLVER_FIELDS.forEach(put);   // y luego vuelven tus rangos y preferencias, por si los habías cambiado
+  d.off.forEach(k => { const [g, i] = k.split('|'); const cb = document.querySelector(`.foodCheck[data-group="${g}"][data-idx="${i}"]`); if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change', { bubbles: true })); } });
+  if (!calculatedNeeds) return false;
+  dirty = true; maxStep = 3;
+  go(3);
+  return true;
+}
+
 const MARK_OK = '<svg class="mk ok" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const MARK_NO = '<svg class="mk no" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 const ICON_PIN = '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M9 3.5h6l-.9 5.6 3.9 3.9H6l3.9-3.9z M12 13v7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg>';
@@ -3219,7 +3278,7 @@ function go(n) {
   document.body.dataset.step = n;
   document.body.classList.toggle('in-demo', exampleMode && n === 4);
   document.body.classList.toggle('in-demo5', exampleMode && n === 5);
-  document.getElementById('gaTitle').textContent = exampleMode ? 'Así evoluciona la semana de Ana' : 'Armando tu semana';
+  document.getElementById('gaTitle').textContent = exampleMode ? 'Así evoluciona la semana de Ana' : 'Tu semana está evolucionando';
   document.getElementById('stepTitle').innerHTML = stepTitle(n);
   document.querySelectorAll('.screen').forEach(sc => sc.classList.toggle('hidden-screen', +sc.dataset.step !== n));
   updateStepper();
@@ -3764,6 +3823,10 @@ function init() {
   // quien llega desde el sitio (?intro) ve siempre la introducción; se quita del enlace para que recargar no la repita
   const url = new URL(location.href), fromSite = url.searchParams.has('intro');
   if (fromSite) { url.searchParams.delete('intro'); try { history.replaceState(null, '', url); } catch (e) {} }
+  if (url.searchParams.has('paso2')) {   // vienes de «con lo que tengo en casa»
+    url.searchParams.delete('paso2'); try { history.replaceState(null, '', url); } catch (e) {}
+    if (volverAlPaso2()) return;
+  }
   if (!seen || fromSite) startIntro(); else showChoose(); // la primera vez, la introducción completa; después, directo a elegir
 }
 
@@ -3933,7 +3996,6 @@ i18nAdd({
   "Tus datos": "Your data",
   "Tus alimentos": "Your foods",
   "Tu semana": "Your week",
-  "Armando": "Building",
   "Tu plan": "Your plan",
   "Tus datos y objetivo": "Your data and goal",
   "Con esto calculamos cuánto necesitas comer al día. Cuando completes todo, aparece tu meta.": "We use this to calculate how much you need to eat each day. Once you fill everything in, your goal appears.",
@@ -4097,7 +4159,7 @@ i18nAdd({
   "Vueltas de búsqueda": "Search rounds",
   "Mutación (#–#)": "Mutation (#–#)",
   "Armar tu semana →": "Build your week →",
-  "Armando tu semana": "Building your week",
+  "Tu semana está evolucionando": "Your week is evolving",
   "Así evoluciona una semana": "How a week evolves",
   "Esto es una demostración con una persona de ejemplo: mujer de # años, # lb (# kg), # pies # pulgadas (# m), actividad moderada, mantener peso. Después armas la tuya.": "This is a demo with a sample person: a #-year-old woman, # lb (# kg), # ft # in (# m), moderately active, maintaining weight. Afterwards you build your own.",
   "Probando menús… #%": "Trying menus… #%",
