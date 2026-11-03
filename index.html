@@ -15,10 +15,10 @@
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:title" content="Designing Spring · El jardín de Ramona Santos">
 <meta property="og:description" content="Mi jardín de curiosidades: experimentos con algoritmos inspirados en la naturaleza e historias de ciencia ficción.">
-<meta property="og:image" content="https://rasmorell.github.io/img/compartir.jpg">
+<meta property="og:image" content="https://rasmorell.github.io/img/compartir-jardin.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Un jardín de lianas que cuelga sobre la pregunta «¿Podríamos diseñar la primavera?»">
+<meta property="og:image:alt" content="Un jardín de lianas con flores rosadas que cuelga junto a la pregunta «¿Podríamos diseñar la primavera?»">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="img/logo-oscuro.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -495,7 +495,7 @@ const I18N_ATTR = {"Designing Spring, inicio": "Designing Spring, home", "Seccio
 let LANG = (() => {
   const q = new URLSearchParams(location.search).get('lang'); if (q === 'en' || q === 'es') return q;
   try { const v = localStorage.getItem('ds.lang'); if (v === 'en' || v === 'es') return v; } catch (e) {}
-  return /^es\b/i.test(navigator.language || 'es') ? 'es' : 'en';
+  return 'es';   // como la app: abre en español; el botón EN sigue ahí
 })();
 const tr = es => LANG === 'en' ? (I18N_ATTR[es] || I18N_EN[es] || es) : es;
 let I18N_NODES = null;
