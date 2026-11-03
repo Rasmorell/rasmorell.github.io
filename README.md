@@ -3,7 +3,8 @@
 Experimentos con algoritmos inspirados en la naturaleza e historias de ciencia ficción.
 
 - Sitio: https://rasmorell.github.io/
-- Experimento 01: https://rasmorell-gif.github.io/de-la-naturaleza-al-codigo/
+- Experimentos: una carpeta por algoritmo y dentro una por experimento.
+  - Algoritmo genético · Tu semana de comidas: https://rasmorell.github.io/algoritmo-genetico/semana-de-comidas/
 - Mis escritos: https://designingspring.substack.com/
 
 En español e inglés (botón arriba, o `?lang=en` al final del enlace).
