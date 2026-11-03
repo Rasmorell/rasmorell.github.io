@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Con lo que tengo en casa ¬∑ Designing Spring</title>
+<meta name="description" content="Marca lo que tienes en casa y un algoritmo gen√©tico arma tu semana de comidas solo con eso. Un experimento de Designing Spring.">
+<meta name="author" content="Ramona Santos">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%22-160%20-160%20320%20320%22%3E%3Crect%20x%3D%22-160%22%20y%3D%22-160%22%20width%3D%22320%22%20height%3D%22320%22%20rx%3D%2256%22%20fill%3D%22%230d1422%22/%3E%3Cpath%20transform%3D%22translate%28-16.1%2014.8%29%20rotate%28192.5%29%22%20d%3D%22M-13.03%200%20Q%200%20-13.03%2013.03%200%20Q%200%2013.03%20-13.03%200%20Z%22%20fill%3D%22%23c4de88%22/%3E%3Cpath%20transform%3D%22translate%282.7%20-30.8%29%20rotate%28330.0%29%22%20d%3D%22M-13.77%200%20Q%200%20-13.77%2013.77%200%20Q%200%2013.77%20-13.77%200%20Z%22%20fill%3D%22%23b4d575%22/%3E%3Cpath%20transform%3D%22translate%2823.0%2030.1%29%20rotate%28467.5%29%22%20d%3D%22M-14.33%200%20Q%200%20-14.33%2014.33%200%20Q%200%2014.33%20-14.33%200%20Z%22%20fill%3D%22%23a4cb63%22/%3E%3Cpath%20transform%3D%22translate%28-43.1%20-7.6%29%20rotate%28605.0%29%22%20d%3D%22M-14.81%200%20Q%200%20-14.81%2014.81%200%20Q%200%2014.81%20-14.81%200%20Z%22%20fill%3D%22%2395c055%22/%3E%3Cpath%20transform%3D%22translate%2841.3%20-26.2%29%20rotate%28742.5%29%22%20d%3D%22M-15.23%200%20Q%200%20-15.23%2015.23%200%20Q%200%2015.23%20-15.23%200%20Z%22%20fill%3D%22%2387b44b%22/%3E%3Cpath%20transform%3D%22translate%28-13.9%2051.7%29%20rotate%28880.0%29%22%20d%3D%22M-15.61%200%20Q%200%20-15.61%2015.61%200%20Q%200%2015.61%20-15.61%200%20Z%22%20fill%3D%22%2378a842%22/%3E%3Cpath%20transform%3D%22translate%28-26.7%20-51.3%29%20rotate%281017.6%29%22%20d%3D%22M-15.96%200%20Q%200%20-15.96%2015.96%200%20Q%200%2015.96%20-15.96%200%20Z%22%20fill%3D%22%236a9c38%22/%3E%3Cpath%20transform%3D%22translate%2858.1%2021.2%29%20rotate%281155.1%29%22%20d%3D%22M-16.28%200%20Q%200%20-16.28%2016.28%200%20Q%200%2016.28%20-16.28%200%20Z%22%20fill%3D%22%23d4e89a%22/%3E%3Cpath%20transform%3D%22translate%28-60.6%2025.0%29%20rotate%281292.6%29%22%20d%3D%22M-16.59%200%20Q%200%20-16.59%2016.59%200%20Q%200%2016.59%20-16.59%200%20Z%22%20fill%3D%22%23c4de88%22/%3E%3Cpath%20transform%3D%22translate%2829.3%20-62.6%29%20rotate%281430.1%29%22%20d%3D%22M-16.88%200%20Q%200%20-16.88%2016.88%200%20Q%200%2016.88%20-16.88%200%20Z%22%20fill%3D%22%23b4d575%22/%3E%3Cpath%20transform%3D%22translate%2821.7%2069.2%29%20rotate%281567.6%29%22%20d%3D%22M-17.15%200%20Q%200%20-17.15%2017.15%200%20Q%200%2017.15%20-17.15%200%20Z%22%20fill%3D%22%23a4cb63%22/%3E%3Cpath%20transform%3D%22translate%28-65.5%20-38.0%29%20rotate%281705.1%29%22%20d%3D%22M-17.41%200%20Q%200%20-17.41%2017.41%200%20Q%200%2017.41%20-17.41%200%20Z%22%20fill%3D%22%2395c055%22/%3E%3Cpath%20transform%3D%22translate%2877.0%20-16.9%29%20rotate%281842.6%29%22%20d%3D%22M-17.66%200%20Q%200%20-17.66%2017.66%200%20Q%200%2017.66%20-17.66%200%20Z%22%20fill%3D%22%2387b44b%22/%3E%3Cpath%20transform%3D%22translate%28-47.1%2066.9%29%20rotate%281980.1%29%22%20d%3D%22M-17.91%200%20Q%200%20-17.91%2017.91%200%20Q%200%2017.91%20-17.91%200%20Z%22%20fill%3D%22%2378a842%22/%3E%3Cpath%20transform%3D%22translate%28-10.9%20-84.0%29%20rotate%282117.6%29%22%20d%3D%22M-18.14%200%20Q%200%20-18.14%2018.14%200%20Q%200%2018.14%20-18.14%200%20Z%22%20fill%3D%22%236a9c38%22/%3E%3Cpath%20transform%3D%22translate%2866.9%2056.4%29%20rotate%282255.1%29%22%20d%3D%22M-18.37%200%20Q%200%20-18.37%2018.37%200%20Q%200%2018.37%20-18.37%200%20Z%22%20fill%3D%22%23d4e89a%22/%3E%3Cpath%20transform%3D%22translate%28-90.1%203.7%29%20rotate%282392.6%29%22%20d%3D%22M-18.58%200%20Q%200%20-18.58%2018.58%200%20Q%200%2018.58%20-18.58%200%20Z%22%20fill%3D%22%23c4de88%22/%3E%3Cpath%20transform%3D%22translate%2865.8%20-65.4%29%20rotate%282530.1%29%22%20d%3D%22M-18.80%200%20Q%200%20-18.80%2018.80%200%20Q%200%2018.80%20-18.80%200%20Z%22%20fill%3D%22%23b4d575%22/%3E%3Cpath%20transform%3D%22translate%28-4.4%2095.2%29%20rotate%282667.6%29%22%20d%3D%22M-19.00%200%20Q%200%20-19.00%2019.00%200%20Q%200%2019.00%20-19.00%200%20Z%22%20fill%3D%22%23a4cb63%22/%3E%3Cpath%20transform%3D%22translate%28-62.6%20-75.1%29%20rotate%282805.2%29%22%20d%3D%22M-19.20%200%20Q%200%20-19.20%2019.20%200%20Q%200%2019.20%20-19.20%200%20Z%22%20fill%3D%22%2395c055%22/%3E%3Cpath%20transform%3D%22translate%2899.3%2013.4%29%20rotate%282942.7%29%22%20d%3D%22M-19.40%200%20Q%200%20-19.40%2019.40%200%20Q%200%2019.40%20-19.40%200%20Z%22%20fill%3D%22%2387b44b%22/%3E%3Cpath%20transform%3D%22translate%28-84.2%2058.6%29%20rotate%283080.2%29%22%20d%3D%22M-19.59%200%20Q%200%20-19.59%2019.59%200%20Q%200%2019.59%20-19.59%200%20Z%22%20fill%3D%22%2378a842%22/%3E%3Cpath%20transform%3D%22translate%2823.0%20-102.3%29%20rotate%283217.7%29%22%20d%3D%22M-19.78%200%20Q%200%20-19.78%2019.78%200%20Q%200%2019.78%20-19.78%200%20Z%22%20fill%3D%22%236a9c38%22/%3E%3Cpath%20transform%3D%22translate%2853.3%2092.9%29%20rotate%283355.2%29%22%20d%3D%22M-19.96%200%20Q%200%20-19.96%2019.96%200%20Q%200%2019.96%20-19.96%200%20Z%22%20fill%3D%22%23d4e89a%22/%3E%3Ccircle%20cx%3D%22-104.1%22%20cy%3D%22-33.2%22%20r%3D%2214.10%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22101.2%22%20cy%3D%22-46.8%22%20r%3D%2214.22%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22-43.9%22%20cy%3D%22104.8%22%20r%3D%2214.34%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22-39.2%22%20cy%3D%22-108.9%22%20r%3D%2214.46%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22104.2%22%20cy%3D%2254.8%22%20r%3D%2214.58%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22-115.8%22%20cy%3D%2230.5%22%20r%3D%2214.69%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%2265.8%22%20cy%3D%22-102.4%22%20r%3D%2214.81%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%2220.9%22%20cy%3D%22121.9%22%20r%3D%2214.92%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22-99.3%22%20cy%3D%22-76.9%22%20r%3D%2215.03%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22127.1%22%20cy%3D%22-10.5%22%20r%3D%2215.14%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22-87.8%22%20cy%3D%2295.0%22%20r%3D%2215.24%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%220.6%22%20cy%3D%22-131.2%22%20r%3D%2215.35%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%2289.4%22%20cy%3D%2298.5%22%20r%3D%2215.45%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22-134.2%22%20cy%3D%22-12.4%22%20r%3D%2215.55%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22108.8%22%20cy%3D%22-82.5%22%20r%3D%2215.65%22%20fill%3D%22%23e3a72f%22/%3E%3Ccircle%20cx%3D%22-24.7%22%20cy%3D%22136.0%22%20r%3D%2215.75%22%20fill%3D%22%23e3a72f%22/%3E%3C/svg%3E">
+<script>/* d√≠a o noche: la misma elecci√≥n que en el sitio (ds.theme); abre de noche */ (function () { var t = null; try { t = localStorage.getItem('ds.theme'); } catch (e) {} var q = new URLSearchParams(location.search).get('tema'); if (q) t = q === 'dia' ? 'day' : 'night'; document.documentElement.dataset.theme = t === 'day' ? 'light' : 'dark'; })();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+  /* Mundo visual "Cabeza de girasol": el marco es la noche de Designing Spring;
+     la columna de lectura es papel; el color queda para la flor y los datos. */
+  :root {
+    --frame: #0d1422; --frame-line: #26324c; --frame-text: #f4efe4; --frame-muted: #bdb4a0;
+    --gold: #e3a72f; --gold-dim: #8a6a2a; --seed-low: #7a6f5c; --seed-ring: #8a7f6c;
+    --bg: #0d1422; --card: #f4efe4; --border: #d9cfba; --soft: #ebe3d2;
+    --text: #1d2230; --muted: #574f41; --faint: #6b6353;
+    --accent: #1d2230; --accent-hover: #2f3750; --accent-soft: #e6dcc6;
+    --leaf: #4f7a2a; --leaf-ink: #3d621d; --leaf-soft: #e1e8cf;
+    --salvia: #e4ebdc;
+    --gold-ink: #7a4f00; --gold-soft: #f3e2b8;
+    --warn: #9c3c19; --warn-soft: #f6e1d6;
+    --prot: #2c5a8c; --prot-soft: #dfe7f0;
+    --fat: #7d5410; --fat-soft: #f1e3c4;
+    --carb: #3d621d; --carb-soft: #e1e8cf;
+    --on-accent: #f4efe4; --input-bg: #fbf8f1; --input-border: #c4b89e; --btn-hover: #e4dac5;
+    --chip-neutral: #e4dccb; --shadow: rgba(13,20,34,.12); --shadow-strong: rgba(13,20,34,.22);
+    --axis: #c4b89e; --dot-drop: #8a7f6c; --line-best: #e3a72f;
+    color-scheme: light dark;
+  }
+  /* Modo oscuro: el marco no cambia; la columna pasa de papel a tinta */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --card: #161e2e; --border: #2c3851; --soft: #1e2839;
+      --text: #ece5d4; --muted: #b8ae99; --faint: #a39a86;
+      --accent: #f4efe4; --accent-hover: #ffffff; --accent-soft: #222c40;
+      --leaf: #8fbf5a; --leaf-ink: #a5cf73; --leaf-soft: #1f2d22;
+    --salvia: #1f2b24;
+      --salvia: #1f2b24;
+      --gold-ink: #e8b85a; --gold-soft: #3a2f17;
+      --warn: #ec9a74; --warn-soft: #3a251b;
+      --prot: #8fb6e2; --prot-soft: #1f2c3b;
+      --fat: #e0b464; --fat-soft: #362c18;
+      --carb: #a5cf73; --carb-soft: #243121;
+      --on-accent: #0d1422; --input-bg: #111827; --input-border: #3a4763; --btn-hover: #26324a;
+      --chip-neutral: #26324a; --shadow: rgba(0,0,0,.4); --shadow-strong: rgba(0,0,0,.5);
+      --axis: #3a4763; --dot-drop: #6b6457;
+    }
+  }
+  :root[data-theme="dark"] {
+    --card: #161e2e; --border: #2c3851; --soft: #1e2839;
+    --text: #ece5d4; --muted: #b8ae99; --faint: #a39a86;
+    --accent: #f4efe4; --accent-hover: #ffffff; --accent-soft: #222c40;
+    --leaf: #8fbf5a; --leaf-ink: #a5cf73; --leaf-soft: #1f2d22;
+    --salvia: #1f2b24;
+    --gold-ink: #e8b85a; --gold-soft: #3a2f17;
+    --warn: #ec9a74; --warn-soft: #3a251b;
+    --prot: #8fb6e2; --prot-soft: #1f2c3b;
+    --fat: #e0b464; --fat-soft: #362c18;
+    --carb: #a5cf73; --carb-soft: #243121;
+    --on-accent: #0d1422; --input-bg: #111827; --input-border: #3a4763; --btn-hover: #26324a;
+    --chip-neutral: #26324a; --shadow: rgba(0,0,0,.4); --shadow-strong: rgba(0,0,0,.5);
+    --axis: #3a4763; --dot-drop: #6b6457;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    font-family: Literata, Georgia, "Times New Roman", serif;
+    background: var(--bg); color: var(--text); line-height: 1.5;
+    max-width: 820px; margin: 0 auto; padding: 32px 16px 120px;
+  }
+  h1 { margin: 0 0 4px; }
+  .subtitle { color: var(--muted); margin: 0 0 24px; }
+  .card { background: var(--card); border: 1px solid var(--border); padding: 20px 22px; margin-bottom: 18px; }
+  .step-head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+  .step-num { flex: 0 0 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  .step-head h2 { margin: 0; }
+  .hint { color: var(--muted); font-size: 13px; margin: 2px 0 0; }
+  #gaCard p, #resultsCard p { max-width: 70ch; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+  label.field { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+  select, input[type=number], input[type=search] {
+    width: 100%; padding: 9px 10px; border: 1px solid var(--input-border); border-radius: 8px;
+    font-size: 14px; background: var(--input-bg); color: var(--text); font-family: inherit;
+  }
+  .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+  .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+  .check { display: flex; align-items: center; gap: 8px; font-size: 14px; margin-top: 10px; cursor: pointer; }
+  .check input { width: 16px; height: 16px; accent-color: var(--accent); }
+  details.more { margin-top: 12px; border-top: 1px solid var(--border); padding-top: 10px; }
+  details.more > summary { cursor: pointer; color: var(--muted); font-weight: 600; font-size: 13px; }
+  details.more[open] > summary { margin-bottom: 12px; }
+  details.more .sub-hint { margin: -4px 0 12px; }
+  button { font-family: inherit; cursor: pointer; }
+  .btn { border: none; border-radius: 8px; padding: 11px 20px; font-size: 15px; font-weight: 600; }
+  .btn.primary { background: var(--accent); color: var(--on-accent); }
+  .btn.primary:hover { background: var(--accent-hover); }
+  .btn.primary:disabled { opacity: 0.7; cursor: progress; }
+  .btn.leaf { background: var(--leaf-ink); color: var(--on-accent); }   /* comentar: verde de las hojas, para que el dorado quede solo en Descargar */
+  .btn.leaf:hover { filter: brightness(1.1); }
+  .btn.secondary { background: var(--soft); color: var(--text); border: 1px solid var(--border); font-size: 13px; padding: 8px 14px; }
+  .btn.secondary:hover { background: var(--btn-hover); }
+  .link-btn { background: none; border: none; color: var(--accent); font-size: 13px; padding: 0; text-decoration: underline; }
+  a { color: var(--accent); }
+
+  /* Paso 1: resultado de la calculadora */
+  .calc-out { margin-top: 16px; background: var(--soft); border-radius: 10px; padding: 14px 16px; }
+  .kcal-line { font-size: 15px; margin: 0 0 2px; }
+  .kcal-sub { font-size: 12.5px; color: var(--muted); margin: 0 0 20px; }
+  /* Lo que gastas, en una l√≠nea: en reposo ‚Üí en promedio ‚Üí lo que comes. Cada punto con su cifra arriba y su nombre abajo;
+     entre punto y punto, lo que se suma o se resta. */
+  .gasto { margin: 28px 0 24px; }   /* aire entre la meta, la l√≠nea, la frase y la prote√≠na */
+  .gasto .gs-nums, .gasto .gs-names { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; }
+  .gasto .gs-num { font-family: Gloock, Georgia, serif; font-size: clamp(21px, 5.6vw, 28px); line-height: 1.1; }
+  .gasto .gs-name { font-size: 12.5px; color: var(--muted); line-height: 1.3; padding: 0 4px; }
+  .gasto .gs-line { position: relative; height: 46px; }
+  .gasto .gs-line::before { content: ''; position: absolute; left: 16.67%; right: 16.67%; bottom: 10px; height: 2px; background: var(--border); }
+  .gasto .gs-dot { position: absolute; bottom: 11px; width: 12px; height: 12px; margin: 0 0 -6px -6px; border-radius: 50%; background: var(--muted); }
+  .gasto .gs-step { position: absolute; top: 2px; transform: translateX(-50%); max-width: 32%; font-size: 12px; line-height: 1.2; color: var(--muted); text-align: center; }   /* encima de la l√≠nea, sin tapar los puntos */
+  .gasto .gs-goal { color: var(--gold-ink); }
+  .gasto .gs-name.gs-goal { font-weight: 600; }
+  .gasto .gs-dot.gs-goal { width: 14px; height: 14px; margin: 0 0 -7px -7px; background: var(--gold); }
+  .gasto .gs-foot { font-size: 13.5px; margin: 24px 0 0; }
+  .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .tile { background: var(--card); border-radius: 8px; padding: 10px 12px; border-top: 3px solid; }
+  .tile.p { border-color: var(--prot); } .tile.f { border-color: var(--fat); } .tile.c { border-color: var(--carb); }
+  .tile .t-label { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+  .tile .t-value { font-size: 21px; font-weight: 700; line-height: 1.2; }
+  .tile .t-range { font-size: 12px; color: var(--muted); }
+  .notes { margin: 10px 0 0; padding: 0; list-style: none; font-size: 12.5px; }
+  .notes li { color: var(--warn); margin-top: 4px; }
+  .notes li.info { color: var(--muted); }
+
+  /* Paso 2: alimentos */
+  .food-toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .food-toolbar input { flex: 1; }
+  .food-count { font-size: 13px; color: var(--muted); white-space: nowrap; }
+  details.group { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+  details.group > summary { list-style: none; display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; background: var(--soft); }
+  details.group > summary::-webkit-details-marker { display: none; }
+  details.group > summary::before { content: ""; width: 7px; height: 7px; border-right: 1.8px solid var(--faint); border-bottom: 1.8px solid var(--faint); transform: rotate(-45deg); transition: transform .15s; flex: 0 0 auto; }
+  details.group[open] > summary::before { transform: rotate(45deg); }
+  .g-name { font-weight: 600; font-size: 14px; }
+  .g-count { font-size: 12.5px; color: var(--muted); flex: 1; white-space: nowrap; }
+  .g-actions button { background: none; border: none; color: var(--accent); font-size: 12.5px; padding: 2px 4px; }
+  .food-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 8px 14px; border-top: 1px solid var(--border); font-size: 13.5px; }
+  .food-row.off .f-main, .food-row.off .chips { opacity: 0.45; }
+  .food-row.hidden { display: none; }
+  .f-main { display: flex; align-items: center; gap: 10px; cursor: pointer; min-width: 0; }
+  .f-main input { width: 16px; height: 16px; flex: 0 0 auto; accent-color: var(--accent); }
+  .f-name { font-weight: 600; min-width: 0; }
+  .f-name small { display: block; font-weight: 400; color: var(--faint); font-size: 12px; }
+  .chips { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .chip { font-size: 12.5px; padding: 1px 7px; border-radius: 10px; white-space: nowrap; }
+  .chip.p { background: var(--prot-soft); color: var(--prot); }
+  .chip.f { background: var(--fat-soft); color: var(--fat); }
+  .chip.c { background: var(--carb-soft); color: var(--carb); }
+  .chip.lac { background: var(--chip-neutral); color: var(--muted); }
+  .f-ctrl { display: flex; gap: 8px; align-items: center; }
+  .f-ctrl label { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); white-space: nowrap; cursor: pointer; }
+  .f-ctrl select { width: auto; padding: 4px 6px; font-size: 12.5px; border-radius: 6px; }
+
+  /* Barra para generar */
+  .actionbar { position: sticky; bottom: 12px; z-index: 5; display: flex; align-items: center; gap: 12px; justify-content: space-between;
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 16px; box-shadow: 0 6px 20px var(--shadow); margin-bottom: 18px; }
+  .actionbar .ab-text { font-size: 13px; color: var(--muted); }
+  .notice { border-radius: 10px; padding: 12px 14px; font-size: 13.5px; margin-bottom: 18px; }
+  .notice.warn { background: var(--warn-soft); color: var(--warn); }
+  .notice.ok { background: var(--accent-soft); color: var(--accent); }
+
+  /* Resultados */
+  .res-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .res-head h2 { margin: 0; }
+  .bars { display: grid; gap: 12px; margin: 16px 0 6px; }
+  .bar-row .b-top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+  .bar-row .b-top strong { font-size: 14px; }
+  .bar-track { position: relative; height: 12px; background: var(--soft); border-radius: 6px; }
+  .bar-range { position: absolute; top: 0; bottom: 0; border-radius: 6px; opacity: .35; }
+  .bar-fill { position: absolute; top: 3px; height: 6px; left: 0; border-radius: 999px; }
+  .bar-target { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--text); }
+  .bar-row.p .bar-range, .bar-row.p .bar-fill { background: var(--prot); }
+  .bar-row.f .bar-range, .bar-row.f .bar-fill { background: var(--fat); }
+  .bar-row.c .bar-range, .bar-row.c .bar-fill { background: var(--carb); }
+  .legend { font-size: 12px; color: var(--muted); margin: 0 0 16px; }
+  .days { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .day { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .day-head { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; background: var(--soft); }
+  .day-head h3 { margin: 0; font-size: 15px; }
+  .day-flag { font-size: 12px; color: var(--accent); }
+  .day-flag.bad { color: var(--warn); }
+  .meals { list-style: none; margin: 0; padding: 4px 12px; }
+  .meals li { display: grid; grid-template-columns: 84px minmax(0, 1fr) auto auto; gap: 8px; align-items: start; padding: 5px 0; font-size: 13px; border-bottom: 1px dashed var(--border); }
+  .meals li.locked { background: var(--accent-soft); margin: 0 -12px; padding: 5px 12px; }
+  .meals li.changed .food::after { content: "nuevo"; margin-left: 6px; font-size: 12.5px; color: var(--accent); background: var(--accent-soft); padding: 0 5px; border-radius: 8px; }
+  .acts { display: flex; gap: 2px; }
+  .ic { background: none; border: none; font-size: 13px; padding: 0 3px; line-height: 1.4; opacity: .35; }
+  .ic:hover, .ic:focus-visible { opacity: 1; background: var(--soft); }
+  .ic.on { opacity: 1; }
+  .session-bar { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font-size: 13px; background: var(--soft); border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; }
+  .session-bar button { background: none; border: none; color: var(--accent); text-decoration: underline; font-size: 13px; padding: 0; }
+  .meals li:last-child { border-bottom: none; }
+  /* Comida por elegir: quitaste algo y la persona decide el reemplazo (nada cambia sin que elija) */
+  .meals li.pending { display: block; margin: 4px -12px; padding: 10px 12px 12px; background: var(--gold-soft); border-bottom: none; border-radius: 8px; }
+  .pending .p-q { margin: 0 0 8px; font-size: 13.5px; }
+  .pending .p-q b { color: var(--gold-ink); }
+  .pending .p-opts { display: grid; gap: 6px; }
+  .pending .opt { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; width: 100%; text-align: left; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font: inherit; font-size: 13.5px; cursor: pointer; }
+  .pending .opt:hover { border-color: var(--gold); }
+  .pending .opt .o-amt { color: var(--muted); font-size: 12.5px; text-align: right; }
+  .pending .opt .o-day { grid-column: 1 / -1; color: var(--muted); font-size: 12px; }
+  .pending .opt .o-day.bad { color: var(--warn); }
+  .pend-bar { margin: 12px 0; padding: 12px 14px; border-radius: 10px; background: var(--gold-soft); color: var(--text); font-size: 14px; }
+  .pend-bar b { color: var(--gold-ink); }
+  .pend-bar button { margin-left: 6px; }
+  .day-flag.pend { color: var(--gold-ink); font-weight: 600; }
+  .pend-done { margin: 12px 0; }
+  .pend-block { padding: 12px 14px; border: 1px dashed var(--gold); border-radius: 10px; font-size: 13.5px; color: var(--muted); }
+  #pdfBtnMain[aria-disabled="true"] { opacity: .45; }
+  .meals .slot { color: var(--faint); font-size: 12px; padding-top: 1px; }
+  .meals .food small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.35; margin-top: 1px; }
+  .meals .amt { color: var(--muted); font-size: 12.5px; white-space: nowrap; text-align: right; }
+  .meals .amt em { display: block; font-style: normal; font-size: 12.5px; color: var(--faint); }
+  .day-foot { display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 12px; border-top: 1px solid var(--border); font-size: 12px; }
+  .day-foot .kcal { color: var(--muted); margin-left: auto; }
+  .shop { margin-top: 22px; }
+  .shop-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .shop-head h3 { margin: 0; font-size: 16px; }
+  .shop ul { columns: 2; column-gap: 24px; padding: 0; margin: 10px 0 0; list-style: none; font-size: 13.5px; }
+  .shop li { break-inside: avoid; padding: 4px 0; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between; gap: 8px; }
+  .shop li span { color: var(--muted); white-space: nowrap; }
+  details.tech { margin-top: 22px; border-top: 1px solid var(--border); padding-top: 12px; font-size: 13.5px; }
+  details.tech > summary { cursor: pointer; font-weight: 600; color: var(--muted); }
+  details.tech table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12.5px; }
+  details.tech th, details.tech td { border: 1px solid var(--border); padding: 6px 8px; text-align: left; }
+  details.tech th { background: var(--soft); }
+  details.tech h3 { font-size: 14px; margin: 18px 0 4px; }
+  /* El algoritmo en acci√≥n */
+  .ga-steps { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 12px 0 16px; font-size: 12.5px; }
+  .ga-steps li { background: var(--accent-soft); color: var(--accent); border-radius: 14px; padding: 3px 10px; }
+  .ga-steps li.arrow { background: none; color: var(--muted); padding: 3px 0; }
+  .ga-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; }
+  .ga-grid .field { margin: 0 0 6px; }
+  .pday { display: grid; grid-template-columns: 34px minmax(0, 1fr) 44px; gap: 8px; align-items: center; font-size: 12px; margin-bottom: 6px; }
+  .pday .bar-track { height: 10px; }
+  .pday .bar-fill { top: 2px; height: 6px; transition: width .15s; }
+  .pday .val { text-align: right; color: var(--muted); }
+  .pday.ok .bar-fill { background: var(--accent); } .pday.bad .bar-fill { background: var(--warn); }
+  .pday .bar-range { background: var(--accent); opacity: .18; }
+  .ga-lead { font-size: 16px; font-weight: 700; margin: 0 0 8px; }
+    .ga-versus { background: var(--accent-soft); border-radius: 10px; padding: 18px 20px; margin-top: 28px; }
+  #gaCard .ga-versus h3 { margin: 0 0 6px; font-size: 21px; color: var(--accent); }
+  .ga-versus > p { margin: 0 0 12px; font-size: 14px; }
+  #gaCard details.more .ga-story { margin: 0; }
+  .ga-lesson { font-size: 14px; margin: 0 0 10px; }
+  .recap { margin-top: 28px; padding: 20px 22px; border-radius: 14px; background: var(--accent-soft); }
+  .recap h3 { margin: 0 0 8px; font-size: 21px; color: var(--accent); }
+  .recap p { margin: 0 0 10px; font-size: 14.5px; }
+  .recap p:last-child { margin-bottom: 0; }
+  .recap-steps { margin: 0 0 10px; padding-left: 22px; font-size: 14.5px; }
+  .recap-steps li { margin-bottom: 4px; }
+  .ga-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  .ga-table th, .ga-table td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+  .ga-table th { color: var(--muted); font-weight: 600; font-size: 12px; }
+  .ga-table td.best { font-weight: 700; color: var(--accent); }
+  #gaCard h3 { font-size: 15px; margin: 22px 0 6px; }
+  #gaCard table:not(.ga-table) { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 8px; }
+  #gaCard table:not(.ga-table) th, #gaCard table:not(.ga-table) td { border: 1px solid var(--border); padding: 6px 8px; text-align: left; }
+  @media (max-width: 640px) { .ga-grid { grid-template-columns: 1fr; } }
+  /* Stepper */
+  .stepper { display: flex; gap: 6px; list-style: none; padding: 0; margin: 0 0 18px; }
+  .stepper li { flex: 1; min-width: 0; }
+  .stepper button { width: 100%; background: none; border: none; border-top: 3px solid var(--border); padding: 8px 2px 0; text-align: left; font-family: inherit; color: var(--faint); cursor: pointer; }
+  .stepper button:disabled { cursor: default; }
+  .btn:disabled, .link-btn:disabled { opacity: .45; cursor: not-allowed; }
+  .pday.cmp-row { grid-template-columns: 150px minmax(0, 1fr) 54px; font-size: 13px; }
+  @media (max-width: 600px) { .pday.cmp-row { grid-template-columns: 104px minmax(0, 1fr) 50px; } }   /* en celular, la barra gana espacio */
+  .line-note { font-size: 13.5px; color: var(--frame-muted); max-width: 34em; margin: 4px auto 10px; text-align: center; }
+  .line-note:empty { display: none; }
+  .bloom-how { max-width: 34em; margin: 0 auto 8px; font-size: 13.5px; color: var(--frame-muted); }
+  .bloom-how summary { cursor: pointer; text-align: center; padding: 6px 0; }
+  .bloom-how[open] summary { margin-bottom: 6px; }
+  .aw-notes { margin-top: 10px; display: grid; gap: 8px; }   /* las notas llegan hasta el borde de la tabla */
+  #resultsCard .aw-notes p { max-width: none; margin: 0 2px; }
+  #resultsCard p.how-to { max-width: none; }   /* la instrucci√≥n de ‚úï y üìå en una sola l√≠nea */
+  .aw-why { margin-top: 0; }
+  body:not(.ana-ready) #anaStart { display: none; }
+  body.ana-ready #gaCard > :not(.sample-note):not(#anaStart):not(.demo-nav) { display: none !important; }
+  body.ana-ready #gaCard .demo-nav .right { display: none; }
+  .ana-start { padding: 6px 2px 4px; }
+  .as-lead { font-size: 16.5px; line-height: 1.55; margin: 4px 0 14px; max-width: 38em; }
+  .as-steps { margin: 0 0 16px; padding-left: 1.3em; display: grid; gap: 10px; font-size: 15.5px; line-height: 1.5; max-width: 38em; }
+  .as-steps li::marker { color: var(--gold); font-weight: 700; }
+  .as-go { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; margin-top: 6px; }   /* el bot√≥n al otro extremo, como "Siguiente" en los dem√°s pasos */
+  .as-go .btn { margin-left: auto; }
+  .as-time { color: var(--muted); font-size: 14px; margin: 0; }
+  .lac-cell { display: flex; align-items: flex-end; }   /* la casilla, a la altura del men√∫ de al lado */
+  .lac-cell .check { min-height: 44px; display: flex; align-items: center; }
+  .foods-block { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .foods-block #foodDetails { border-top: none; margin-top: 4px; }   /* que se vea que espera a que termine la b√∫squeda */
+  .stepper .n { display: block; font-size: 12.5px; }
+  .stepper .label { display: block; font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stepper li.done button { border-color: var(--accent); color: var(--muted); }
+  .stepper li.current button { border-color: var(--accent); color: var(--accent); }
+  .stepper li.star .label::after { content: " ‚òÖ"; }
+  .screen.hidden-screen { display: none !important; }
+  .step-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .step-nav .right { display: flex; gap: 10px; flex-wrap: wrap; margin-left: auto; }
+  .ga-story { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; margin: 0 0 18px; }
+  .ga-story h3 { margin: 0 0 6px; font-size: 15px; color: var(--accent); }
+  .ga-story p { margin: 0 0 10px; font-size: 13.5px; }
+  .ga-map { display: grid; grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1fr); gap: 6px 8px; font-size: 13px; align-items: start; }
+  .ga-map .h { font-size: 12.5px; font-weight: 700; color: var(--accent); letter-spacing: .03em; }
+  .ga-map .to { color: var(--faint); text-align: center; }
+  .ga-map .nat { color: var(--muted); }
+  .ga-progress { height: 6px; background: var(--soft); border-radius: 999px; margin: 8px 0 12px; overflow: hidden; }
+  #gaBar { height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+  .ga-steps li.on { background: var(--accent); color: var(--on-accent); }
+  .ga-steps li { transition: background .15s, color .15s; }
+  @media (max-width: 640px) {
+    .stepper .label { display: none; }
+    .stepper li.current .label { display: block; }
+    .step-nav .btn { flex: 1; }
+  }
+  /* Introducci√≥n: el problema en 3 escenas */
+  body.in-intro .stepper, body.in-intro .screen, body.in-intro .top-head, body.in-intro .subtitle { display: none !important; }
+  body:not(.in-intro) #intro { display: none; }
+  #intro { text-align: center; padding: 28px 22px; }
+  .scene { display: none; }
+  .scene.on { display: block; animation: aparecer .35s ease; }
+  @keyframes aparecer { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .scene .kicker { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; margin: 0 0 8px; }
+  .scene h2 { font-size: 21px; margin: 0 0 10px; line-height: 1.3; }
+  .scene p { font-size: 15px; color: var(--muted); max-width: 560px; margin: 0 auto 14px; }
+  .mult { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin: 16px auto; max-width: 640px; }
+  .mult .box { background: var(--soft); border: 1px solid var(--border); border-radius: 10px; padding: 6px 10px; min-width: 52px; }
+  .mult .box b { display: block; font-size: 21px; color: var(--text); }
+  .mult .box span { display: block; font-size: 12.5px; color: var(--muted); }
+  .mult .x { color: var(--faint); font-size: 16px; }
+  /* la escalera: cada d√≠a nuevo multiplica por 60 lo que ya hab√≠a */
+  .ladder { max-width: 420px; margin: 4px auto 14px; }
+  .ladder ol { list-style: none; padding: 0; margin: 0; }
+  .ladder li { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding: 7px 4px; border-bottom: 1px dashed var(--border); font-variant-numeric: tabular-nums; }
+  .ladder .ld-d { color: var(--muted); font-size: 14px; white-space: nowrap; }
+  .ladder .ld-eq { font-size: 16px; color: var(--text); }
+  .ladder li.ld-more { justify-content: center; border-bottom: 0; color: var(--muted); padding: 2px 0; }
+  .ladder .ld-total { gap: 12px; margin: 10px auto 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .scene.on .ladder li, .scene.on .ld-total { animation: aparecer .5s ease-out both; animation-delay: calc(.35s + var(--i) * .45s); }   /* una vez, de arriba abajo */
+  }
+  .big { font-weight: 800; color: var(--accent); margin: 10px 0 2px; font-variant-numeric: tabular-nums; }
+  .big-sub { font-size: 14px; color: var(--muted); margin: 0 0 6px; }
+  .scene .note { font-size: 13.5px; color: var(--text); background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; display: inline-block; margin-top: 6px; }
+  .menus { margin: 4px auto 14px; border-collapse: collapse; font-size: 13px; }
+  .menus th { font-size: 12.5px; color: var(--muted); font-weight: 600; padding: 2px 6px; }
+  .menus td { padding: 4px 6px; text-align: center; font-size: 16px; border-top: 1px solid var(--border); }
+  .menus td:first-child { text-align: left; font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+  .menus td small { display: block; font-weight: 400; color: var(--muted); font-size: 12.5px; }
+  .menus td.diff { background: var(--accent-soft); border-radius: 6px; }
+  @media (max-width: 640px) { .menus td { padding: 3px 2px; font-size: 14px; } .menus th { padding: 2px; } }
+  .meals-day { display: grid; gap: 8px; max-width: 520px; margin: 4px auto 14px; text-align: left; }
+  .meals-day div { background: var(--soft); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; }
+  .meals-day b { display: block; font-size: 13.5px; }
+  .meals-day span { font-size: 13px; color: var(--muted); }
+  .goals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 620px; margin: 8px auto 0; text-align: left; }
+  .goals div { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; }
+  .goals b { display: block; font-size: 13.5px; margin-bottom: 2px; }
+  .goals span { font-size: 12.5px; color: var(--muted); }
+  @media (max-width: 640px) { .goals { grid-template-columns: 1fr; } }
+  .cover { padding: 18px 0 6px; }
+  #intro { position: relative; }
+  .intro-skip { position: absolute; top: 14px; right: 18px; font-size: 13.5px; }
+  .intro-nav .btn { min-width: 120px; }
+  .edu { font-size: 13px !important; color: var(--faint) !important; margin: 16px auto 0 !important; }
+  .count-how { max-width: 600px; margin: 18px auto 0; text-align: left; border-top: 1px solid var(--border); padding-top: 12px; }
+  .count-how > summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 15px; text-align: center; list-style-position: inside; }
+  .count-how[open] > summary { margin-bottom: 14px; }
+  .count-how p { text-align: left; margin: 0 0 12px !important; max-width: none !important; }
+  .count-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 0 0 14px; }
+  .count-table th, .count-table td { border: 1px solid var(--border); padding: 6px 8px; text-align: center; }
+  .count-table thead th { background: var(--soft); font-weight: 600; }
+  .count-table tbody th { background: var(--soft); text-align: left; font-weight: 600; white-space: nowrap; }
+  .count-table td { color: var(--muted); }
+  .count-wrap { overflow-x: auto; margin: 0 0 14px; }
+  .count-wrap .count-table { margin: 0; }
+  .branch { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 18px auto 20px; max-width: 640px; }
+  .branch-from, .branch-to div { background: var(--soft); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; text-align: left; }
+  .branch-from span, .branch-to span { display: block; font-size: 12.5px; color: var(--muted); font-weight: 600; letter-spacing: .03em; }
+  .branch-from b { font-size: 15px; }
+  .branch-to { display: grid; gap: 6px; }
+  .branch-to div { font-size: 14px; padding: 5px 12px; }
+  .branch-to .dots-v { background: none; border: none; text-align: center; padding: 0; color: var(--faint); }
+  .branch-arrow { font-size: 26px; color: var(--faint); }
+  .branch-eq { font-size: 15px; color: var(--text); }
+  .mult .box.total { background: var(--accent-soft); border-color: var(--accent); }
+  .mult .box.total b { color: var(--accent); }
+  .branch-eq b { font-size: 21px; color: var(--accent); }
+  @media (max-width: 640px) { .branch { flex-direction: column; } .branch-arrow { transform: rotate(90deg); } .count-table { font-size: 12px; } .count-table th, .count-table td { padding: 5px 3px; } .count-table tbody th { white-space: normal; } }
+  .intro-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 22px; gap: 10px; }
+  @media (max-width: 640px) { #intro { padding-top: 46px; } .intro-nav .btn { min-width: 0; padding: 10px 14px; font-size: 14px; } }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+  .dots i.on { background: var(--accent); }
+  .top-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .top-head h1 { margin: 0 0 4px; }
+  body.in-intro #introBtn { display: none; }
+  .footer-note { font-size: 12px; color: var(--faint); text-align: center; margin-top: 24px; }
+
+  @media (max-width: 640px) {
+    .grid3, .tiles { grid-template-columns: 1fr; }
+    .grid2 { grid-template-columns: 1fr; }
+    .days { grid-template-columns: 1fr; }
+    .food-row { grid-template-columns: 1fr; gap: 6px; }
+    .chips { justify-content: flex-start; padding-left: 26px; }
+    .f-ctrl { padding-left: 26px; }
+    .shop ul { columns: 1; }
+    .food-toolbar { flex-wrap: wrap; }
+    .food-toolbar input { flex: 1 1 100%; }
+    .actionbar .ab-text { display: none; }
+    .actionbar .btn { width: 100%; }
+  }
+  @media print {
+    :root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
+      --card: #ffffff; --border: #d9cfba; --soft: #f4efe4;
+      --text: #1d2230; --muted: #574f41; --faint: #6b6353;
+      --accent: #1d2230; --accent-hover: #2f3750; --accent-soft: #e6dcc6;
+      --leaf: #4f7a2a; --leaf-ink: #3d621d; --leaf-soft: #e1e8cf;
+      --gold-ink: #7a4f00; --gold-soft: #f3e2b8;
+      --warn: #9c3c19; --warn-soft: #f6e1d6;
+      --prot: #2c5a8c; --prot-soft: #dfe7f0;
+      --fat: #7d5410; --fat-soft: #f1e3c4;
+      --carb: #3d621d; --carb-soft: #e1e8cf;
+      --on-accent: #f4efe4; --input-bg: #fbf8f1; --input-border: #c4b89e; --btn-hover: #e4dac5;
+      --chip-neutral: #e4dccb; --axis: #c4b89e; --dot-drop: #8a7f6c;
+      --salvia: #e4ebdc;
+    }
+    body { background: var(--card); padding: 0; max-width: none; }
+    .stepper, .step-nav, #step1, #step2, #step3, .actionbar, #warnMsg, details.tech, #gaCard, .shop-head button, .subtitle, .acts, .session-bar, .how-to { display: none !important; }
+    .card { border: none; padding: 0; }
+    .day { break-inside: avoid; }
+  }
+
+  /* Letras un poco m√°s grandes */
+  .scene .kicker { font-size: 13px; }
+  .scene p { font-size: 16px; }
+  .mult .box b { font-size: 21px; }
+  .mult .box span { font-size: 12.5px; }
+  .meals-day b { font-size: 15px; }
+  .meals-day span { font-size: 14.5px; }
+  .big { font-size: clamp(31px, 4.35vw, 40px); }
+  .big-sub { font-size: 16px; }
+  .scene .note { font-size: 15px; }
+  .goals b { font-size: 15px; }
+  .goals span { font-size: 14px; }
+  .hint { font-size: 14px; }
+  label.field { font-size: 14px; }
+  .chip { font-size: 12.5px; }
+  .meals li { font-size: 14px; }
+  .meals .slot { font-size: 13px; }
+  .meals .amt { font-size: 13.5px; }
+  .meals .food small { font-size: 12.5px; }
+  .ga-steps { font-size: 13.5px; }
+  .ga-map { font-size: 14px; }
+  .shop ul { font-size: 14.5px; }
+  @media (max-width: 640px) { .scene p { font-size: 16px; } }
+
+  /* Botones de navegaci√≥n del mismo tama√±o (Atr√°s / Siguiente) */
+  .intro-nav .btn, .step-nav .btn { font-size: 15px; padding: 11px 20px; min-width: 140px; line-height: 1.2; border: 1px solid transparent; }
+  .intro-nav .btn.secondary, .step-nav .btn.secondary { border-color: var(--input-border); }
+  @media (max-width: 640px) { .intro-nav .btn, .step-nav .btn { font-size: 14px; padding: 10px 14px; min-width: 0; } }
+
+  /* T√≠tulo verde de cada escena: al extremo izquierdo, en la l√≠nea de "Saltar introducci√≥n" */
+  .scene .kicker { text-align: left; margin: -14px 170px 16px 0; }
+  @media (max-width: 640px) { .scene .kicker { margin: 0 0 12px; } }
+
+  /* Escala de espacios: m√°s aire entre t√≠tulos y contenido (8 ¬∑ 12 ¬∑ 16 ¬∑ 24 ¬∑ 32) */
+  .card { padding: 28px 30px; margin-bottom: 24px; }
+  .subtitle { margin-bottom: 28px; }
+  .stepper { margin-bottom: 24px; }
+  .step-head { margin-bottom: 24px; gap: 14px; }
+  .step-head h2 { line-height: 1.3; }
+  .step-head .hint { margin-top: 6px; }
+  .grid3, .grid2 { margin-bottom: 18px; gap: 16px; }
+  label.field { margin-bottom: 7px; }
+  .calc-out { margin-top: 24px; padding: 18px 20px; }
+  .kcal-sub { margin-bottom: 24px; }
+  details.more { margin-top: 20px; padding-top: 16px; }
+  details.more[open] > summary { margin-bottom: 16px; }
+  .food-toolbar { margin-bottom: 14px; }
+  .step-nav { margin-top: 32px; padding-top: 20px; }
+  /* Paso 4 y 5 */
+  .res-head { margin-bottom: 14px; }
+  .ga-progress { margin: 4px 0 16px; }
+  .ga-steps { margin: 16px 0 24px; }
+  .ga-grid { gap: 32px; }
+  .ga-grid .field { margin: 0 0 12px; }
+  .ga-story { margin-top: 28px !important; padding: 18px 20px; }
+  .ga-story h3 { margin-bottom: 10px; }
+  .ga-story p { margin-bottom: 14px; }
+  #gaCard h3 { margin: 32px 0 10px; }
+  #gaCard > .hint { margin-bottom: 4px; }
+  .bars { margin: 24px 0 10px; gap: 16px; }
+  .legend { margin-bottom: 24px; }
+  .days { gap: 16px; }
+  .day-head { padding: 11px 14px; }
+  .meals { padding: 6px 14px; }
+  .meals li { padding: 7px 0; }
+  .day-foot { padding: 10px 14px; }
+  .shop { margin-top: 32px; }
+  .shop-head { margin-bottom: 4px; }
+  .session-bar { margin-bottom: 16px; }
+  .notice { margin-bottom: 20px; }
+  /* Introducci√≥n */
+  .scene .kicker { margin-bottom: 24px; }
+  .scene h2 { margin-bottom: 18px; }
+  .scene p { margin-bottom: 18px; }
+  .mult { margin: 20px auto; }
+  .meals-day { margin: 8px auto 20px; gap: 10px; }
+  .big { margin-top: 16px; }
+  .big-sub { margin-bottom: 14px; }
+  .goals { gap: 12px; margin-top: 12px; }
+  .intro-nav { margin-top: 32px; }
+  @media (max-width: 640px) {
+    .card { padding: 20px 18px; }
+    .step-head { margin-bottom: 20px; }
+    .ga-grid { gap: 24px; }
+    .scene .kicker { margin-bottom: 16px; }
+  }
+
+  /* Escena 2: "ma√±ana" en una sola l√≠nea */
+  .branch { flex-direction: column; flex-wrap: nowrap; gap: 6px; }
+  .branch-arrow { transform: rotate(90deg); line-height: 1; }
+  .branch-from { text-align: center; }
+  .branch-to { display: block; background: var(--soft); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; text-align: left; }
+  .chips-row { display: flex; align-items: center; gap: 5px; margin-top: 3px; }
+  .chips-row i { font-style: normal; font-size: 13px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 2px 7px; white-space: nowrap; }
+  .chips-row em { font-style: normal; color: var(--faint); }
+  .branch-eq { white-space: nowrap; }
+  @media (max-width: 640px) { .branch { flex-wrap: wrap; flex-direction: column; } .chips-row { flex-wrap: nowrap; justify-content: center; } .chips-row i:nth-child(3) { display: none; } }
+
+  /* Vi√±etas en las tarjetas del truco de la naturaleza */
+  .goals .pts { margin: 6px 0 0; padding-left: 18px; font-size: 14px; color: var(--muted); }
+  .goals .pts li { margin-bottom: 6px; }
+  .goals .pts li:last-child { margin-bottom: 0; }
+
+  /* "algoritmo gen√©tico" resaltado con el mismo verde del recuadro */
+  mark.ga-term { background: var(--accent-soft); color: var(--accent); font-weight: 700; padding: 1px 6px; border-radius: 6px; }
+  .scene .note mark.ga-term { background: var(--card); }
+
+  .scene p.cta-line { color: var(--text); font-size: 16px; font-weight: 600; margin-top: 22px; }
+
+  .ftin { display: flex; align-items: center; gap: 6px; }
+  .ftin input { width: 100%; min-width: 0; }
+  .ftin span { font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .unit-eq { margin-top: 4px !important; }
+
+  .exp-note { background: var(--soft); color: var(--muted); border: 1px solid var(--border); font-size: 14px; margin: -6px 0 22px; }
+  .exp-note strong { color: var(--text); }
+  .ga-pop { margin-top: 28px; }
+  .ga-pop .field { margin: 0 0 12px; }
+  #gaPop { width: 100%; height: auto; display: block; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: -1px; margin-right: 2px; }
+  .dot.keep { background: var(--accent); } .dot.drop { background: var(--dot-drop); }
+  .ga-days { margin-top: 28px; }
+  .gd-head { display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; margin-bottom: 12px; }
+  .gd-head .field { margin: 0; }
+  .gd-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: var(--soft); color: var(--muted); font-size: 14px; white-space: nowrap; }
+  .gd-pill.ok { background: var(--leaf-soft); color: var(--text); }
+  .gd-pill:empty { display: none; }
+  .ga-days .pday { grid-template-columns: 40px minmax(0, 1fr) 104px; margin-bottom: 6px; }
+  #gaInRange { margin-top: 10px; }
+  #gaInRange p { margin: 0 0 6px; }
+  .ga-days .field { margin: 0 0 10px; }
+  .ga-days .pday { font-size: 13px; margin-bottom: 4px; }
+  .meals li.meal-head { display: block; border-bottom: none; padding: 10px 0 2px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
+  .meals li.meal-head:first-child { padding-top: 4px; }
+  .meals-pick { border: 0; padding: 0; margin: 0 0 24px; }
+  /* Dos caminos para armar la semana: platos listos (aqu√≠) o lo que tienes en casa (otra p√°gina que recibe tu meta) */
+  .modo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 28px; }
+  .modo-op { display: block; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border); background: var(--soft); color: var(--text); text-decoration: none; }
+  .modo-op b { display: block; font: 400 18px/1.2 Gloock, Georgia, serif; margin-bottom: 4px; }
+  .modo-op span { display: block; font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+  .modo-op.on { border: 2px solid var(--gold); background: transparent; }
+  .modo-op.on b::before { content: "‚úì "; color: var(--gold-ink); }
+  a.modo-op:hover { border-color: var(--gold); }
+  @media (max-width: 560px) { .modo { grid-template-columns: 1fr; } }
+  .meals-pick legend { padding: 0; margin-bottom: 10px; }
+  .meal-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px 16px; }
+  .meal-checks label.check { flex-wrap: wrap; align-items: center; }
+  .meal-checks small { flex-basis: 100%; margin-left: 26px; color: var(--muted); font-size: 12.5px; }
+  .meals-pick .hint { margin: 10px 0 0; }
+  .h2-hi { display: block; margin-top: 10px; color: var(--accent); }
+  .h2-hi q { quotes: "‚Äú" "‚Äù"; }
+  .scene .note { position: relative; }
+  .src { position: relative; display: inline-block; }
+  .src-btn { font: inherit; font-size: 13px; color: var(--accent); background: none; border: 0; padding: 0 2px; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  .src-pop { display: none; position: absolute; z-index: 20; top: calc(100% + 8px); right: -12px; width: min(340px, 82vw); text-align: left; background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px var(--shadow-strong); padding: 10px 12px; font-size: 13px; line-height: 1.4; }
+  .src-pop b { display: block; margin-bottom: 6px; }
+  .src-pop a { display: block; color: var(--accent); padding: 4px 0; border-top: 1px solid var(--border); }
+  /* Puente invisible entre el bot√≥n y el cuadro: el mouse puede bajar sin que se cierre */
+  .src-pop::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 10px; }
+  .src:hover .src-pop, .src:focus-within .src-pop, .src.open .src-pop { display: block; }
+  /* Flecha propia en los selectores, con aire a la derecha */
+  select {
+    -webkit-appearance: none; appearance: none; padding-right: 38px; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2374716b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; background-size: 12px 8px;
+  }
+  .f-ctrl select { padding: 3px 22px 3px 6px; background-position: right 9px center; background-size: 8px 5px; field-sizing: content; min-width: 97px; } /* ancho justo para "2 porciones"; solo "1¬Ω porciones" queda un poco m√°s ancho */
+
+  /* ===== Cabeza de girasol ===== */
+  html { background: var(--frame); }
+  body { font-family: Literata, Georgia, "Times New Roman", serif; background: var(--frame); color: var(--frame-text); max-width: 860px; padding: 0 16px 36px; }
+  ::selection { background: var(--gold); color: #0d1422; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  [tabindex="-1"]:focus { outline: none; }   /* los t√≠tulos reciben el foco para el lector de pantalla, sin dibujar un recuadro */
+  .mast { display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap; padding: 16px 2px; margin-bottom: 30px; border-bottom: 1px solid var(--frame-line); font-size: 14px; color: var(--frame-muted); }
+  .mast-brand { display: inline-flex; align-items: center; gap: 8px; color: var(--frame-text); text-decoration: none; font-weight: 600; }
+  .mast-brand svg { flex: 0 0 auto; }
+  .mast-btn { margin-left: auto; background: none; border: 1px solid var(--frame-line); color: var(--frame-text); border-radius: 999px; padding: 7px 14px; font-size: 13.5px; }
+  .mast-btn:hover { border-color: var(--gold); }
+  .top-head h1 { font-family: Gloock, Georgia, serif; font-weight: 400; font-size: clamp(31px, 4.35vw, 40px); line-height: 1.06; letter-spacing: -.01em; color: var(--frame-text); margin: 0 0 12px; text-wrap: balance; }
+  .top-head h1 em, .cover-title em, .cover-lede em { font-style: normal; color: var(--gold); }
+  .subtitle { color: var(--frame-muted); font-size: 16.5px; max-width: 40em; margin-bottom: 30px; }
+  .card { background: var(--card); color: var(--text); border: 0; border-radius: 22px; }
+  .step-head h2, .res-head h2, .scene h2, #gaCard h3, .recap h3, .shop-head h3, .day-head h3, .ga-lead { font-family: Gloock, Georgia, serif; font-weight: 400; letter-spacing: -.005em; }
+  .step-head h2 { font-size: 26px; }
+  .res-head h2 { font-size: 26px; }
+  .scene h2 { font-size: 26px; line-height: 1.18; text-wrap: balance; }
+  .step-num { background: var(--gold); color: #0d1422; font-weight: 700; }
+  .stepper { margin-bottom: 22px; }
+  .stepper button { border-top-color: var(--frame-line); color: var(--frame-muted); }
+  .stepper .n { font-size: 12.5px; }
+  .stepper li.done button { border-color: var(--gold-dim); color: var(--frame-muted); }
+  .stepper li.current button { border-color: var(--gold); color: var(--frame-text); }
+  .stepper li.star .label::after { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); margin-left: 7px; vertical-align: 2px; }
+  .footer-note { color: var(--frame-muted); font-size: 13px; max-width: 46em; margin-left: auto; margin-right: auto; }
+  .btn { border-radius: 999px; font-family: inherit; }
+  .btn.primary { background: var(--accent); color: var(--on-accent); }
+  .btn.primary:hover { background: var(--accent-hover); }
+  .btn.primary:disabled { opacity: .45; }
+  .btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--input-border); }
+  .btn.secondary:hover { background: var(--btn-hover); }
+  a, .link-btn, .src-btn, .session-bar button, .g-actions button { color: var(--text); text-underline-offset: 3px; }
+  select, input[type=number], input[type=search] { border-radius: 10px; }
+  /* Texto de ejemplo de los campos: legible en los dos modos (antes usaba el gris del navegador, 3.9:1 en oscuro) */
+  input::placeholder { color: var(--faint); opacity: 1; }
+  .check input, .f-main input { accent-color: var(--leaf); }
+  /* Una sola tinta en el texto: los t√≠tulos y etiquetas peque√±as ya no van en verde */
+  .scene .kicker { color: var(--muted); font-style: italic; font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 14.5px; }
+  .ga-map .h { color: var(--text); }
+  .meals li.meal-head { color: var(--muted); }
+  .ga-table td.best { color: var(--text); }
+  .recap h3, #gaCard .ga-versus h3 { color: var(--text); }
+  mark.ga-term { background: var(--gold-soft); color: var(--text); margin-right: -2px; }
+  .scene .note mark.ga-term { background: var(--card); }
+  .notice.ok { background: var(--leaf-soft); color: var(--text); }
+  .scene .note, .ga-story { background: var(--soft); }
+  /* La salvia de Designing Spring: los dos momentos de cierre de la lecci√≥n */
+  .ga-versus, .recap { background: var(--salvia); }
+  .mult .box.total { background: var(--gold-soft); border-color: var(--gold); }
+  .mult .box.total b, .big, .branch-eq b { color: var(--text); }
+  .big { font-family: Gloock, Georgia, serif; font-weight: 400; }
+  .dots i.on { background: var(--gold); }
+  .tile.p { border-color: var(--prot); } .tile.f { border-color: var(--fat); } .tile.c { border-color: var(--carb); }
+  .ga-steps li { background: var(--soft); color: var(--text); }
+  .ga-steps li.on { background: var(--gold); color: #0d1422; }
+  .ga-progress { background: var(--soft); }
+  #gaBar { background: var(--gold); }
+  .pday.ok .bar-fill { background: var(--leaf); } .pday .bar-range { background: var(--leaf); opacity: .22; }
+  .pday .val { white-space: nowrap; }
+  .pday { grid-template-columns: 34px minmax(0, 1fr) 84px; }
+  .day-flag { color: var(--leaf-ink); }
+  .meals li.locked { background: var(--gold-soft); }
+  .meals li.changed .food::after { color: var(--text); background: var(--gold-soft); }
+  .stepper li.done button, .stepper li.current button { transition: border-color .2s; }
+  /* La flor: el marco nocturno entra a la columna solo donde est√° la gr√°fica */
+  .ga-pop { background: var(--frame); color: var(--frame-text); border-radius: 18px; padding: 22px 20px 20px; margin-top: 20px; }
+  .ga-pop .ga-lead { color: var(--frame-text); font-size: 26px; margin: 0 0 4px; }
+  .ga-pop .hint { color: var(--frame-muted); }
+  #gaPop, #introBloom { display: block; width: 100%; max-width: 360px; height: auto; margin: 6px auto 0; }
+  .best-line { max-width: 360px; margin: 6px auto 4px; }
+  .bloom-keys { list-style: none; padding: 0; margin: 0 auto 8px; max-width: 30em; display: grid; gap: 4px; font-size: 14.5px; color: var(--frame-text); }
+  .bloom-keys b { color: var(--gold); font-weight: 600; }
+  #gaLineEnds { white-space: nowrap; color: var(--frame-text); text-align: right; }
+  #gaLineEnds strong { font-weight: 600; }
+  #gaLineEnds .gle-g, .gle-key { display: block; color: var(--frame-muted); font-size: 12.5px; }
+  .gle-key { display: inline; }
+  .bloom-note { font-size: 13px; color: var(--frame-muted); max-width: 34em; margin: 0 auto; }
+  .ga-pop .hint { text-align: left; }
+  #gaLine { display: block; width: 100%; height: auto; }
+  .best-line figcaption { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; color: var(--frame-muted); margin-top: 2px; }
+  .bloom-count { text-align: center; font-family: Gloock, Georgia, serif; font-size: 21px; margin: 4px 0 2px; color: var(--frame-text); font-variant-numeric: tabular-nums; }
+  .bloom-key { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; font-size: 13.5px; color: var(--frame-muted); margin: 8px 0 14px; }
+  .bloom-key span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 7px; vertical-align: -1px; }
+  .bloom-key .k-keep::before { background: var(--gold); }
+  .bloom-key .k-drop::before { border: 1.6px solid var(--seed-ring); width: 8px; height: 8px; }
+  .dot.keep { background: var(--gold); } .dot.drop { background: none; border: 1.5px solid var(--seed-ring); width: 8px; height: 8px; }
+  /* Portada: la flor crece arriba, en la noche; el texto sigue en papel */
+  #intro .bloom { background: var(--frame); color: var(--frame-text); margin: -28px -22px 26px; padding: 30px 24px 6px; border-radius: 22px 22px 0 0; }
+  .cover { padding-top: 0; }
+  /* La intro: la flor vive en el marco; el papel arranca debajo con su propio borde redondeado */
+  #intro.card { background: transparent; padding: 0; border-radius: 0; overflow: visible; }
+  #intro .bloom { margin: 0; padding: 4px 0 18px; background: none; border-radius: 0; }
+  #intro .scene:not(.cover), #intro .cover-body { background: var(--card); border-radius: 22px 22px 0 0; padding: 30px 26px 4px; }
+  #intro .intro-nav { background: var(--card); margin-top: 0; padding: 24px 26px 28px; border-radius: 0 0 22px 22px; }
+  .cover-count { font-size: 15px; color: var(--muted) !important; margin: 0 auto 14px !important; font-variant-numeric: tabular-nums; }
+  .cover-count strong { font-family: Gloock, Georgia, serif; font-weight: 400; font-size: 21px; color: var(--text); margin-right: 4px; }
+  .cover .cover-lede { color: var(--frame-muted); font-size: 16.5px; line-height: 1.5; max-width: 36em; margin: 12px auto 10px; text-align: center; text-wrap: balance; }
+  #intro .cover-body .cover-meta { font-size: 14px; color: var(--muted); text-align: center; margin: 0 auto 6px; }
+  .cover-cta { width: min(100%, 360px); padding: 14px 20px !important; font-size: 16px !important; margin-bottom: 18px; }
+  .scene .bloom-cap { text-align: center; margin: 0 auto 6px; }
+  #intro .scene { margin: 0; }
+  #intro .scene > :last-child, #intro .cover-body > :last-child { margin-bottom: 0; padding-bottom: 4px; }
+  /* en computadora, las 4 escenas ocupan el mismo lugar: la tarjeta mide lo que la m√°s alta y el bot√≥n Siguiente no salta; el contenido se centra.
+     En el celular no: ah√≠ cada escena mide lo suyo, para no bajar por espacio vac√≠o. */
+  @media (min-width: 641px) {
+    #intro { display: grid; grid-template-columns: minmax(0, 1fr); }
+    #intro > .scene { grid-area: 1 / 1; display: flex; flex-direction: column; justify-content: center; visibility: hidden; }
+    #intro > .scene.on { visibility: visible; }
+    #intro > .scene.cover { justify-content: flex-end; }   /* la portada se apoya abajo, para que su tarjeta siga pegada a los botones */
+    #intro > .intro-nav { grid-area: 2 / 1; }
+    #introBloom { max-width: 300px; }   /* la flor de la portada un poco m√°s chica: as√≠ no estira tanto las dem√°s escenas */
+  }
+  .mk { vertical-align: -2px; }
+  .mk.ok { color: var(--leaf-ink); } .mk.no { color: var(--warn); }
+  .notice .mk, .day-flag .mk { color: inherit; }
+  details.more > summary { list-style: none; display: flex; align-items: center; gap: 10px; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::before { content: ""; width: 7px; height: 7px; border-right: 1.8px solid currentColor; border-bottom: 1.8px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: 0 0 auto; }
+  details.more[open] > summary::before { transform: rotate(45deg); }
+  .step-nav .btn, .intro-nav .btn { white-space: nowrap; }
+  .cover .cover-title { font-family: Gloock, Georgia, serif; font-weight: 400; font-size: clamp(31px, 5vw, 40px); line-height: 1.1; color: var(--frame-text); max-width: 620px; margin: 0 auto 6px; text-wrap: balance; }
+  .scene .bloom-cap { font-size: 14px; color: var(--frame-muted); margin: 0 auto 6px; text-align: center; }
+  .cover .bloom-cap { max-width: 30em; text-wrap: balance; line-height: 1.5; }
+  #intro .cover { padding: 0; }
+  .intro-skip { z-index: 2; background: var(--card); border-radius: 999px; padding: 5px 12px !important; text-decoration: none !important; }
+  /* √çconos dibujados en vez de emoji, con √°rea de toque de verdad */
+  .ic { width: 34px; height: 34px; display: inline-grid; place-items: center; padding: 0; opacity: .9; color: var(--text); border-radius: 999px; }
+  .ic:hover, .ic:focus-visible { opacity: 1; background: var(--soft); }
+  .ic.on { opacity: 1; background: var(--gold); color: #0d1422; }
+  .how-to svg, .session-bar svg { vertical-align: -3px; }
+  /* Escena 3, m√°s liviana: tarjetas de dos l√≠neas y lo extra plegado */
+  .steps3 { margin: 4px auto 26px !important; }
+  .steps3 > div { display: flex; flex-direction: column; gap: 6px; }
+  .steps3 b { margin-bottom: 2px; }
+  .steps3 span { font-size: 14.5px; color: var(--text); line-height: 1.4; }
+  .steps3 span.nat { color: var(--muted); }
+  .steps3 i { font-style: italic; }
+  .real-life { max-width: 600px; margin: 18px auto 0; text-align: left; }
+  .real-life > summary { justify-content: center; }
+  .real-life .note { margin-top: 4px; }
+  .sample-note { display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; background: var(--gold-soft); color: var(--text); border-radius: 14px; padding: 12px 16px; margin: 0 0 20px; font-size: 14.5px; }
+  .sample-note[hidden] { display: none; }
+  .sample-note .btn { font-size: 14px; padding: 8px 14px; }
+  .ana { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 14px; align-items: center; }
+  .ana-pic { width: 88px; height: 88px; display: block; border-radius: 50%; object-fit: cover; }
+  .ana-credit { font-size: 12.5px; color: var(--muted); margin-top: 6px !important; } .ana-credit a { color: inherit; }
+  @media (max-width: 480px) { .ana { grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: start; } .ana-pic { width: 64px; height: 64px; } }
+  .ana p { margin: 0; } .ana-t { font-size: 15.5px; }
+  .ana.me { grid-template-columns: minmax(0, 1fr); }   /* sin foto: la ficha usa todo el ancho */
+  .ana-facts { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 8px 0; }
+  .ana-facts li { background: var(--card); border-radius: 999px; padding: 3px 11px; font-size: 13.5px; }
+  .ana-need { font-size: 14.5px; }
+  @media (max-width: 640px) { .btn { min-height: 44px; } }   /* botones de 44 px para el dedo */
+  .faq { margin-top: 30px; }
+  .faq h3 { font: 400 22px/1.15 Gloock, Georgia, serif; margin: 0 0 4px; }
+  /* la semana de Ana: una tabla corta, 7 d√≠as √ó desayuno, almuerzo y cena */
+  .ana-week { margin: 16px 0 4px; border-top: 1px solid var(--border); }
+  .aw-row { display: grid; grid-template-columns: 96px repeat(3, minmax(0, 1fr)) 128px; gap: 4px 16px; padding: 12px 2px; border-bottom: 1px solid var(--border); align-items: start; }
+  .aw-head { padding: 8px 2px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+  .aw-day { font: 400 17px/1.2 Gloock, Georgia, serif; }
+  .aw-cell { font-size: 14.5px; line-height: 1.35; }
+  .aw-cell > span { display: block; } .aw-cell > span + span { color: var(--muted); font-size: 13.5px; }
+  .aw-cell small, .aw-tot small { display: none; }
+  .aw-cell em { font-style: normal; color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+  .aw-tot { font-size: 12.5px; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .aw-tot b { display: block; font-size: 14.5px; color: var(--text); font-weight: 600; }
+  .aw-tot > span { display: block; }
+  .aw-goal { font-size: 13.5px; color: var(--muted); margin: 10px 2px 0; }
+  @media (max-width: 640px) {
+    .aw-head { display: none; }
+    .aw-row { grid-template-columns: 1fr; gap: 6px; }
+    .aw-cell { display: grid; grid-template-columns: 76px minmax(0, 1fr); column-gap: 10px; }
+    .aw-cell small { display: block; grid-row: 1 / span 3; font-size: 12.5px; color: var(--muted); padding-top: 2px; }
+    .aw-cell > span { grid-column: 2; }   /* cada plato en la columna de platos, aunque sean tres */
+    .aw-tot { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; padding-top: 4px; }
+    .aw-tot small { display: inline; color: var(--muted); }
+    .aw-tot b { display: inline; }
+  }
+  /* Demostraci√≥n: la flor con la persona de ejemplo, sin el recorrido de pasos */
+  .demo-nav { display: none !important; }
+  body.in-demo .demo-nav { display: flex !important; }
+  body.in-demo .normal-nav, body.in-demo .stepper { display: none !important; }
+  .demo-nav5 { display: none !important; }   /* el plan de Ana termina invitando a armar el tuyo */
+  body.in-demo5 .demo-nav5 { display: flex !important; }
+  body.in-demo5 .normal-nav5 { display: none !important; }
+  body.in-demo5 .talk { display: none; }   /* ¬´¬øQu√© te pareci√≥?¬ª va solo al final de tu propio plan */
+  @media (max-width: 640px) { .demo-nav .right { flex-direction: column-reverse; width: 100%; } .demo-nav .right .btn { width: 100%; } }
+  /* Cierre al inicio del paso 5 */
+  .recap-top { margin: 18px 0 26px; }
+  .recap-grid { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 22px; align-items: center; }
+  .recap-flower { background: var(--frame); border-radius: 18px; padding: 10px; }
+  .recap-flower svg { display: block; width: 100%; height: auto; }
+  .recap-q { font-weight: 600; margin: 18px 0 8px !important; }
+  .recap-q span { font-weight: 400; color: var(--muted); }
+  .recap-bars .pday { grid-template-columns: 122px minmax(0, 1fr) 64px; font-size: 13.5px; }
+  .recap-bars .pday.bad .bar-fill { background: var(--warn); }
+  .recap-note { color: var(--muted); font-size: 14px !important; margin-top: 8px !important; }
+  .shop-box { margin-top: 28px; }
+  .shop-box .shop { margin-top: 8px; }
+  @media (max-width: 640px) { .recap-grid { grid-template-columns: 1fr; } .recap-flower { max-width: 220px; margin: 0 auto; } }
+  .warn-fix { display: inline-block; margin-top: 10px; }
+  .pday.mid .bar-fill, .recap-bars .pday.mid .bar-fill { background: var(--gold); }
+  /* los d√≠as se abren a decisi√≥n de la persona (en computadora); en el tel√©fono se eligen con Lun‚ÄìDom */
+  .day-head { cursor: pointer; gap: 10px; }
+  .day-head .day-flag { margin-left: auto; }
+  .day-tog { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin: -6px -6px -6px 0; border: 0; background: none; color: var(--muted); border-radius: 8px; position: relative; }
+  .day-tog::after { content: ""; position: absolute; inset: -6px; }
+  .day-tog svg { transition: transform .2s; }
+  .day.open .day-tog svg { transform: rotate(180deg); }
+  .day:not(.open) .meals, .day:not(.open) .day-foot { display: none; }
+  .days-all { display: block; margin: 0 0 8px auto; font-size: 13.5px; }
+  .undo-toast { position: fixed; left: 0; right: 0; bottom: 20px; margin: 0 auto; width: fit-content; z-index: 30; display: flex; align-items: center; gap: 14px; max-width: calc(100% - 32px); padding: 10px 10px 10px 18px; border-radius: 999px; background: var(--text); color: var(--card); font-size: 14.5px; box-shadow: 0 10px 28px rgba(13, 20, 34, .25); }
+  .undo-toast[hidden] { display: none; }
+  .undo-toast button:focus-visible { outline-color: var(--btn-gold); outline-offset: 3px; }
+  @media (max-width: 640px) { .undo-toast { width: auto; left: 16px; right: 16px; justify-content: space-between; border-radius: 18px; } }
+  .undo-toast button { min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--btn-gold); color: #1d2230; font: 600 14px Literata, Georgia, serif; cursor: pointer; }
+  /* D√≠a / noche: la misma cortina del sitio, que se recoge hacia un lado (o vuelve a cubrir) */
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+  :root[data-dir="to-day"]::view-transition-new(root) { animation: wipe-left 1.75s cubic-bezier(.77, 0, .175, 1) both; }
+  :root[data-dir="to-night"]::view-transition-new(root) { animation: wipe-right 1.75s cubic-bezier(.77, 0, .175, 1) both; }
+  @keyframes wipe-left { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes wipe-right { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+  .days { align-items: start; }
+  .day-peek { color: var(--muted); font-size: 13.5px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .day.open .day-peek { display: none; }
+  @media (max-width: 640px) { .day-peek { display: none; } }   /* un d√≠a abierto no estira al de al lado */
+  #results .days { grid-template-columns: minmax(0, 1fr); }   /* los d√≠as, uno debajo del otro y a todo el ancho: abiertos o cerrados miden lo mismo de ancho */
+  .day { scroll-margin-top: 16px; }
+  .next-day { display: none; }
+  @media (max-width: 640px) { .days-all { display: none; } }
+  .bar-row .b-top { flex-wrap: wrap; gap: 0 12px; align-items: baseline; }
+  .chip.f { background: var(--fat-soft); color: var(--fat); } .chip.c { background: var(--carb-soft); color: var(--carb); }
+  @media (max-width: 640px) {
+    .mast { margin-bottom: 22px; }
+    .stepper .label { font-size: 12.5px; overflow: visible; }
+    .step-nav { flex-direction: column-reverse; align-items: stretch; }
+    .step-nav .right { margin-left: 0; }
+    .step-nav .right .btn { flex: 1; }
+    #intro { padding-top: 0 !important; }
+    #intro .bloom { padding: 0 0 10px; }
+    #introBloom { max-width: 250px; }
+    .cover .cover-title { font-size: 26px; }
+    .bloom-key { margin: 6px 0 6px; }
+    #intro .scene:not(.cover), #intro .cover-body { padding: 22px 18px 4px; }
+    #intro .intro-nav { padding: 20px 18px 22px; }
+    .cover-cta { width: 100%; }
+    .cover-count .cc-sep { display: none; }
+    .cover-count .cc-n { display: block; white-space: nowrap; }
+    .scene h2 { font-size: 23px; }
+    .step-head h2, .res-head h2 { font-size: 23px; }
+    .ga-pop { margin-left: -6px; margin-right: -6px; padding: 18px 12px; }
+    /* Plan: los d√≠as en acorde√≥n; el primero abierto */
+    .days { gap: 10px; }
+    .day-head { cursor: pointer; gap: 10px; }
+    .day-head .day-flag { margin-left: auto; }
+    .day-tog { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin: -6px -6px -6px 0; border: 0; background: none; color: var(--muted); border-radius: 8px; }
+    .day-tog svg { transition: transform .2s; }
+    .day.open .day-tog svg { transform: rotate(180deg); }
+    .day:not(.open) .meals, .day:not(.open) .day-foot { display: none; }
+    /* un d√≠a a la vez: los d√≠as se eligen arriba; el resto no se muestra */
+    #results .day-pick { display: flex; gap: 4px; margin: 0 0 10px; }
+    .day-pick button { flex: 1 1 0; min-width: 0; padding: 0; min-height: 44px; border-radius: 999px; border: 1px solid var(--input-border); background: none; color: var(--text); font: 600 13.5px Literata, Georgia, serif; }
+    .day-pick button[aria-pressed="true"] { background: var(--btn-gold); border-color: transparent; color: #1d2230; }
+    .day:not(.open) { display: none; }
+    .day-tog { display: none; }
+    .day-head { cursor: default; }
+    .next-day { display: block; margin: 0 0 0 auto; min-height: 44px; font-size: 14px; }   /* al final de cada d√≠a: ir al siguiente sin subir */
+  }
+  /* Cada comida: la etiqueta arriba, el alimento con todo el ancho, porci√≥n y botones a la derecha */
+  .meals li { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "slot slot" "food amt" "food acts"; row-gap: 2px; column-gap: 12px; }
+  .meals li.meal-head { display: block; }
+  .meals .slot { grid-area: slot; }
+  .meals .slot:empty { display: none; }
+  .meals .food { grid-area: food; }
+  .meals .amt { grid-area: amt; }
+  .meals .acts { grid-area: acts; justify-content: flex-end; }
+  /* En pantallas anchas: alimento | porci√≥n | botones en una sola l√≠nea */
+  @media (min-width: 641px) {
+    .meals li { grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "slot slot slot" "food amt acts"; align-items: start; }
+    .meals .acts { margin-top: -6px; }
+  }
+  /* Celular: encabezado compacto despu√©s del paso 1, navegaci√≥n de la intro siempre a la vista, aviso m√°s corto */
+  @media (max-width: 640px) {
+    .top-head h1 { font-size: 26px; margin-bottom: 14px; }
+    #intro .intro-nav { position: sticky; bottom: 0; z-index: 5; box-shadow: 0 -10px 18px -12px rgba(13,20,34,.35); }
+    #intro:has(.scene.cover.on) .intro-nav { position: static; box-shadow: none; } /* la portada ya tiene su bot√≥n "Desc√∫brelo" */
+    #step1 .exp-note { font-size: 13.5px; padding: 10px 12px; margin-bottom: 18px; }
+    .subtitle { font-size: 15px; margin-bottom: 20px; }
+  }
+  .talk { background: var(--salvia); border-radius: 18px; margin-top: 32px; padding: 26px 28px 28px; } /* cierre: el mismo fondo salvia de "Lo que acabas de ver" */
+  .talk h3 { font-family: Gloock, Georgia, serif; font-weight: 400; font-size: 23px; margin: 0 0 8px; }
+  .talk p { margin: 0 0 18px; max-width: 36em; color: var(--text); }
+  .talk .btn { display: inline-block; text-decoration: none; }
+  .talk .btn { padding: 12px 22px; font-size: 15px; }
+  @media (max-width: 640px) { .talk { padding: 22px 18px; } .talk .btn { display: block; text-align: center; padding: 12px 12px; font-size: 14.5px; white-space: nowrap; } }
+  .footer-note.credit { margin-top: 8px; }
+  /* El aviso de proyecto educativo: la √∫ltima parte de la p√°gina, no el pie (el pie dice qui√©n lo hizo) */
+  .edu-note { max-width: 30em; margin: 72px auto 0; text-align: center; color: var(--frame-muted); font-size: 14px; line-height: 1.55; }
+  .edu-note p { margin: 0; }
+  .edu-seeds { display: flex; justify-content: center; gap: 12px; margin-bottom: 14px; }
+  .edu-seeds i { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+  .edu-note .edu-title { font-family: Gloock, Georgia, serif; font-size: 20px; line-height: 1.2; color: var(--frame-text); margin-bottom: 6px; }
+  /* el pie: la nota arriba; abajo, separada por una l√≠nea, la marca a la izquierda y Privacidad a la derecha */
+  .foot-row { display: flex; justify-content: space-between; align-items: center; gap: 4px 16px; margin-top: 96px !important; padding-top: 14px; border-top: 1px solid var(--frame-line); }
+  @media (max-width: 640px) { .foot-row { flex-direction: column; } }
+  .mast .lang-btn { margin-left: 0; }
+  .mast .sh { display: none; }
+  @media (max-width: 640px) { .mast .lang-btn { padding: 7px 11px; } .mast .lg { display: none; } .mast .sh { display: inline; } }
+  /* pantalla para elegir: demostraci√≥n o tus datos */
+  body:not(.in-choose) #choose { display: none; }
+  body.in-choose .stepper, body.in-choose .screen, body.in-choose .top-head, body.in-choose .subtitle, body.in-choose #introBtn { display: none !important; }
+  #choose { text-align: center; padding: 18px 0 8px; min-height: calc(100svh - 280px); display: flex; flex-direction: column; justify-content: center; }   /* el bloque se reparte en la pantalla, sin un hueco abajo */
+  .choose-title { font: 400 clamp(28px, 4.4vw, 38px)/1.08 Gloock, Georgia, serif; color: var(--frame-text); margin: 0 0 10px; text-wrap: balance; }
+  .choose-lede { color: var(--frame-muted); font-size: 16.5px; max-width: 34em; margin: 0 auto 40px; text-wrap: pretty; }
+  /* dos filas, como el √≠ndice de un libro: √≠cono, t√≠tulo, para qu√© sirve, cu√°nto toma */
+  .choose-rows { max-width: 680px; margin: 0 auto; border-top: 1px solid var(--frame-line); text-align: left; }
+  .row-opt { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; grid-template-areas: "i t a" "i d a" "i m a"; column-gap: 18px; row-gap: 3px; align-items: center; width: 100%; background: none; border: 0; border-bottom: 1px solid var(--frame-line); border-radius: 0; padding: 30px 14px; color: var(--frame-text); font: inherit; text-align: left; cursor: pointer; transition: background .2s; }
+  .row-opt:hover, .row-opt:focus-visible { background: color-mix(in srgb, var(--btn-gold) 8%, transparent); }
+  .ro-ico { grid-area: i; width: 52px; height: 52px; align-self: start; }
+  .ro-leaf { fill: var(--leaf); } .ro-vein { stroke: var(--frame); stroke-width: 3; stroke-linecap: round; opacity: .5; }
+  .ro-t { grid-area: t; font: 400 clamp(23px, 3.2vw, 29px)/1.12 Gloock, Georgia, serif; }
+  .ro-d { grid-area: d; color: var(--frame-muted); font-size: 15.5px; line-height: 1.45; }
+  .ro-m { grid-area: m; color: var(--title-gold); font-size: 13.5px; font-weight: 600; margin-top: 4px; }
+  .ro-a { grid-area: a; font-size: 26px; color: var(--title-gold); transition: transform .2s; }
+  .row-opt:hover .ro-a { transform: translateX(4px); }
+  @media (max-width: 640px) { .row-opt { grid-template-columns: 40px minmax(0, 1fr) auto; column-gap: 14px; padding: 20px 6px; } .ro-ico { width: 40px; height: 40px; } }
+  @media (prefers-reduced-motion: reduce) { .row-opt, .ro-a { transition: none; } .row-opt:hover .ro-a { transform: none; } }
+  .choose-foot { margin: 48px 0 0; }
+  /* privacidad: un enlace en el pie y una ventana corta */
+  .privacy-link { padding: 12px 2px; margin: -12px 0; font-size: inherit; color: inherit; }
+  .footer-note.credit .privacy-link { font-size: inherit; padding: 12px 0; }
+  dialog.privacy { width: min(34em, calc(100% - 32px)); border: 0; border-radius: 22px; padding: 26px 24px 18px; background: var(--card); color: var(--text); box-shadow: 0 18px 40px rgba(13, 20, 34, .28); }
+  dialog.privacy::backdrop { background: rgba(13, 20, 34, .5); }
+  dialog.privacy h2 { font: 400 26px/1.1 Gloock, Georgia, serif; margin: 0 0 12px; }
+  dialog.privacy p { font-size: 15px; line-height: 1.55; margin: 0 0 12px; color: var(--muted); }
+  dialog.privacy p strong { color: var(--text); }
+  .privacy-x { position: absolute; top: 10px; right: 10px; margin: 0; }
+  .privacy-x button { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: none; color: var(--muted); cursor: pointer; }
+  .privacy-x button:hover { color: var(--text); background: var(--soft); }
+  .linklike { background: none; border: 0; padding: 12px 4px; color: var(--frame-muted); font: inherit; font-size: 14.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .mast-btn#introBtn { border-color: var(--input-border); }
+  .g-actions button, .link-btn { min-height: 44px; padding: 0 8px; }   /* Todos / Ninguno / Restablecer: zona de toque de 44 px */
+  .meals .ic { position: relative; } .meals .ic::after { content: ""; position: absolute; inset: -5px; }   /* fijar y quitar: 44 px para el dedo */
+  .short-note { margin: 14px 0 0; background: var(--soft); border-radius: 14px; padding: 14px 16px; color: var(--text); }
+  .short-note p { margin: 0 0 10px; }
+  .day-pick button.bad { position: relative; }
+  .day-pick button.bad::after { content: ""; position: absolute; top: 6px; right: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--warn); }
+  .day-pick button.pend { position: relative; }
+  .day-pick button.pend::after { content: ""; position: absolute; top: 6px; right: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }   /* falta elegir: dorado, no rojo */
+  .cmp-bar { height: 6px; border-radius: 999px; background: var(--soft); overflow: hidden; margin: 4px 0 8px; }
+  .cmp-bar i { display: block; height: 100%; background: var(--btn-gold); border-radius: inherit; transition: width .4s ease-out; }
+  .day-pick { display: none; }
+  .footer-note.credit a { color: inherit; display: inline-block; padding: 12px 0; margin: -12px 0; }
+  details.more > summary, details.tech > summary { min-height: 44px; }   /* zona de toque de 44 px */
+  .sources a, .refs a { display: inline-block; padding: 6px 0; }
+  /* Escena 3: los tres pasos de la naturaleza son el centro de la lecci√≥n */
+  .h2-gold { color: var(--gold-ink); font-style: normal; }
+  .steps3 { max-width: 760px !important; gap: 14px !important; }
+  .steps3 > div { padding: 20px 20px 18px !important; border-radius: 14px !important; gap: 10px !important; }
+  .steps3 .seeds { display: block; width: 78px; height: 18px; color: var(--gold-ink); margin-bottom: 4px; }
+  .steps3 .seeds .on { fill: currentColor; }
+  .steps3 .seeds .off { fill: none; stroke: var(--seed-ring); stroke-width: 2; }
+  .steps3 .seeds .ring { fill: none; stroke: currentColor; stroke-width: 2; }
+  .steps3 .seeds .ln { fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .steps3 b { font-family: Gloock, Georgia, serif; font-weight: 400; font-size: 23px !important; line-height: 1.15; color: var(--text); margin: 0 0 4px !important; }
+  .steps3 span.nat, .steps3 span:not(.n) { font-size: 15px !important; line-height: 1.45; }
+  .steps3 i { display: block; font-style: normal; font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-bottom: 2px; }
+  @media (max-width: 640px) { .steps3 > div { padding: 16px 16px 14px !important; } .steps3 .seeds { width: 70px; height: 16px; } .steps3 b { font-size: 21px !important; } }
+  /* El paso de mirar a hacer: dorado de la marca, el √∫nico bot√≥n de este color */
+  .btn.primary.go { background: var(--gold); color: #0d1422; border-color: transparent; }
+  .btn.primary.go:hover { background: var(--gold); filter: brightness(1.08); }
+  /* Un t√≠tulo por paso: el t√≠tulo grande de arriba manda; el de la tarjeta se quita para no repetir */
+  body:not([data-step="1"]) .subtitle { display: none; }
+  body:not([data-step="1"]) .top-head h1 { margin-bottom: 24px; }
+  .step-head h2, #gaTitle, #results .res-head h2 { display: none; }
+  .step-head .hint { margin-top: 4px; }
+  @media (max-width: 640px) { #resultsCard > .step-nav .right { flex-direction: column; width: 100%; } #resultsCard > .step-nav .right .btn { width: 100%; } }
+  /* iPhone: Safari agranda la p√°gina al tocar un campo con letra menor a 16px. En pantallas t√°ctiles, los campos van a 16px. */
+  @media (max-width: 640px), (pointer: coarse) {
+    input:not([type=checkbox]):not([type=radio]), select, textarea, .f-ctrl select { font-size: 16px !important; }
+    .f-ctrl select { min-width: 0; }
+  }
+  @media print { .day .meals, .day .day-foot { display: revert !important; } .day-tog { display: none !important; } .mast, .sample, .talk { display: none !important; } body { color: #1d2230; } .card { background: var(--card); } }
+
+  /* ===== Marca del sitio (2026-10-22): de d√≠a niebla azul en vez de crema; dorado para la acci√≥n principal;
+     las flores siguen en una ventana de noche porque se dibujan para fondo oscuro ===== */
+  :root { --night: #0d1422; --btn-gold: #e3a72f; --title-gold: #e3a72f; }
+  :root[data-theme="dark"] { --input-border: #6b7894; --frame: #0d1422; --frame-line: #26324c; --frame-text: #f4efe4; --frame-muted: #bdb4a0; --bg: #0d1422; --btn-gold: #e3a72f; }
+  :root[data-theme="light"] {
+    --frame: #eef0f3; --frame-line: rgba(29, 34, 48, .16); --frame-text: #1d2230; --frame-muted: #4a5160; --bg: #eef0f3;
+    --card: #fafbfc; --border: #d5dae2; --soft: #e1e6ee; --muted: #4a5160; --faint: #586070;
+    --accent-soft: #dde3ec; --input-bg: #ffffff; --input-border: #848c9a; --btn-hover: #e1e6ee; --chip-neutral: #e1e6ee; --axis: #b6bfcc;
+    --btn-gold: #c98a1c; --title-gold: #7a4f00; color-scheme: light;
+  }
+  :root[data-theme="light"] :focus-visible { outline-color: #7a4f00; }   /* de d√≠a el dorado claro no se ve: foco en dorado tinta */
+  :root[data-theme="light"] .card:not(#intro) { box-shadow: 0 1px 2px rgba(29, 34, 48, .05), 0 10px 28px rgba(29, 34, 48, .07); border: 1px solid rgba(29, 34, 48, .1); }
+  /* la flor sigue el modo, como en el sitio: de noche sobre la noche, de d√≠a sobre niebla */
+  :root { --flower-bg: #0d1422; --seed-low: #7a6f5c; --seed-hi: #e3a72f; --seed-ring: #8a7f6c; --best-ring: #f4efe4; --chart-axis: #26324c; --gold-dim: #8a6a2a; }
+  :root[data-theme="light"] { --flower-bg: #e1e6ee; --seed-low: #a3a9b5; --seed-hi: #c98a1c; --seed-ring: #8c94a2; --best-ring: #1d2230; --chart-axis: rgba(29, 34, 48, .22); --gold-dim: #b88a3a; }
+  .ga-pop, .recap-flower { background: var(--flower-bg); }   /* la portada de la intro no lleva recuadro: la flor crece directo sobre el fondo */
+  :root[data-theme="light"] :is(.ga-pop, .recap-flower, #intro .bloom) { --gold: #c98a1c; }
+  .bloom-keys b { color: var(--title-gold); }
+  .sd-drop { stroke: var(--seed-ring); } .sd-best { stroke: var(--best-ring); }
+  .ln-axis { stroke: var(--chart-axis); } .ln-goal { stroke: var(--gold-dim); } .ln-best { stroke: var(--seed-hi); } .ln-now { fill: var(--best-ring); }
+  .top-head h1 em, .cover-title em, .cover-lede em { color: var(--title-gold); }   /* dorado de noche; de d√≠a, el dorado tinta del sitio */
+  .btn.primary, .btn.primary.go { background: var(--btn-gold); color: #1d2230; border-color: transparent; }
+  .btn.primary:hover, .btn.primary.go:hover { background: var(--btn-gold); filter: brightness(1.07); }
+  /* encabezado como el del sitio: idioma y d√≠a/noche como √≠conos peque√±os, sin pastilla */
+  .mast .lang-btn, .mast .sky-btn { position: relative; display: inline-grid; place-items: center; width: 36px; height: 36px; padding: 0; border-color: transparent; font-size: 12.5px; letter-spacing: .04em; font-weight: 600; }
+  .mast .lang-btn:hover, .mast .sky-btn:hover { border-color: var(--frame-line); }
+  .mast .lang-btn::after, .mast .sky-btn::after { content: ""; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
+  .mast .lang-btn .lg { display: none; } .mast .lang-btn .sh { display: inline; }
+  .mast .sky-btn { margin-left: 0; }
+  .mast-brand { margin-right: auto; } .mast .mast-btn { margin-left: 0; }   /* la marca a la izquierda; intro, idioma y d√≠a/noche juntos a la derecha */
+  /* la liana del sitio bajo el encabezado: aqu√≠ crece con los 4 pasos y brota una hoja por paso */
+  .mast { position: relative; }
+  ol#stepper { display: none; }   /* sin barritas: el avance lo cuenta la liana; "‚Üê Atr√°s" lleva a los pasos anteriores */
+  .step-tag { position: absolute; right: 2px; bottom: -30px; font-size: 12.5px; color: var(--frame-muted); white-space: nowrap; }   /* el paso en palabras, al final de la liana */
+  .step-tag:empty { display: none; }
+  @media (max-width: 640px) { .mast:has(.step-tag:not(:empty)) { margin-bottom: 40px; } .step-tag { bottom: -28px; } }   /* en el celular la etiqueta no toca el t√≠tulo */
+  .mast-vine { position: absolute; left: 0; right: 0; bottom: -8px; width: 100%; height: 16px; pointer-events: none; }
+  :root[data-theme="light"] .mast .logo-night, :root:not([data-theme="light"]) .mast .logo-day { display: none; }
+</style>
+<style>
+  /* Solo de esta p√°gina (¬´con lo que tengo en casa¬ª); lo dem√°s es el mismo estilo del plan semanal */
+  [hidden] { display: none !important; }
+  .ec-meta-hint { margin: -4px 0 16px; }
+  .ec-meta-hint a { color: var(--gold-ink); }
+  .ec-from { margin-bottom: 16px; }
+  .ec-range { display: flex; align-items: center; gap: 8px; }
+  .ec-range input { flex: 1 1 0; min-width: 0; }
+  .ec-range span { color: var(--muted); font-size: 14px; }
+  .ec-rhint { margin: 4px 0 0; font-size: 13.5px; }
+  .ec-rhint .linklike { color: var(--muted); padding: 4px 2px; font-size: 13.5px; }
+  .ec-err { color: var(--warn); font-size: 14px; }
+  .ec-err:empty { display: none; }
+  .ec-count { font-family: Literata, Georgia, serif; font-size: 15px; color: var(--muted); letter-spacing: 0; }
+  .ec-search { width: 100%; margin: 4px 0 6px; }
+  .ec-quick { display: flex; gap: 14px; }
+  .ec-pref { margin: 26px 0 0; max-width: 420px; }
+  .ec-pref select { width: 100%; }
+  .ec-pref .hint { margin: 8px 0 0; }
+  .ec-quick .linklike { color: var(--muted); padding: 8px 2px; font-size: 14px; }
+  .ec-group { margin: 16px 0 0; }
+  .ec-group h3 { font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; font-weight: 600; }
+  .ec-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ec-chip { font: inherit; font-size: 14.5px; padding: 8px 14px; min-height: 40px; border-radius: 999px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text); cursor: pointer; transition: background .15s, border-color .15s; }
+  .ec-chip:hover { border-color: var(--gold); }
+  .ec-chip[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: #0d1422; }
+  .ec-chip[aria-pressed="true"]::before { content: "‚úì "; }
+  /* Paso 3: la flor y los 7 d√≠as, lado a lado en pantallas anchas */
+  .ec-evo { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 22px; align-items: start; margin-top: 4px; }
+  .ec-evo .ga-pop { margin-top: 0; }
+  .ec-evo .ga-days { margin-top: 0; }
+  .ec-evo .pday { grid-template-columns: 40px minmax(0, 1fr) 96px; }
+  .ec-evo .pday .bar-fill { background: var(--seed-low, #7a6f5c); }
+  .ec-evo .pday.ok .bar-fill { background: var(--gold); }
+  .ec-evo .pday.ok .val { color: var(--gold-ink); }
+  .ec-dayhint { margin-top: 10px; font-size: 13.5px; }
+  @media (max-width: 760px) { .ec-evo { grid-template-columns: 1fr; } }
+  .ec-recap { margin-top: 24px; }
+  .ec-recap h3 { margin-top: 0; }
+  .ga-steps li { transition: none; }
+  .ec-nums { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 6px 0 12px; }
+  .ec-nums div { background: var(--card); border-radius: 12px; padding: 12px 14px; }
+  .ec-nums b { display: block; font: 400 26px/1.1 Gloock, Georgia, serif; color: var(--gold-ink); }
+  .ec-nums span { font-size: 13px; color: var(--muted); line-height: 1.35; display: block; margin-top: 4px; }
+  @media (max-width: 560px) { .ec-nums { grid-template-columns: 1fr; } }
+  /* Paso 4: tu plan */
+  .ec-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 14px; }
+  .ec-stats div { background: var(--soft); border-radius: 12px; padding: 12px 14px; }
+  .ec-stats b { display: block; font: 400 24px/1.1 Gloock, Georgia, serif; color: var(--text); }
+  .ec-stats span { font-size: 13px; color: var(--muted); line-height: 1.35; display: block; margin-top: 4px; }
+  @media (max-width: 640px) { .ec-stats { grid-template-columns: 1fr 1fr; } }
+  .ec-note b { color: var(--gold-ink); }
+  .ec-days { display: grid; gap: 12px; margin: 22px 0 0; }
+  .ec-day { border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px 6px; }
+  .ec-day-head { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .ec-day-head h3 { font: 400 20px/1.2 Gloock, Georgia, serif; margin: 0; }
+  .ec-day-tot { font-size: 13px; color: var(--muted); }
+  .ec-day-tot .ok { color: var(--leaf-ink); } .ec-day-tot .no { color: var(--warn); }
+  .ec-meal { display: grid; grid-template-columns: 92px 1fr; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 15px; }
+  .ec-meal .m { color: var(--gold-ink); font-size: 13px; font-weight: 600; padding-top: 2px; }
+  .ec-meal small { color: var(--muted); }
+  @media (max-width: 520px) { .ec-meal { grid-template-columns: 1fr; gap: 2px; } }
+  .ec-h3 { font: 400 22px/1.2 Gloock, Georgia, serif; margin: 28px 0 4px; }
+  .ec-uses { columns: 2; column-gap: 24px; margin: 10px 0 0; padding: 0; list-style: none; font-size: 14.5px; }
+  .ec-uses li { break-inside: avoid; padding: 6px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: 8px; }
+  .ec-uses li span { color: var(--muted); text-align: right; }
+  @media (max-width: 520px) { .ec-uses { columns: 1; } }
+  .ec-alt { margin: 14px 0 0; text-align: right; }
+  .ec-alt a { color: var(--gold-ink); }
+</style>
+</head>
+<body data-step="1">
+
+<header class="mast">
+  <canvas class="mast-vine" id="mastVine" aria-hidden="true"></canvas>
+  <span class="step-tag" id="stepStatus" role="status"></span>
+  <a class="mast-brand" href="./" aria-label="Designing Spring, volver al inicio"><svg class="logo-night" width="26" height="26" viewBox="-160 -160 320 320" aria-hidden="true"><path transform="translate(-16.1 14.8) rotate(192.5)" d="M-13.03 0 Q 0 -13.03 13.03 0 Q 0 13.03 -13.03 0 Z" fill="#c4de88"/><path transform="translate(2.7 -30.8) rotate(330.0)" d="M-13.77 0 Q 0 -13.77 13.77 0 Q 0 13.77 -13.77 0 Z" fill="#b4d575"/><path transform="translate(23.0 30.1) rotate(467.5)" d="M-14.33 0 Q 0 -14.33 14.33 0 Q 0 14.33 -14.33 0 Z" fill="#a4cb63"/><path transform="translate(-43.1 -7.6) rotate(605.0)" d="M-14.81 0 Q 0 -14.81 14.81 0 Q 0 14.81 -14.81 0 Z" fill="#95c055"/><path transform="translate(41.3 -26.2) rotate(742.5)" d="M-15.23 0 Q 0 -15.23 15.23 0 Q 0 15.23 -15.23 0 Z" fill="#87b44b"/><path transform="translate(-13.9 51.7) rotate(880.0)" d="M-15.61 0 Q 0 -15.61 15.61 0 Q 0 15.61 -15.61 0 Z" fill="#78a842"/><path transform="translate(-26.7 -51.3) rotate(1017.6)" d="M-15.96 0 Q 0 -15.96 15.96 0 Q 0 15.96 -15.96 0 Z" fill="#6a9c38"/><path transform="translate(58.1 21.2) rotate(1155.1)" d="M-16.28 0 Q 0 -16.28 16.28 0 Q 0 16.28 -16.28 0 Z" fill="#d4e89a"/><path transform="translate(-60.6 25.0) rotate(1292.6)" d="M-16.59 0 Q 0 -16.59 16.59 0 Q 0 16.59 -16.59 0 Z" fill="#c4de88"/><path transform="translate(29.3 -62.6) rotate(1430.1)" d="M-16.88 0 Q 0 -16.88 16.88 0 Q 0 16.88 -16.88 0 Z" fill="#b4d575"/><path transform="translate(21.7 69.2) rotate(1567.6)" d="M-17.15 0 Q 0 -17.15 17.15 0 Q 0 17.15 -17.15 0 Z" fill="#a4cb63"/><path transform="translate(-65.5 -38.0) rotate(1705.1)" d="M-17.41 0 Q 0 -17.41 17.41 0 Q 0 17.41 -17.41 0 Z" fill="#95c055"/><path transform="translate(77.0 -16.9) rotate(1842.6)" d="M-17.66 0 Q 0 -17.66 17.66 0 Q 0 17.66 -17.66 0 Z" fill="#87b44b"/><path transform="translate(-47.1 66.9) rotate(1980.1)" d="M-17.91 0 Q 0 -17.91 17.91 0 Q 0 17.91 -17.91 0 Z" fill="#78a842"/><path transform="translate(-10.9 -84.0) rotate(2117.6)" d="M-18.14 0 Q 0 -18.14 18.14 0 Q 0 18.14 -18.14 0 Z" fill="#6a9c38"/><path transform="translate(66.9 56.4) rotate(2255.1)" d="M-18.37 0 Q 0 -18.37 18.37 0 Q 0 18.37 -18.37 0 Z" fill="#d4e89a"/><path transform="translate(-90.1 3.7) rotate(2392.6)" d="M-18.58 0 Q 0 -18.58 18.58 0 Q 0 18.58 -18.58 0 Z" fill="#c4de88"/><path transform="translate(65.8 -65.4) rotate(2530.1)" d="M-18.80 0 Q 0 -18.80 18.80 0 Q 0 18.80 -18.80 0 Z" fill="#b4d575"/><path transform="translate(-4.4 95.2) rotate(2667.6)" d="M-19.00 0 Q 0 -19.00 19.00 0 Q 0 19.00 -19.00 0 Z" fill="#a4cb63"/><path transform="translate(-62.6 -75.1) rotate(2805.2)" d="M-19.20 0 Q 0 -19.20 19.20 0 Q 0 19.20 -19.20 0 Z" fill="#95c055"/><path transform="translate(99.3 13.4) rotate(2942.7)" d="M-19.40 0 Q 0 -19.40 19.40 0 Q 0 19.40 -19.40 0 Z" fill="#87b44b"/><path transform="translate(-84.2 58.6) rotate(3080.2)" d="M-19.59 0 Q 0 -19.59 19.59 0 Q 0 19.59 -19.59 0 Z" fill="#78a842"/><path transform="translate(23.0 -102.3) rotate(3217.7)" d="M-19.78 0 Q 0 -19.78 19.78 0 Q 0 19.78 -19.78 0 Z" fill="#6a9c38"/><path transform="translate(53.3 92.9) rotate(3355.2)" d="M-19.96 0 Q 0 -19.96 19.96 0 Q 0 19.96 -19.96 0 Z" fill="#d4e89a"/><circle cx="-104.1" cy="-33.2" r="14.10" fill="#e3a72f"/><circle cx="101.2" cy="-46.8" r="14.22" fill="#e3a72f"/><circle cx="-43.9" cy="104.8" r="14.34" fill="#e3a72f"/><circle cx="-39.2" cy="-108.9" r="14.46" fill="#e3a72f"/><circle cx="104.2" cy="54.8" r="14.58" fill="#e3a72f"/><circle cx="-115.8" cy="30.5" r="14.69" fill="#e3a72f"/><circle cx="65.8" cy="-102.4" r="14.81" fill="#e3a72f"/><circle cx="20.9" cy="121.9" r="14.92" fill="#e3a72f"/><circle cx="-99.3" cy="-76.9" r="15.03" fill="#e3a72f"/><circle cx="127.1" cy="-10.5" r="15.14" fill="#e3a72f"/><circle cx="-87.8" cy="95.0" r="15.24" fill="#e3a72f"/><circle cx="0.6" cy="-131.2" r="15.35" fill="#e3a72f"/><circle cx="89.4" cy="98.5" r="15.45" fill="#e3a72f"/><circle cx="-134.2" cy="-12.4" r="15.55" fill="#e3a72f"/><circle cx="108.8" cy="-82.5" r="15.65" fill="#e3a72f"/><circle cx="-24.7" cy="136.0" r="15.75" fill="#e3a72f"/></svg><svg class="logo-day" width="26" height="26" viewBox="-160 -160 320 320" aria-hidden="true"><path transform="translate(-16.1 14.8) rotate(192.5)" d="M-13.03 0 Q 0 -13.03 13.03 0 Q 0 13.03 -13.03 0 Z" fill="#7aa442"/><path transform="translate(2.7 -30.8) rotate(330.0)" d="M-13.77 0 Q 0 -13.77 13.77 0 Q 0 13.77 -13.77 0 Z" fill="#699339"/><path transform="translate(23.0 30.1) rotate(467.5)" d="M-14.33 0 Q 0 -14.33 14.33 0 Q 0 14.33 -14.33 0 Z" fill="#58822f"/><path transform="translate(-43.1 -7.6) rotate(605.0)" d="M-14.81 0 Q 0 -14.81 14.81 0 Q 0 14.81 -14.81 0 Z" fill="#4a7528"/><path transform="translate(41.3 -26.2) rotate(742.5)" d="M-15.23 0 Q 0 -15.23 15.23 0 Q 0 15.23 -15.23 0 Z" fill="#406a23"/><path transform="translate(-13.9 51.7) rotate(880.0)" d="M-15.61 0 Q 0 -15.61 15.61 0 Q 0 15.61 -15.61 0 Z" fill="#365f1e"/><path transform="translate(-26.7 -51.3) rotate(1017.6)" d="M-15.96 0 Q 0 -15.96 15.96 0 Q 0 15.96 -15.96 0 Z" fill="#2c5419"/><path transform="translate(58.1 21.2) rotate(1155.1)" d="M-16.28 0 Q 0 -16.28 16.28 0 Q 0 16.28 -16.28 0 Z" fill="#8bb54c"/><path transform="translate(-60.6 25.0) rotate(1292.6)" d="M-16.59 0 Q 0 -16.59 16.59 0 Q 0 16.59 -16.59 0 Z" fill="#7aa442"/><path transform="translate(29.3 -62.6) rotate(1430.1)" d="M-16.88 0 Q 0 -16.88 16.88 0 Q 0 16.88 -16.88 0 Z" fill="#699339"/><path transform="translate(21.7 69.2) rotate(1567.6)" d="M-17.15 0 Q 0 -17.15 17.15 0 Q 0 17.15 -17.15 0 Z" fill="#58822f"/><path transform="translate(-65.5 -38.0) rotate(1705.1)" d="M-17.41 0 Q 0 -17.41 17.41 0 Q 0 17.41 -17.41 0 Z" fill="#4a7528"/><path transform="translate(77.0 -16.9) rotate(1842.6)" d="M-17.66 0 Q 0 -17.66 17.66 0 Q 0 17.66 -17.66 0 Z" fill="#406a23"/><path transform="translate(-47.1 66.9) rotate(1980.1)" d="M-17.91 0 Q 0 -17.91 17.91 0 Q 0 17.91 -17.91 0 Z" fill="#365f1e"/><path transform="translate(-10.9 -84.0) rotate(2117.6)" d="M-18.14 0 Q 0 -18.14 18.14 0 Q 0 18.14 -18.14 0 Z" fill="#2c5419"/><path transform="translate(66.9 56.4) rotate(2255.1)" d="M-18.37 0 Q 0 -18.37 18.37 0 Q 0 18.37 -18.37 0 Z" fill="#8bb54c"/><path transform="translate(-90.1 3.7) rotate(2392.6)" d="M-18.58 0 Q 0 -18.58 18.58 0 Q 0 18.58 -18.58 0 Z" fill="#7aa442"/><path transform="translate(65.8 -65.4) rotate(2530.1)" d="M-18.80 0 Q 0 -18.80 18.80 0 Q 0 18.80 -18.80 0 Z" fill="#699339"/><path transform="translate(-4.4 95.2) rotate(2667.6)" d="M-19.00 0 Q 0 -19.00 19.00 0 Q 0 19.00 -19.00 0 Z" fill="#58822f"/><path transform="translate(-62.6 -75.1) rotate(2805.2)" d="M-19.20 0 Q 0 -19.20 19.20 0 Q 0 19.20 -19.20 0 Z" fill="#4a7528"/><path transform="translate(99.3 13.4) rotate(2942.7)" d="M-19.40 0 Q 0 -19.40 19.40 0 Q 0 19.40 -19.40 0 Z" fill="#406a23"/><path transform="translate(-84.2 58.6) rotate(3080.2)" d="M-19.59 0 Q 0 -19.59 19.59 0 Q 0 19.59 -19.59 0 Z" fill="#365f1e"/><path transform="translate(23.0 -102.3) rotate(3217.7)" d="M-19.78 0 Q 0 -19.78 19.78 0 Q 0 19.78 -19.78 0 Z" fill="#2c5419"/><path transform="translate(53.3 92.9) rotate(3355.2)" d="M-19.96 0 Q 0 -19.96 19.96 0 Q 0 19.96 -19.96 0 Z" fill="#8bb54c"/><circle cx="-104.1" cy="-33.2" r="14.10" fill="#c98a1c"/><circle cx="101.2" cy="-46.8" r="14.22" fill="#c98a1c"/><circle cx="-43.9" cy="104.8" r="14.34" fill="#c98a1c"/><circle cx="-39.2" cy="-108.9" r="14.46" fill="#c98a1c"/><circle cx="104.2" cy="54.8" r="14.58" fill="#c98a1c"/><circle cx="-115.8" cy="30.5" r="14.69" fill="#c98a1c"/><circle cx="65.8" cy="-102.4" r="14.81" fill="#c98a1c"/><circle cx="20.9" cy="121.9" r="14.92" fill="#c98a1c"/><circle cx="-99.3" cy="-76.9" r="15.03" fill="#c98a1c"/><circle cx="127.1" cy="-10.5" r="15.14" fill="#c98a1c"/><circle cx="-87.8" cy="95.0" r="15.24" fill="#c98a1c"/><circle cx="0.6" cy="-131.2" r="15.35" fill="#c98a1c"/><circle cx="89.4" cy="98.5" r="15.45" fill="#c98a1c"/><circle cx="-134.2" cy="-12.4" r="15.55" fill="#c98a1c"/><circle cx="108.8" cy="-82.5" r="15.65" fill="#c98a1c"/><circle cx="-24.7" cy="136.0" r="15.75" fill="#c98a1c"/></svg><span>Designing Spring</span></a>
+  <a class="mast-btn back semana-link" href="../plan_proteina_semanal.html"><span class="lg">‚Üê Armarla con platos listos</span><span class="sh">‚Üê Platos listos</span></a>
+  <button class="mast-btn sky-btn" id="skyBtn" onclick="toggleSky()" aria-label="Cambiar a modo d√≠a"><svg viewBox="-12 -12 24 24" width="18" height="18" aria-hidden="true"></svg></button>
+</header>
+<div class="top-head">
+  <h1 id="stepTitle">Tu <em>meta</em> al d√≠a</h1>
+</div>
+<p class="subtitle" id="subtitle">Marca lo que hay en tu nevera y tu despensa: el algoritmo gen√©tico arma 7 d√≠as de comidas usando solo eso, lo m√°s cerca posible de tu meta.</p>
+
+<ol class="stepper" id="stepper" aria-label="Pasos">
+  <li><button type="button" data-go="1"><span class="n">Paso 1</span><span class="label">Tus datos</span></button></li>
+  <li><button type="button" data-go="2"><span class="n">Paso 2</span><span class="label">Lo que tienes</span></button></li>
+  <li><button type="button" data-go="3"><span class="n">Paso 3</span><span class="label">Evoluci√≥n</span></button></li>
+  <li><button type="button" data-go="4"><span class="n">Paso 4</span><span class="label">Tu plan</span></button></li>
+</ol>
+
+<!-- PASO 1 ¬∑ TUS DATOS -->
+<section class="card screen" data-step="1">
+  <div class="step-head"><span class="step-num">1</span><div>
+    <h2>Tu meta al d√≠a</h2>
+    <p class="hint">Lo que el algoritmo va a cuidar en cada uno de los 7 d√≠as.</p>
+  </div></div>
+  <div class="notice ok ec-from" id="fromPlan" hidden>‚úì Tu meta viene de tu plan semanal. Puedes cambiarla aqu√≠.</div>
+  <p class="hint ec-meta-hint" id="metaHint">Si no sabes tu meta, <a class="semana-link" href="../plan_proteina_semanal.html">calc√∫lala en tu plan semanal ‚Üí</a></p>
+  <div class="grid2">
+    <div><label class="field" for="kcal">Calor√≠as al d√≠a</label><input type="number" id="kcal" value="1800" min="1000" max="4000" step="50" inputmode="numeric"></div>
+    <div><label class="field" for="prot">Prote√≠na al d√≠a (g)</label><input type="number" id="prot" value="110" min="40" max="250" step="5" inputmode="numeric"></div>
+  </div>
+  <div class="grid2">
+    <div><label class="field" for="fatMin">Grasa al d√≠a (g)</label><div class="ec-range"><input type="number" id="fatMin" min="0" max="300" step="1" inputmode="numeric" aria-label="Grasa m√≠nima"><span>a</span><input type="number" id="fatMax" min="0" max="300" step="1" inputmode="numeric" aria-label="Grasa m√°xima"></div></div>
+    <div><label class="field" for="carbMin">Carbohidratos al d√≠a (g)</label><div class="ec-range"><input type="number" id="carbMin" min="0" max="600" step="1" inputmode="numeric" aria-label="Carbohidratos m√≠nimos"><span>a</span><input type="number" id="carbMax" min="0" max="600" step="1" inputmode="numeric" aria-label="Carbohidratos m√°ximos"></div></div>
+  </div>
+  <p class="hint ec-rhint"><span id="rangeTxt">Se calculan solos con tus calor√≠as y tu prote√≠na: la grasa entre el 20 % y el 35 % de las calor√≠as, y los carbohidratos con lo que queda.</span> <button type="button" class="linklike" id="reRange" hidden>Volver a calcularlos</button></p>
+  <div class="step-nav"><span class="ec-err" id="err" role="alert"></span><div class="right"><button class="btn primary" type="button" id="next1">Siguiente: lo que tienes ‚Üí</button></div></div>
+</section>
+
+<!-- PASO 2 ¬∑ LO QUE TIENES -->
+<section class="card screen" data-step="2" hidden>
+  <div class="step-head"><span class="step-num">2</span><div>
+    <h2>Lo que tienes en casa <span class="ec-count" id="nMarked"></span></h2>
+    <p class="hint">Toca para marcar o desmarcar. Lo que no marques nunca aparecer√° en tu semana.</p>
+  </div></div>
+  <input type="search" class="ec-search" id="buscar" placeholder="Busca un producto: yuca, at√∫n, pi√±a‚Ä¶" aria-label="Buscar un producto">
+  <div class="ec-quick"><button class="linklike" type="button" id="all">Marcar todo</button><button class="linklike" type="button" id="none">Desmarcar todo</button></div>
+  <div id="groups"></div>
+  <div class="ec-pref"><label class="field" for="prefVar">Prefiero‚Ä¶</label>
+    <select id="prefVar">
+      <option value="var">M√°s variedad</option>
+      <option value="eq" selected>Equilibrio</option>
+      <option value="few">Pocos productos</option>
+    </select>
+    <p class="hint" id="prefHint"></p></div>
+  <div class="step-nav"><button class="btn secondary" type="button" data-go="1">‚Üê Atr√°s</button><span class="ec-err" id="err1" role="alert"></span><div class="right"><button class="btn primary" type="button" id="go">Armar mi semana ‚Üí</button></div></div>
+</section>
+
+<!-- PASO 3 ¬∑ EVOLUCI√ìN -->
+<section class="card screen" id="gaCard" data-step="3" hidden>
+  <div class="res-head"><h2>Tu semana est√° evolucionando</h2><span class="hint" id="runTxt" role="status"></span></div>
+  <div class="ga-progress"><div id="gaBar"></div></div>
+  <ol class="ga-steps" id="gaSteps"></ol>
+  <div class="ec-evo">
+    <div class="ga-pop">
+      <p class="ga-lead">Cada vuelta, la semana mejora</p>
+      <svg id="gaPop" viewBox="0 0 300 300" role="img" aria-label="Una flor de semanas: cada semilla es una semana probada; la flor crece hacia afuera vuelta tras vuelta"></svg>
+      <p class="bloom-count" id="gaCount"></p>
+      <div class="bloom-key"><span class="k-keep">se queda y tiene hijos</span><span class="k-drop">se descarta</span></div>
+      <details class="bloom-how"><summary>¬øC√≥mo leer la flor?</summary><ul class="bloom-keys">
+        <li><b>Cada semilla</b> es una semana hecha solo con lo que tienes en casa.</li>
+        <li><b>Centro:</b> las primeras, casi al azar. <b>Orilla:</b> las m√°s nuevas.</li>
+        <li><b>M√°s dorada:</b> mejor se ajusta a tu meta.</li></ul>
+        <p class="bloom-note">En cada vuelta compiten 140 semanas: las 70 mejores se quedan y se mezclan; las dem√°s se descartan. Dibujamos solo algunas: la mejor (con el anillo) y unas cuantas al azar.</p></details>
+    </div>
+    <div class="ga-days">
+      <div class="gd-head"><p class="field">¬øCada d√≠a est√° dentro de tu meta?</p><span class="gd-pill" id="gaDaysStat"></span></div>
+      <div id="gaDays"></div>
+      <p class="hint ec-dayhint">Barra llena y dorada: el d√≠a est√° dentro de tus calor√≠as, tu prote√≠na y tus rangos.</p>
+    </div>
+  </div>
+  <div id="recap"></div>
+  <div class="step-nav" id="nav3" hidden><button class="btn secondary" type="button" data-go="2">‚Üê Atr√°s</button><div class="right"><button class="btn secondary" type="button" id="again3">Probar otra semana</button><button class="btn primary" type="button" data-go="4">Ver tu plan ‚Üí</button></div></div>
+</section>
+
+<!-- PASO 4 ¬∑ TU PLAN -->
+<section class="card screen" data-step="4" hidden>
+  <div id="out"></div>
+  <div class="step-nav"><button class="btn secondary" type="button" data-go="3">‚Üê Ver c√≥mo evolucion√≥ tu semana</button>
+    <div class="right"><button class="btn secondary" type="button" id="again4">Probar otra semana</button><button class="btn primary" type="button" id="pdfBtn" onclick="downloadPDF()">Descargar tu plan (PDF)</button></div></div>
+  <p class="hint ec-alt">¬øPrefieres platos listos? <a class="volver-link semana-link" href="../plan_proteina_semanal.html">Arma tu semana con platos listos ‚Üí</a></p>
+</section>
+
+<div class="edu-note"><span class="edu-seeds" aria-hidden="true"><i></i><i></i><i></i></span><p class="edu-title">Esto es un proyecto educativo</p><p>Los valores son aproximados y no reemplazan a un profesional de la salud.</p></div>
+<div class="footer-note credit foot-row"><span>Creado por <a href="https://rasmorell.github.io/">rasmorell</a></span><span><a href="https://designingspring.substack.com/" target="_blank" rel="noopener">Designing Spring</a> ¬∑ 2026 ¬∑ <button type="button" class="linklike privacy-link" onclick="document.getElementById('privacy').showModal()">Privacidad</button></span></div>
+
+<dialog class="privacy" id="privacy" aria-labelledby="privacyT">
+  <form method="dialog" class="privacy-x"><button type="submit" aria-label="Cerrar"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></form>
+  <h2 id="privacyT">Privacidad</h2>
+  <p><strong>Es un proyecto educativo.</strong> Los productos y sus valores nutricionales son aproximados y no reemplazan la orientaci√≥n de un profesional de la salud.</p>
+  <p><strong>Lo que marcas no sale de tu dispositivo.</strong> Tu meta, tus productos y tu semana se calculan aqu√≠ mismo, en tu navegador, y no se env√≠an a ning√∫n lado.</p>
+  <p><strong>Tu navegador recuerda</strong> los productos que marcaste, tu meta si vienes del plan semanal y si prefieres d√≠a o noche. Se borran si limpias los datos de este sitio en tu navegador.</p>
+  <p><strong>Contamos visitas de forma an√≥nima,</strong> sin cookies, con GoatCounter: solo cu√°ntas personas llegan y hasta qu√© paso. Nunca tu meta ni lo que marcas.</p>
+  <p>Las letras se cargan desde Google Fonts y, si descargas el PDF, la herramienta que lo arma viene de cdnjs.</p>
+</dialog>
+
+<script>
+// ---- Contador de uso (GoatCounter): an√≥nimo, sin cookies. El mismo del plan semanal ----
+// Solo cuenta visitas y pasos ("alguien arm√≥ su semana"). Nunca env√≠a la meta, los productos ni nada que la persona marca.
+const GOATCOUNTER_CODE = 'designingspring';
+if (GOATCOUNTER_CODE && !/^(localhost|127\.|\[::1\])/.test(location.hostname) && location.protocol !== 'file:') {
+  const gc = document.createElement('script');
+  gc.async = true; gc.src = 'https://gc.zgo.at/count.js';
+  gc.dataset.goatcounter = `https://${GOATCOUNTER_CODE}.goatcounter.com/count`;
+  document.head.appendChild(gc);
+}
+const trackedOnce = new Set();
+// Cuenta una acci√≥n una sola vez por visita (para ver cu√°ntas personas llegan a cada paso).
+function track(name) {
+  if (!GOATCOUNTER_CODE || trackedOnce.has(name)) return;
+  trackedOnce.add(name);
+  const send = () => window.goatcounter && window.goatcounter.count && window.goatcounter.count({ path: name, title: name, event: true });
+  if (window.goatcounter && window.goatcounter.count) send(); else setTimeout(send, 1500);
+}
+</script>
+<script>
+// D√≥nde vive el plan semanal. En la copia publicada es '../' (esta p√°gina va dentro de semana-de-comidas/en-casa/).
+const SEMANA_URL = '../';
+document.querySelectorAll('.semana-link').forEach(a => a.href = SEMANA_URL);
+let VOLVER_URL = SEMANA_URL;   // si vienes del plan semanal, vuelve directo a tu paso 2
+let lastWeek = null;          // la √∫ltima semana armada, para el PDF
+let step = 1, maxStep = 1, startStep = 1;   // pasos: 1 tus datos ‚Üí 2 lo que tienes ‚Üí 3 armando ‚Üí 4 tu plan
+// Productos de casa. Cada porci√≥n trae calor√≠as (k), prote√≠na (p), grasa (f) y carbohidratos (c).
+// roles: P = prote√≠na, B = base, E = acompa√±ante, S = merienda. meals: d = desayuno, a = almuerzo, c = cena.
+// max = cu√°ntas porciones caben en una comida. lab(n) = c√≥mo se lee la cantidad.
+const pl = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
+const frac = n => ({ 1: '¬Ω', 2: '1', 3: '1¬Ω', 4: '2' })[n];
+const taza = (n, de) => `${frac(n)} ${n > 2 ? 'tazas' : 'taza'} de ${de}`;   // n medias tazas
+// Cantidades de la semana en fracciones de cocina: 2.75 ‚Üí ¬´2¬æ¬ª
+const amt = x => { const w = Math.floor(x + 1e-9), r = Math.round((x - w) * 4); const q = ['', '¬º', '¬Ω', '¬æ'][r % 4]; const ww = w + (r === 4 ? 1 : 0); return (ww ? ww : '') + q || '0'; };
+const ITEMS = [
+  // Prote√≠nas
+  { g: 'Prote√≠nas', name: 'Huevos', k: 72, p: 6.3, f: 4.8, c: 0.4, roles: 'P', meals: 'dac', max: 4, lab: n => pl(n, 'huevo', 'huevos'), uso: n => pl(n, 'huevo', 'huevos') },
+  { g: 'Prote√≠nas', name: 'Pechuga de pollo', k: 82, p: 15.5, f: 1.8, c: 0, roles: 'P', meals: 'ac', min: 2, max: 4, lab: n => `Pollo, ${n * 50} g`, uso: n => `${n * 50} g` },
+  { g: 'Prote√≠nas', name: 'Carne molida', k: 125, p: 13, f: 8, c: 0, roles: 'P', meals: 'ac', min: 2, max: 3, lab: n => `Carne molida, ${n * 50} g`, uso: n => `${n * 50} g` },
+  { g: 'Prote√≠nas', name: 'At√∫n en agua', k: 58, p: 13, f: 0.5, c: 0, roles: 'P', meals: 'dac', max: 2, lab: n => n === 2 ? '1 lata de at√∫n' : '¬Ω lata de at√∫n', uso: n => `${amt(n / 2)} latas` },
+  { g: 'Prote√≠nas', name: 'Habichuelas', k: 115, p: 7.5, f: 0.5, c: 20, roles: 'P', meals: 'ac', max: 2, lab: n => taza(n, 'habichuelas'), uso: n => `${amt(n / 2)} tazas` },
+  { g: 'Prote√≠nas', name: 'Salami', k: 95, p: 4, f: 8, c: 1, roles: 'P', meals: 'dc', max: 2, lab: n => pl(n * 2, 'lonja de salami', 'lonjas de salami'), uso: n => pl(n * 2, 'lonja', 'lonjas') },
+  { g: 'Prote√≠nas', name: 'Jam√≥n de pavo', k: 35, p: 6, f: 1, c: 1, roles: 'P', meals: 'dc', max: 3, lab: n => pl(n * 2, 'lonja de jam√≥n de pavo', 'lonjas de jam√≥n de pavo'), uso: n => pl(n * 2, 'lonja', 'lonjas') },
+  { g: 'Prote√≠nas', name: 'Pescado blanco', k: 64, p: 13, f: 1.3, c: 0, roles: 'P', meals: 'ac', min: 2, max: 4, lab: n => `Pescado, ${n * 50} g`, uso: n => `${n * 50} g` },
+  { g: 'Prote√≠nas', name: 'Chuleta de cerdo', k: 105, p: 13, f: 5.5, c: 0, roles: 'P', meals: 'ac', min: 2, max: 3, lab: n => `Chuleta, ${n * 50} g`, uso: n => `${n * 50} g` },
+  { g: 'Prote√≠nas', name: 'Res guisada', k: 110, p: 14, f: 6, c: 0, roles: 'P', meals: 'ac', min: 2, max: 3, lab: n => `Res guisada, ${n * 50} g`, uso: n => `${n * 50} g` },
+  { g: 'Prote√≠nas', name: 'Camarones', k: 50, p: 11, f: 0.5, c: 0.5, roles: 'P', meals: 'ac', min: 2, max: 4, lab: n => `Camarones, ${n * 50} g`, uso: n => `${n * 50} g` },
+  { g: 'Prote√≠nas', name: 'Longaniza', k: 150, p: 8, f: 13, c: 1, roles: 'P', meals: 'ac', min: 2, max: 2, lab: n => `Longaniza, ${n * 50} g`, uso: n => `${n * 50} g` },
+  { g: 'Prote√≠nas', name: 'Sardinas en lata', k: 95, p: 11, f: 5, c: 0, roles: 'P', meals: 'dac', max: 2, lab: n => n === 2 ? '1 lata de sardinas' : '¬Ω lata de sardinas', uso: n => `${amt(n / 2)} latas` },
+  { g: 'Prote√≠nas', name: 'Gandules', k: 100, p: 6.5, f: 0.4, c: 19, roles: 'P', meals: 'ac', max: 2, lab: n => taza(n, 'gandules'), uso: n => `${amt(n / 2)} tazas` },
+  { g: 'Prote√≠nas', name: 'Lentejas', k: 115, p: 9, f: 0.4, c: 20, roles: 'P', meals: 'ac', max: 2, lab: n => taza(n, 'lentejas'), uso: n => `${amt(n / 2)} tazas` },
+  { g: 'Prote√≠nas', name: 'Garbanzos', k: 135, p: 7, f: 2, c: 22, roles: 'P', meals: 'ac', max: 2, lab: n => taza(n, 'garbanzos'), uso: n => `${amt(n / 2)} tazas` },
+  { g: 'Prote√≠nas', name: 'Tofu', k: 80, p: 8, f: 4.5, c: 2, roles: 'P', meals: 'dac', max: 2, lab: n => `Tofu, ${n * 100} g`, uso: n => `${n * 100} g` },
+  // L√°cteos
+  { g: 'L√°cteos', name: 'Queso de fre√≠r', k: 100, p: 6, f: 8, c: 1, roles: 'P', meals: 'dc', max: 2, lab: n => pl(n, 'lonja de queso de fre√≠r', 'lonjas de queso de fre√≠r'), uso: n => pl(n, 'lonja', 'lonjas') },
+  { g: 'L√°cteos', name: 'Queso blanco fresco', k: 75, p: 6, f: 5.5, c: 1, roles: 'P', meals: 'dc', max: 2, lab: n => `Queso blanco, ${n * 30} g`, uso: n => `${n * 30} g` },
+  { g: 'L√°cteos', name: 'Yogur griego', k: 100, p: 17, f: 0.7, c: 6, roles: 'PS', meals: 'd', max: 1, lab: () => '1 taza de yogur griego', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'L√°cteos', name: 'Leche descremada', k: 83, p: 8, f: 0.2, c: 12, roles: 'ES', meals: 'd', max: 1, lab: () => '1 vaso de leche', uso: n => pl(n, 'vaso', 'vasos') },
+  { g: 'L√°cteos', name: 'Leche entera', k: 150, p: 8, f: 8, c: 12, roles: 'ES', meals: 'd', max: 1, lab: () => '1 vaso de leche entera', uso: n => pl(n, 'vaso', 'vasos') },
+  { g: 'L√°cteos', name: 'Yogur natural', k: 150, p: 8.5, f: 8, c: 11.4, roles: 'PS', meals: 'd', max: 1, lab: () => '1 taza de yogur natural', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'L√°cteos', name: 'Queso amarillo', k: 80, p: 5, f: 6.5, c: 0.5, roles: 'P', meals: 'dc', max: 2, lab: n => pl(n, 'lonja de queso amarillo', 'lonjas de queso amarillo'), uso: n => pl(n, 'lonja', 'lonjas') },
+  { g: 'L√°cteos', name: 'Queso cottage', k: 90, p: 12, f: 2.5, c: 4, roles: 'PS', meals: 'dc', max: 1, lab: () => '¬Ω taza de queso cottage', uso: n => pl(n, 'media taza', 'medias tazas') },
+  // Granos, panes y v√≠veres
+  { g: 'Granos, panes y v√≠veres', name: 'Arroz', k: 103, p: 2, f: 0.2, c: 22, roles: 'B', meals: 'ac', max: 3, lab: n => taza(n, 'arroz'), uso: n => `${amt(n / 2)} tazas cocido` },
+  { g: 'Granos, panes y v√≠veres', name: 'Pan integral', k: 70, p: 3.5, f: 1, c: 12, roles: 'B', meals: 'dc', max: 2, lab: n => pl(n, 'rebanada de pan integral', 'rebanadas de pan integral'), uso: n => pl(n, 'rebanada', 'rebanadas') },
+  { g: 'Granos, panes y v√≠veres', name: 'Pan de agua', k: 160, p: 5, f: 1, c: 32, roles: 'B', meals: 'dc', max: 1, lab: () => '1 pan de agua', uso: n => pl(n, 'pan', 'panes') },
+  { g: 'Granos, panes y v√≠veres', name: 'Avena', k: 150, p: 5, f: 2.5, c: 27, roles: 'B', meals: 'd', max: 1, lab: () => '¬Ω taza de avena', uso: n => `${amt(n / 2)} tazas cruda` },
+  { g: 'Granos, panes y v√≠veres', name: 'Pl√°tano verde', k: 110, p: 1, f: 0.2, c: 29, roles: 'B', meals: 'dac', max: 2, lab: n => n === 2 ? '1 pl√°tano (mang√∫ o hervido)' : '¬Ω pl√°tano (mang√∫ o hervido)', uso: n => `${amt(n / 2)} pl√°tanos` },
+  { g: 'Granos, panes y v√≠veres', name: 'Yuca', k: 160, p: 1.4, f: 0.3, c: 38, roles: 'B', meals: 'dac', max: 1, lab: () => 'Yuca hervida, 100 g', uso: n => `${n * 100} g` },
+  { g: 'Granos, panes y v√≠veres', name: 'Batata', k: 112, p: 2, f: 0.1, c: 26, roles: 'B', meals: 'dac', max: 1, lab: () => '1 batata mediana', uso: n => pl(n, 'batata', 'batatas') },
+  { g: 'Granos, panes y v√≠veres', name: 'Pasta', k: 110, p: 4, f: 0.6, c: 22, roles: 'B', meals: 'ac', max: 3, lab: n => taza(n, 'pasta'), uso: n => `${amt(n / 2)} tazas cocida` },
+  { g: 'Granos, panes y v√≠veres', name: 'Tortillas de trigo', k: 140, p: 4, f: 3.5, c: 24, roles: 'B', meals: 'dac', max: 2, lab: n => pl(n, 'tortilla', 'tortillas'), uso: n => pl(n, 'tortilla', 'tortillas') },
+  { g: 'Granos, panes y v√≠veres', name: 'Arroz integral', k: 108, p: 2.5, f: 0.9, c: 22.4, roles: 'B', meals: 'ac', max: 3, lab: n => taza(n, 'arroz integral'), uso: n => `${amt(n / 2)} tazas` },
+  { g: 'Granos, panes y v√≠veres', name: 'Pan de molde', k: 75, p: 2.5, f: 1, c: 14, roles: 'B', meals: 'dc', max: 2, lab: n => pl(n, 'rebanada de pan de molde', 'rebanadas de pan de molde'), uso: n => pl(n, 'rebanada', 'rebanadas') },
+  { g: 'Granos, panes y v√≠veres', name: 'Casabe', k: 110, p: 0.5, f: 0.1, c: 26, roles: 'B', meals: 'dac', max: 1, lab: () => '1 torta de casabe', uso: n => pl(n, 'torta', 'tortas') },
+  { g: 'Granos, panes y v√≠veres', name: 'Guineo verde', k: 110, p: 1.3, f: 0.4, c: 28, roles: 'B', meals: 'dac', max: 2, lab: n => pl(n, 'guineo verde', 'guineos verdes'), uso: n => pl(n, 'guineo verde', 'guineos verdes') },
+  { g: 'Granos, panes y v√≠veres', name: 'Papa', k: 160, p: 4.3, f: 0.2, c: 37, roles: 'B', meals: 'ac', max: 1, lab: () => '1 papa mediana', uso: n => pl(n, 'papa', 'papas') },
+  { g: 'Granos, panes y v√≠veres', name: '√ëame', k: 118, p: 1.5, f: 0.2, c: 28, roles: 'B', meals: 'dac', max: 1, lab: () => '√ëame hervido, 100 g', uso: n => pl(n, 'porci√≥n de 100 g', 'porciones de 100 g') },
+  { g: 'Granos, panes y v√≠veres', name: 'Yaut√≠a', k: 98, p: 1.5, f: 0.2, c: 24, roles: 'B', meals: 'dac', max: 1, lab: () => 'Yaut√≠a hervida, 100 g', uso: n => pl(n, 'porci√≥n de 100 g', 'porciones de 100 g') },
+  { g: 'Granos, panes y v√≠veres', name: 'Granola', k: 120, p: 3, f: 5, c: 16, roles: 'BS', meals: 'd', max: 1, lab: () => '¬º taza de granola', uso: n => pl(n, 'cuarto de taza', 'cuartos de taza') },
+  { g: 'Granos, panes y v√≠veres', name: 'Galletas de soda', k: 52, p: 1, f: 1.3, c: 9, roles: 'S', meals: '', max: 1, lab: () => '4 galletas de soda', uso: n => pl(n, 'paquetito', 'paquetitos') },
+  // Frutas
+  { g: 'Frutas', name: 'Guineo maduro', k: 105, p: 1.3, f: 0.4, c: 27, roles: 'ES', meals: 'd', max: 1, lab: () => '1 guineo', uso: n => pl(n, 'guineo', 'guineos') },
+  { g: 'Frutas', name: 'Manzana', k: 95, p: 0.5, f: 0.3, c: 25, roles: 'ES', meals: 'd', max: 1, lab: () => '1 manzana', uso: n => pl(n, 'manzana', 'manzanas') },
+  { g: 'Frutas', name: 'Lechosa', k: 60, p: 0.7, f: 0.4, c: 15, roles: 'ES', meals: 'd', max: 1, lab: () => '1 taza de lechosa', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Frutas', name: 'Pi√±a', k: 82, p: 0.9, f: 0.2, c: 22, roles: 'ES', meals: 'd', max: 1, lab: () => '1 taza de pi√±a', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Frutas', name: 'Mango', k: 100, p: 1.4, f: 0.6, c: 25, roles: 'ES', meals: 'd', max: 1, lab: () => '1 taza de mango', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Frutas', name: 'Naranja', k: 62, p: 1.2, f: 0.2, c: 15.4, roles: 'ES', meals: 'd', max: 1, lab: () => '1 naranja', uso: n => pl(n, 'naranja', 'naranjas') },
+  { g: 'Frutas', name: 'Fresas', k: 50, p: 1, f: 0.5, c: 12, roles: 'ES', meals: 'd', max: 1, lab: () => '1 taza de fresas', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Frutas', name: 'Mel√≥n', k: 55, p: 1.3, f: 0.3, c: 13, roles: 'ES', meals: 'd', max: 1, lab: () => '1 taza de mel√≥n', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Frutas', name: 'Uvas', k: 104, p: 1.1, f: 0.2, c: 27, roles: 'S', meals: '', max: 1, lab: () => '1 taza de uvas', uso: n => pl(n, 'taza', 'tazas') },
+  // Vegetales
+  { g: 'Vegetales', name: 'Ensalada verde', k: 20, p: 1, f: 0.2, c: 4, roles: 'E', meals: 'ac', max: 2, veg: true, lab: n => pl(n, 'taza de ensalada verde', 'tazas de ensalada verde'), uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Vegetales', name: 'Br√≥coli', k: 55, p: 3.7, f: 0.6, c: 11, roles: 'E', meals: 'ac', max: 1, veg: true, lab: () => '1 taza de br√≥coli', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Vegetales', name: 'Zanahoria', k: 25, p: 0.6, f: 0.1, c: 6, roles: 'E', meals: 'ac', max: 2, veg: true, lab: n => pl(n, 'zanahoria', 'zanahorias'), uso: n => pl(n, 'zanahoria', 'zanahorias') },
+  { g: 'Vegetales', name: 'Aguacate', k: 80, p: 1, f: 7.4, c: 4.3, roles: 'E', meals: 'dac', max: 2, veg: true, lab: n => n === 2 ? '¬Ω aguacate' : '¬º de aguacate', uso: n => `${amt(n / 4)} aguacates` },
+  { g: 'Vegetales', name: 'Tomate', k: 22, p: 1, f: 0.2, c: 4.8, roles: 'E', meals: 'dac', max: 2, veg: true, lab: n => pl(n, 'tomate', 'tomates'), uso: n => pl(n, 'tomate', 'tomates') },
+  { g: 'Vegetales', name: 'Pepino', k: 16, p: 0.7, f: 0.1, c: 3.8, roles: 'E', meals: 'ac', max: 1, veg: true, lab: () => '1 taza de pepino', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Vegetales', name: 'Repollo', k: 22, p: 1, f: 0.1, c: 5, roles: 'E', meals: 'ac', max: 1, veg: true, lab: () => '1 taza de repollo', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Vegetales', name: 'Berenjena', k: 35, p: 0.8, f: 0.2, c: 8.6, roles: 'E', meals: 'ac', max: 1, veg: true, lab: () => '1 taza de berenjena', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Vegetales', name: 'Vainitas', k: 44, p: 2.4, f: 0.4, c: 10, roles: 'E', meals: 'ac', max: 1, veg: true, lab: () => '1 taza de vainitas', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Vegetales', name: 'Auyama', k: 50, p: 1.8, f: 0.2, c: 12, roles: 'E', meals: 'ac', max: 1, veg: true, lab: () => '1 taza de auyama', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Vegetales', name: 'Espinaca', k: 41, p: 5.3, f: 0.5, c: 6.8, roles: 'E', meals: 'dac', max: 1, veg: true, lab: () => '1 taza de espinaca cocida', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Vegetales', name: 'Tayota', k: 38, p: 0.8, f: 0.8, c: 9, roles: 'E', meals: 'ac', max: 1, veg: true, lab: () => '1 taza de tayota', uso: n => pl(n, 'taza', 'tazas') },
+  { g: 'Vegetales', name: 'Remolacha', k: 58, p: 2.2, f: 0.2, c: 13, roles: 'E', meals: 'ac', max: 1, veg: true, lab: () => '1 taza de remolacha', uso: n => pl(n, 'taza', 'tazas') },
+  // Despensa
+  { g: 'Despensa', name: 'Mantequilla de man√≠', k: 95, p: 4, f: 8, c: 3, roles: 'ES', meals: 'd', max: 2, lab: n => pl(n, 'cucharada de mantequilla de man√≠', 'cucharadas de mantequilla de man√≠'), uso: n => pl(n, 'cucharada', 'cucharadas') },
+  { g: 'Despensa', name: 'Man√≠', k: 160, p: 7, f: 14, c: 5, roles: 'S', meals: '', max: 1, lab: () => '1 pu√±ado de man√≠', uso: n => pl(n, 'pu√±ado', 'pu√±ados') },
+  { g: 'Despensa', name: 'Almendras', k: 165, p: 6, f: 14, c: 6, roles: 'S', meals: '', max: 1, lab: () => '1 pu√±ado de almendras', uso: n => pl(n, 'pu√±ado', 'pu√±ados') },
+  { g: 'Despensa', name: 'Prote√≠na en polvo', k: 120, p: 24, f: 1.5, c: 3, roles: 'PS', meals: 'd', max: 1, lab: () => '1 batida de prote√≠na', uso: n => pl(n, 'medida', 'medidas') },
+];
+const DEFAULT_ON = ['Huevos', 'Pechuga de pollo', 'Habichuelas', 'Salami', 'Queso de fre√≠r', 'Leche descremada', 'Arroz', 'Pan de agua', 'Avena', 'Pl√°tano verde', 'Guineo maduro', 'Ensalada verde', 'Aguacate'];
+const STORE = 'ds.enCasa';
+let have = new Set(DEFAULT_ON);
+try { const s = JSON.parse(localStorage.getItem(STORE)); if (Array.isArray(s)) have = new Set(s); } catch (e) {}
+
+// Pinta los chips por grupo
+function drawChips() {
+  const groups = [...new Set(ITEMS.map(i => i.g))];
+  document.getElementById('groups').innerHTML = groups.map(g => `<div class="ec-group"><h3>${g}</h3><div class="ec-chips">` +
+    ITEMS.filter(i => i.g === g).map(i => `<button type="button" class="ec-chip" data-name="${i.name}" aria-pressed="${have.has(i.name)}">${i.name}</button>`).join('') +
+    `</div></div>`).join('');
+  if (typeof countMarked === 'function') countMarked();
+  const q = document.getElementById('buscar'); if (q && q.value) q.dispatchEvent(new Event('input'));
+}
+function remember() { try { localStorage.setItem(STORE, JSON.stringify([...have])); } catch (e) {} }
+document.getElementById('groups').addEventListener('click', e => {
+  const b = e.target.closest('.ec-chip'); if (!b) return;
+  have.has(b.dataset.name) ? have.delete(b.dataset.name) : have.add(b.dataset.name);
+  b.setAttribute('aria-pressed', have.has(b.dataset.name)); remember(); countMarked(); document.getElementById('err1').textContent = '';
+});
+// Buscador: deja ver solo los productos que coinciden (sin tildes ni may√∫sculas)
+const plain = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+document.getElementById('buscar').addEventListener('input', e => {
+  const q = plain(e.target.value.trim());
+  document.querySelectorAll('#groups .ec-chip').forEach(c => { c.hidden = !!q && !plain(c.dataset.name).includes(q); });
+  document.querySelectorAll('#groups .ec-group').forEach(g => { g.hidden = ![...g.querySelectorAll('.ec-chip')].some(c => !c.hidden); });
+});
+document.getElementById('all').onclick = () => { have = new Set(ITEMS.map(i => i.name)); remember(); drawChips(); };
+document.getElementById('none').onclick = () => { have = new Set(); remember(); drawChips(); };
+// Cu√°ntos productos marcados hay en total, junto al t√≠tulo
+// Variedad: cu√°nto se cobra repetir. Se recuerda en este navegador.
+const PREF_STORE = 'ds.enCasaPref';
+const PREF_HINT = {
+  var: 'Las prote√≠nas, bases y frutas van rotando: el algoritmo gana puntos por cada producto distinto que usa.',
+  eq: 'Evita lo muy repetido (la misma comida dos d√≠as seguidos, la misma prote√≠na toda la semana), sin buscar m√°s.',
+  few: 'Casi no cobra por repetir: sirve para cocinar en tanda o para no gastar todo lo que tienes.',
+};
+const prefSel = document.getElementById('prefVar');
+try { const v = localStorage.getItem(PREF_STORE); if (PREF_HINT[v]) prefSel.value = v; } catch (e) {}
+const paintPref = () => { document.getElementById('prefHint').textContent = PREF_HINT[prefSel.value]; };
+prefSel.onchange = () => { paintPref(); try { localStorage.setItem(PREF_STORE, prefSel.value); } catch (e) {} };
+paintPref();
+function countMarked() { document.getElementById('nMarked').textContent = have.size ? `¬∑ ${have.size} marcados` : ''; }
+drawChips();
+
+// Las comidas y sus genes. Cada gen elige un producto (o nada) y cu√°ntas porciones.
+const MEALS = [
+  { key: 'd', name: 'Desayuno', genes: [['P', 'd'], ['B', 'd'], ['E', 'd']] },
+  { key: 'a', name: 'Almuerzo', genes: [['P', 'a'], ['B', 'a'], ['E', 'a']] },
+  { key: 'c', name: 'Cena', genes: [['P', 'c'], ['B', 'c'], ['E', 'c']] },
+  { key: 's', name: 'Merienda', genes: [['S', 's'], ['S2', 's']] },
+];
+const DAYS = ['Lunes', 'Martes', 'Mi√©rcoles', 'Jueves', 'Viernes', 'S√°bado', 'Domingo'];
+
+// Lo imposible se quita de las opciones: solo productos en casa, en la comida donde tienen sentido.
+function optionsFor(role, meal, avail) {
+  const r = role === 'S2' ? 'S' : role;
+  const list = avail.filter(i => i.roles.includes(r) && (r === 'S' || i.meals.includes(meal)));
+  const opts = [];
+  list.forEach(i => { for (let n = i.min || 1; n <= i.max; n++) opts.push([i, n]); });
+  // La prote√≠na es obligatoria si hay alguna; la base, el acompa√±ante y la segunda merienda pueden quedar vac√≠os.
+  if (role !== 'P' && role !== 'S' || !opts.length) opts.push(null);
+  return opts;
+}
+
+// Lo que cuesta repetir, seg√∫n ¬´Prefiero‚Ä¶¬ª. Equilibrio es lo de siempre.
+const VARIETY = {
+  var: { protWeek: 3, protCost: 50, anyWeek: 3, anyCost: 15, yesterday: 80, distinct: -6 },   // premia cada producto distinto
+  eq:  { protWeek: 4, protCost: 40, anyWeek: 99, anyCost: 0, yesterday: 60, distinct: 0 },
+  few: { protWeek: 99, protCost: 0, anyWeek: 99, anyCost: 0, yesterday: 0, distinct: 6 },   // cobra cada producto distinto
+};
+function runGA(avail, T, onTick, onDone, pref) {
+  const V = VARIETY[pref] || VARIETY.eq;
+  const slots = [];
+  DAYS.forEach((_, d) => MEALS.forEach(m => m.genes.forEach(([role, meal]) => slots.push({ d, m: m.key, role, opts: optionsFor(role, meal, avail) }))));
+  const hasVeg = avail.some(i => i.veg);
+  const rnd = n => Math.floor(Math.random() * n);
+  const make = () => slots.map(s => rnd(s.opts.length));
+
+  function fitness(ch) {
+    let pen = 0; const useP = {}, useAll = {};
+    const day = DAYS.map(() => ({ k: 0, p: 0, f: 0, c: 0 }));
+    const sig = {}, snack = DAYS.map(() => []), perDay = DAYS.map(() => ({}));
+    ch.forEach((g, i) => {
+      const s = slots[i], o = s.opts[g]; if (!o) return;
+      const [it, n] = o, t = day[s.d];
+      t.k += it.k * n; t.p += it.p * n; t.f += it.f * n; t.c += it.c * n;
+      if (s.role === 'P') { useP[it.name] = (useP[it.name] || 0) + 1; }
+      if (s.m === 's') snack[s.d].push(it.name);
+      perDay[s.d][it.name] = (perDay[s.d][it.name] || 0) + 1;
+      useAll[it.name] = (useAll[it.name] || 0) + 1;
+      if (s.role === 'P' || s.role === 'B') { const key = s.d + s.m; sig[key] = (sig[key] || '') + it.name + '|'; }
+    });
+    day.forEach(t => {
+      const gap = Math.abs(t.k - T.kcal); if (gap > 60) pen += gap - 60;
+      if (t.p < T.prot) pen += 8 * (T.prot - t.p);
+      if (t.p > T.prot + 25) pen += t.p - T.prot - 25;
+      if (t.f < T.fatMin) pen += 3 * (T.fatMin - t.f); if (t.f > T.fatMax) pen += 3 * (t.f - T.fatMax);
+      if (t.c < T.carbMin) pen += 2 * (T.carbMin - t.c); if (t.c > T.carbMax) pen += 2 * (t.c - T.carbMax);
+    });
+    Object.values(useP).forEach(c => { if (c > V.protWeek) pen += V.protCost * (c - V.protWeek); });
+    Object.values(useAll).forEach(c => { if (c > V.anyWeek) pen += V.anyCost * (c - V.anyWeek); });
+    pen += V.distinct * Object.keys(useAll).length;
+    perDay.forEach(o => Object.values(o).forEach(c => { if (c > 2) pen += 40 * (c - 2); }));   // lo mismo en las tres comidas del d√≠a cansa
+    snack.forEach(x => { if (x[0] && x[0] === x[1]) pen += 50; });   // la misma cosa dos veces en la merienda
+    for (let d = 1; d < 7; d++) ['d', 'a', 'c'].forEach(m => { if (sig[d + m] && sig[d + m] === sig[(d - 1) + m]) pen += V.yesterday; });
+    if (hasVeg) ch.forEach((g, i) => { const s = slots[i]; if (s.role === 'E' && s.m !== 'd' && !(s.opts[g] && s.opts[g][0].veg)) pen += 15; });
+    return -pen;
+  }
+
+  const POP = 140, GENS = 300, MUT = 1.5 / slots.length * 2;
+  const FLOWER_EVERY = 6, SEEDS = 8;
+  let pop = Array.from({ length: POP }, make).map(c => ({ c, f: fitness(c) }));
+  const pick = () => { let a = pop[rnd(POP)], b = pop[rnd(POP)]; return a.f > b.f ? a : b; };
+  let gen = 0;
+  const samples = [];   // para la flor: cada pocas vueltas guardamos 8 semanas (la mejor y 7 al azar)
+  function step() {
+    for (let k = 0; k < 5 && gen < GENS; k++, gen++) {
+      pop.sort((a, b) => b.f - a.f);
+      if (gen % FLOWER_EVERY === 0 || gen === GENS - 1) {
+        const rest = [...Array(POP).keys()].slice(1).sort(() => Math.random() - .5).slice(0, SEEDS - 1);
+        samples.push({ scores: pop.map(x => x.f), picks: [0, ...rest].sort(() => Math.random() - .5) });
+      }
+      const next = pop.slice(0, 2);
+      while (next.length < POP) {
+        const a = pick().c, b = pick().c, mask = DAYS.map(() => rnd(2));   // cada d√≠a viene completo de uno de los dos padres
+        const c = a.map((g, i) => (mask[slots[i].d] ? g : b[i]));
+        for (let i = 0; i < c.length; i++) if (Math.random() < MUT) c[i] = rnd(slots[i].opts.length);
+        next.push({ c, f: fitness(c) });
+      }
+      pop = next;
+    }
+    onTick(gen / GENS, samples, gen, pop[0].c, slots);
+    if (gen < GENS) setTimeout(step, 25);
+    else {
+      pop.sort((a, b) => b.f - a.f);
+      // La prueba justa: el azar con la misma cantidad de intentos
+      let rndBest = null, rndF = -Infinity;
+      for (let i = 0; i < POP * GENS; i++) { const c = make(), f = fitness(c); if (f > rndF) { rndF = f; rndBest = c; } }
+      onDone(pop[0].c, slots, { tried: POP * GENS, rndBest });
+    }
+  }
+  step();
+}
+
+const fmt = n => Math.round(n).toLocaleString('es-DO');
+// La flor de semanas: semillas en el √°ngulo de oro, como en el plan semanal
+const GOLDEN = Math.PI * (3 - Math.sqrt(5));
+const seedColor = v => `color-mix(in srgb, var(--seed-hi) ${Math.round(Math.max(0, Math.min(1, v)) * 100)}%, var(--seed-low))`;
+function bloomSVG(seeds, cap, best) {
+  const c = 138 / Math.sqrt(cap + 1);
+  let out = '', ring = '';
+  seeds.forEach((sd, i) => {
+    const k = i + 1, r = c * Math.sqrt(k), a = k * GOLDEN, x = (150 + r * Math.cos(a)).toFixed(1), y = (150 + r * Math.sin(a)).toFixed(1), size = 1.5 + 2.9 * Math.sqrt(k / cap);
+    out += sd.keep ? `<circle cx="${x}" cy="${y}" r="${size.toFixed(2)}" style="fill:${seedColor(sd.v)}"/>`
+      : `<circle cx="${x}" cy="${y}" r="${(size * 0.85).toFixed(2)}" fill="none" class="sd-drop" stroke-width="1.1"/>`;
+    if (i === best) ring = `<circle cx="${x}" cy="${y}" r="${(size + 3.6).toFixed(1)}" fill="none" class="sd-best" stroke-width="2"/>`;
+  });
+  return out + ring;
+}
+function drawFlower(samples) {
+  const first = samples[0].scores.slice().sort((a, b) => b - a), lo = first[Math.floor(first.length / 2)];
+  const hi = samples[samples.length - 1].scores[0], span = (hi - lo) || 1, half = samples[0].scores.length / 2;
+  const cap = (Math.ceil(300 / 6) + 1) * 8, seeds = [];
+  let best = -1;
+  samples.forEach(({ scores, picks }, si) => picks.forEach(idx => {
+    if (si === samples.length - 1 && idx === 0) best = seeds.length;
+    seeds.push({ keep: idx < half, v: Math.pow(Math.max(0, (scores[idx] - lo) / span), 3) });   // potencia 3: el dorado pleno queda para lo m√°s afinado
+  }));
+  document.getElementById('gaPop').innerHTML = bloomSVG(seeds, cap, best);
+}
+// Los totales de cada d√≠a de una semana, y si el d√≠a queda dentro de la meta
+function weekDays(ch, slots) {
+  const days = DAYS.map(() => ({ k: 0, p: 0, f: 0, c: 0 }));
+  ch.forEach((g, i) => { const o = slots[i].opts[g]; if (!o) return; const [it, n] = o, d = days[slots[i].d]; d.k += it.k * n; d.p += it.p * n; d.f += it.f * n; d.c += it.c * n; });
+  return days;
+}
+const insideDay = (d, T) => Math.abs(d.k - T.kcal) <= 100 && d.p >= T.prot - 5 && d.f >= T.fatMin - 5 && d.f <= T.fatMax + 5 && d.c >= T.carbMin - 5 && d.c <= T.carbMax + 5;
+// Rangos de grasa y carbohidratos: se calculan solos hasta que la persona los cambia a mano
+let rangesTouched = false;
+function autoRanges() {
+  const k = +document.getElementById('kcal').value, p = +document.getElementById('prot').value;
+  const fMin = Math.round(k * 0.20 / 9), fMax = Math.round(k * 0.35 / 9);
+  const left = k - p * 4;   // las calor√≠as que quedan despu√©s de la prote√≠na
+  document.getElementById('fatMin').value = fMin;
+  document.getElementById('fatMax').value = fMax;
+  document.getElementById('carbMin').value = Math.max(0, Math.round((left - fMax * 9) / 4));
+  document.getElementById('carbMax').value = Math.max(0, Math.round((left - fMin * 9) / 4));
+}
+['kcal', 'prot'].forEach(id => document.getElementById(id).addEventListener('input', () => { if (!rangesTouched) autoRanges(); }));
+['fatMin', 'fatMax', 'carbMin', 'carbMax'].forEach(id => document.getElementById(id).addEventListener('input', () => {
+  rangesTouched = true; document.getElementById('reRange').hidden = false;
+}));
+document.getElementById('reRange').onclick = () => { rangesTouched = false; document.getElementById('reRange').hidden = true; autoRanges(); };
+autoRanges();
+// Si vienes del plan semanal, tu meta ya est√° guardada en este dispositivo: se llena sola.
+try {
+  const m = JSON.parse(localStorage.getItem('ds.metaDiaria'));
+  if (m && m.v === 1 && Date.now() - m.fecha < 30 * 864e5) {
+    ['kcal', 'prot', 'fatMin', 'fatMax', 'carbMin', 'carbMax'].forEach(id => { if (m[id] > 0) document.getElementById(id).value = m[id]; });
+    rangesTouched = true; document.getElementById('reRange').hidden = false;
+    document.getElementById('fromPlan').hidden = false; document.getElementById('metaHint').hidden = true;
+    track('casa-1-viene-del-plan');
+    document.getElementById('rangeTxt').textContent = 'Los rangos de grasa y carbohidratos tambi√©n vienen de tu plan semanal.';
+    maxStep = 2; startStep = 2;
+    VOLVER_URL = SEMANA_URL + '?paso2' + (m.lang === 'en' ? '&lang=en' : '');
+    document.querySelectorAll('.back, .volver-link').forEach(a => { a.href = VOLVER_URL; });
+  }
+} catch (e) {}
+// El t√≠tulo grande cambia en cada paso; cada uno lleva una palabra en dorado.
+const STEP_TITLES = { 1: 'Tu <em>meta</em> al d√≠a', 2: '¬øQu√© tienes en <em>casa</em>?', 3: 'Mira c√≥mo <em>evoluciona</em> tu semana', 4: 'Tu semana, <em>lista</em>' };
+function paintStepper() {
+  document.querySelectorAll('#stepper li').forEach((li, i) => {
+    const n = i + 1, b = li.querySelector('button');
+    li.classList.toggle('current', n === step); li.classList.toggle('done', n < step);
+    b.disabled = n > maxStep;
+    if (n === step) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+  });
+  if (window.paintVine) paintVine();
+}
+function goStep(n) {
+  if (n > maxStep) return;
+  step = n;
+  document.body.dataset.step = n;
+  document.querySelectorAll('.screen').forEach(sc => { sc.hidden = +sc.dataset.step !== n; });
+  document.getElementById('stepTitle').innerHTML = STEP_TITLES[n];
+  document.getElementById('subtitle').hidden = n > 2;
+  if (n === 2) track('casa-2-productos'); if (n === 4) track('casa-4-plan-visto');
+  paintStepper();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const h = document.getElementById('stepTitle'); h.tabIndex = -1; h.focus({ preventScroll: true });   // teclado y lector de pantalla empiezan en el t√≠tulo del paso nuevo
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b && !b.disabled) goStep(+b.dataset.go); });
+document.getElementById('next1').onclick = () => {
+  if (!checkMeta()) return;
+  maxStep = Math.max(maxStep, 2); goStep(2);
+};
+// La meta tiene que tener sentido antes de seguir
+function checkMeta() {
+  const err = document.getElementById('err'), v = id => +document.getElementById(id).value;
+  const T = { kcal: v('kcal'), prot: v('prot'), fatMin: v('fatMin'), fatMax: v('fatMax'), carbMin: v('carbMin'), carbMax: v('carbMax') };
+  let msg = '';
+  if (!(T.kcal >= 1000 && T.kcal <= 4000)) msg = 'Las calor√≠as deben estar entre 1,000 y 4,000.';
+  else if (!(T.prot >= 40 && T.prot <= 250)) msg = 'La prote√≠na debe estar entre 40 y 250 g.';
+  else if (!(T.fatMin >= 0 && T.fatMax > T.fatMin)) msg = 'En la grasa, el m√°ximo debe ser mayor que el m√≠nimo.';
+  else if (!(T.carbMin >= 0 && T.carbMax > T.carbMin)) msg = 'En los carbohidratos, el m√°ximo debe ser mayor que el m√≠nimo.';
+  err.textContent = msg;
+  if (msg) goStep(1);
+  return msg ? null : T;
+}
+document.querySelectorAll('.semana-link').forEach(a => a.addEventListener('click', () => track('casa-vuelve-a-platos')));
+document.getElementById('again3').onclick = document.getElementById('again4').onclick = () => document.getElementById('go').click();
+if (startStep > 1) goStep(startStep); else paintStepper();
+document.getElementById('go').onclick = () => {
+  const T = checkMeta(); if (!T) return;
+  const err = document.getElementById('err1'), avail = ITEMS.filter(i => have.has(i.name));
+  if (!avail.some(i => i.roles.includes('P'))) { err.textContent = 'Marca al menos una prote√≠na (huevos, pollo, habichuelas‚Ä¶).'; return; }
+  if (avail.length < 4) { err.textContent = 'Marca al menos 4 productos para que haya con qu√© combinar.'; return; }
+  err.textContent = '';
+  const bar = document.getElementById('gaBar'), go = document.getElementById('go');
+  go.disabled = true; lastWeek = null;
+  ['out', 'recap', 'gaPop', 'gaDays', 'gaDaysStat'].forEach(id => { document.getElementById(id).innerHTML = ''; });
+  document.getElementById('nav3').hidden = true; maxStep = 3; goStep(3);
+  const steps = document.getElementById('gaSteps');
+  steps.innerHTML = '<li>Hacemos 140 semanas al azar</li><li class="arrow">‚Üí</li><li>Nos quedamos con las 70 mejores</li><li class="arrow">‚Üí</li>' +
+    '<li>Mezclamos sus d√≠as</li><li class="arrow">‚Üí</li><li>Cambiamos alguna comida de sorpresa</li><li class="arrow">‚Üí</li><li>¬°Y otra vez!</li>';
+  const stages = [...steps.querySelectorAll('li:not(.arrow)')];
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let missTop = 0;
+  runGA(avail, T, (p, samples, gen, best, slots) => {
+    bar.style.width = (p * 100) + '%';
+    document.getElementById('runTxt').textContent = `Probando semanas‚Ä¶ ${Math.round(p * 100)}%`;
+    document.getElementById('gaCount').textContent = `Vuelta ${gen} de 300`;
+    const phase = calm ? 0 : Math.floor(performance.now() / 700) % 4;   // a ritmo humano, no a la velocidad de las vueltas
+    stages.forEach((li, i) => li.classList.toggle('on', gen <= 5 ? i === 0 : i === 1 + phase));
+    drawFlower(samples);
+    missTop = drawEvoDays(weekDays(best, slots), T, missTop);
+  }, (best, slots, info) => {
+    stages.forEach(li => li.classList.remove('on'));
+    go.disabled = false;
+    info.rndOk = weekDays(info.rndBest, slots).filter(d => insideDay(d, T)).length;
+    drawEvoDays(weekDays(best, slots), T, missTop);
+    document.getElementById('runTxt').textContent = `Termin√≥: probamos ${fmt(info.tried)} semanas`;
+    show(best, slots, T, avail, info);
+  }, prefSel.value);
+  track('casa-3-semana-armada'); track('casa-prefiere-' + prefSel.value);
+};
+
+// Los 7 d√≠as de la mejor semana, vuelta a vuelta: la barra se llena mientras m√°s cerca est√° el d√≠a de tu meta.
+const DAY_SHORT = ['Lun', 'Mar', 'Mi√©', 'Jue', 'Vie', 'S√°b', 'Dom'];
+function dayMiss(d, T) {   // qu√© le falta al d√≠a para entrar, en su medida m√°s clara
+  const kc = Math.max(0, Math.abs(d.k - T.kcal) - 100), pr = Math.max(0, T.prot - 5 - d.p);
+  const fa = Math.max(0, T.fatMin - 5 - d.f, d.f - T.fatMax - 5), ca = Math.max(0, T.carbMin - 5 - d.c, d.c - T.carbMax - 5);
+  const score = kc + 8 * pr + 3 * fa + 2 * ca;
+  const txt = kc >= Math.max(8 * pr, 3 * fa, 2 * ca) ? `a ${fmt(kc)} cal.` : 8 * pr >= Math.max(3 * fa, 2 * ca) ? `a ${fmt(pr)} g prot.` : 3 * fa >= 2 * ca ? `a ${fmt(fa)} g grasa` : `a ${fmt(ca)} g carb.`;
+  return { score, txt };
+}
+function drawEvoDays(days, T, top) {
+  const miss = days.map(d => dayMiss(d, T));
+  top = Math.max(top, ...miss.map(m => m.score), 1);
+  const ok = days.filter(d => insideDay(d, T)).length;
+  document.getElementById('gaDays').innerHTML = days.map((d, i) => {
+    const inn = insideDay(d, T), fill = inn ? 100 : Math.max(4, Math.min(94, (1 - miss[i].score / top) * 100));
+    return `<div class="pday ${inn ? 'ok' : 'mid'}"><span>${DAY_SHORT[i]}</span><div class="bar-track"><div class="bar-fill" style="width:${fill.toFixed(0)}%"></div></div>` +
+      `<span class="val">${inn ? '‚úì dentro' : miss[i].txt}</span></div>`;
+  }).join('');
+  const pill = document.getElementById('gaDaysStat');
+  pill.className = 'gd-pill' + (ok === 7 ? ' ok' : '');
+  pill.textContent = `${ok === 7 ? '‚úì ' : ''}${ok} de 7 d√≠as dentro`;
+  return top;
+}
+
+function show(ch, slots, T, avail, info) {
+  const days = DAYS.map(name => ({ name, k: 0, p: 0, f: 0, c: 0, meals: Object.fromEntries(MEALS.map(m => [m.key, []])) }));
+  const uses = {};
+  ch.forEach((g, i) => {
+    const s = slots[i], o = s.opts[g]; if (!o) return;
+    const [it, n] = o, d = days[s.d];
+    d.meals[s.m].push(it.lab(n)); d.k += it.k * n; d.p += it.p * n; d.f += it.f * n; d.c += it.c * n;
+    uses[it.name] = (uses[it.name] || 0) + n;
+  });
+  const avgK = days.reduce((a, d) => a + d.k, 0) / 7, avgP = days.reduce((a, d) => a + d.p, 0) / 7;
+  const avgF = days.reduce((a, d) => a + d.f, 0) / 7, avgC = days.reduce((a, d) => a + d.c, 0) / 7;
+  // Un d√≠a queda dentro si cumple las cuatro cosas (con 5 g de margen en grasa y carbohidratos)
+  const inside = d => insideDay(d, T);
+  const okDays = days.filter(inside).length;
+
+  let note;
+  if (avgP >= T.prot - 5) note = `<div class="notice ok ec-note">Con lo que tienes en casa <b>llegas a tu prote√≠na</b>. ${okDays} de 7 d√≠as quedan dentro de tu meta.</div>`;
+  else {
+    // Lo que m√°s ayudar√≠a comprar: lo que no tienes con m√°s prote√≠na por calor√≠a
+    const buy = ITEMS.filter(i => !have.has(i.name) && i.roles.includes('P')).sort((a, b) => b.p / b.k - a.p / a.k).slice(0, 3).map(i => i.name.toLowerCase());
+    note = `<div class="notice ec-note" style="background:var(--gold-soft);color:var(--text)">Con lo que tienes en casa la prote√≠na llega a <b>${fmt(avgP)} g de ${T.prot} g</b>. ` +
+      (buy.length ? `Lo que m√°s ayudar√≠a comprar: ${buy.join(', ')}.` : 'Prueba bajar tu meta o subir las porciones de prote√≠na.') + `</div>`;
+  }
+
+  const mealsHtml = d => MEALS.map(m => `<div class="ec-meal"><span class="m">${m.name}</span><span>${d.meals[m.key].length ? d.meals[m.key].join(' ¬∑ ') : '<small>Nada</small>'}</span></div>`).join('');
+  const usedList = Object.entries(uses).sort((a, b) => b[1] - a[1]).map(([name, n]) => `<li>${name}<span>${ITEMS.find(i => i.name === name).uso(n)}</span></li>`).join('');
+  const unused = avail.filter(i => !uses[i.name]).map(i => i.name.toLowerCase());
+
+  lastWeek = { days, uses, T, avgK, avgP, avgF, avgC, info: { tried: info.tried, okDays, rndOk: info.rndOk } };
+  document.getElementById('recap').innerHTML =
+    `<div class="recap ec-recap"><h3>As√≠ la arm√≥ el algoritmo</h3><div class="ec-nums">` +
+    `<div><b>${fmt(info.tried)}</b><span>semanas probadas, solo con lo que tienes en casa</span></div>` +
+    `<div><b>${okDays} de 7</b><span>d√≠as dentro de tu meta con el algoritmo gen√©tico</span></div>` +
+    `<div><b>${info.rndOk} de 7</b><span>al azar, con la misma cantidad de intentos</span></div></div>` +
+    `<p>Es el mismo algoritmo gen√©tico del plan semanal: solo cambiaron las piezas con las que juega. En vez de platos listos, combina tus productos.</p></div>`;
+  document.getElementById('nav3').hidden = false;
+  document.getElementById('out').innerHTML =
+    `<div class="step-head"><span class="step-num">4</span><div><h2>Tu semana con lo que tienes en casa</h2><p class="hint">El promedio de tus 7 d√≠as, frente a tu meta.</p></div></div>` +
+    `<div class="ec-stats"><div><b>${fmt(avgK)}</b><span>calor√≠as al d√≠a ¬∑ meta ${fmt(T.kcal)}</span></div>` +
+    `<div><b>${fmt(avgP)} g</b><span>de prote√≠na al d√≠a ¬∑ meta ${T.prot} g</span></div>` +
+    `<div><b>${fmt(avgF)} g</b><span>de grasa al d√≠a ¬∑ ${T.fatMin}‚Äì${T.fatMax} g</span></div>` +
+    `<div><b>${fmt(avgC)} g</b><span>de carbohidratos al d√≠a ¬∑ ${T.carbMin}‚Äì${T.carbMax} g</span></div></div>${note}` +
+    `<div class="ec-days">${days.map(d => {
+      const ok = inside(d);
+      return `<article class="ec-day"><div class="ec-day-head"><h3>${d.name}</h3><span class="ec-day-tot">${fmt(d.k)} calor√≠as ¬∑ P ${fmt(d.p)} g ¬∑ G ${fmt(d.f)} g ¬∑ C ${fmt(d.c)} g ¬∑ <span class="${ok ? 'ok' : 'no'}">${ok ? '‚úì dentro' : '‚úï fuera'}</span></span></div>${mealsHtml(d)}</article>`;
+    }).join('')}</div>` +
+    `<h3 class="ec-h3">Lo que usas de tu casa</h3><p class="hint">Usas <b>${Object.keys(uses).length} de los ${avail.length}</b> productos que marcaste (${prefSel.options[prefSel.selectedIndex].text.toLowerCase()}). Revisa si te alcanza para toda la semana.</p><ul class="ec-uses">${usedList}</ul>` +
+    (unused.length ? `<p class="hint" style="margin:14px 0 0">No hizo falta: ${unused.join(', ')}.</p>` : '');
+  maxStep = 4; paintStepper();
+  document.getElementById('recap').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+}
+
+// ---- PDF con la marca Designing Spring (mismo estilo que el del plan semanal) ----
+function loadScript(src) {
+  return new Promise((ok, fail) => {
+    if (document.querySelector(`script[src="${src}"]`)) return ok();
+    const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = fail; document.head.appendChild(el);
+  });
+}
+let gloock = null;   // letra de t√≠tulos; si no carga, se usa Helvetica
+async function loadGloock() {
+  if (gloock !== null) return gloock;
+  gloock = '';
+  try {
+    const r = await fetch('https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/gloock/Gloock-Regular.ttf');
+    if (r.ok) { const b = new Uint8Array(await r.arrayBuffer()); let bin = ''; for (let i = 0; i < b.length; i += 0x8000) bin += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000)); gloock = btoa(bin); }
+  } catch (e) {}
+  return gloock;
+}
+async function downloadPDF() {
+  if (!lastWeek) return;
+  track('casa-5-pdf');
+  const btn = document.getElementById('pdfBtn'), label = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Preparando‚Ä¶';
+  try {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js');
+    (await buildPDF()).save(`semana-en-casa-${new Date().toISOString().slice(0, 10)}.pdf`);
+    btn.textContent = label;
+  } catch (e) {
+    btn.textContent = 'Sin conexi√≥n: intenta de nuevo';
+  } finally { btn.disabled = false; }
+}
+async function buildPDF() {
+  const C = { ink: [24, 24, 24], muted: [112, 112, 112], line: [218, 218, 218], rowAlt: [246, 246, 245], card: [243, 243, 241], gold: [227, 167, 47], goldInk: [128, 84, 8] };
+  const font = await loadGloock();
+  const doc = new window.jspdf.jsPDF({ unit: 'pt', format: 'a4' });
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 36, BOTTOM = H - 50;
+  let display = 'helvetica';
+  if (font) { doc.addFileToVFS('Gloock.ttf', font); doc.addFont('Gloock.ttf', 'Gloock', 'normal'); display = 'Gloock'; }
+  const title = (t, x, y, size, color = C.ink, o) => { doc.setFont(display, 'normal'); doc.setFontSize(size); doc.setTextColor(...color); doc.text(t, x, y, o); };
+  const body = (size, color = C.ink, style = 'normal') => { doc.setFont('helvetica', style); doc.setFontSize(size); doc.setTextColor(...color); };
+  // Marca de agua: la flor de puntos en el √°ngulo de oro, en la esquina de cada p√°gina
+  const WM = 520, wm = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 1400; const g = c.getContext('2d'), k = 1400 / WM, N = 620, R = WM / 2 - 6, golden = Math.PI * (3 - Math.sqrt(5));
+    g.fillStyle = 'rgb(222, 219, 211)';
+    for (let i = 1; i <= N; i++) { const r = R * Math.sqrt(i / N), a = i * golden; g.beginPath(); g.arc((WM / 2 + r * Math.cos(a)) * k, (WM / 2 + r * Math.sin(a)) * k, (0.5 + 1.4 * i / N) * k, 0, 2 * Math.PI); g.fill(); }
+    return c.toDataURL('image/png');
+  })();
+  const watermark = () => doc.addImage(wm, 'PNG', W * 0.86 - WM / 2, H * 0.84 - WM / 2, WM, WM, 'wm', 'FAST');
+  const newPage = () => { doc.addPage(); watermark(); };
+  watermark();
+
+  const { days, uses, T, avgK, avgP, avgF, avgC } = lastWeek;
+  const nf = v => Math.round(v).toLocaleString('es-DO');
+  title('Designing Spring', M, 38, 12);
+  body(8, C.muted); doc.text('De la naturaleza al c√≥digo', M, 51);
+  title('Tu semana con lo que tienes en casa', M, 82, 22);
+  body(8.5, C.muted); doc.text(`Armada con un algoritmo gen√©tico: ${nf(lastWeek.info.tried)} semanas probadas, ${lastWeek.info.okDays} de 7 d√≠as dentro (al azar: ${lastWeek.info.rndOk} de 7) ¬∑ ${new Date().toLocaleDateString('es-DO', { day: 'numeric', month: 'long', year: 'numeric' })}`, M, 97);
+  doc.setDrawColor(...C.gold); doc.setLineWidth(1.2); doc.line(M, 108, W - M, 108);
+
+  let y = 124;
+  body(7, C.muted); doc.text('PROMEDIO AL D√çA', M, y); y += 5;
+  const cards = [['Calor√≠as', nf(avgK), `meta ${nf(T.kcal)}`], ['Prote√≠na', `${nf(avgP)} g`, `meta ${T.prot} g`],
+    ['Grasa', `${nf(avgF)} g`, `${T.fatMin}‚Äì${T.fatMax} g`], ['Carbohidratos', `${nf(avgC)} g`, `${T.carbMin}‚Äì${T.carbMax} g`]];
+  const gap = 8, cw = (W - 2 * M - gap * 3) / 4;
+  cards.forEach(([lab, v, goal], i) => {
+    const x = M + i * (cw + gap);
+    doc.setFillColor(...C.card); doc.roundedRect(x, y, cw, 34, 5, 5, 'F');
+    body(7, C.muted, 'bold'); doc.text(lab.toUpperCase(), x + 9, y + 11);
+    title(v, x + 9, y + 26, 12);
+    body(7, C.muted); doc.text(goal, x + cw - 9, y + 26, { align: 'right' });
+  });
+  y += 46;
+
+  // Los 7 d√≠as; ning√∫n d√≠a se parte entre p√°ginas
+  const mealW = 62, cellPad = { top: 2.4, bottom: 2.4, left: 6, right: 6 }, textW = W - 2 * M - mealW - 2 * cellPad.left - 2;
+  days.forEach(d => {
+    const rows = MEALS.map(m => [m.name, d.meals[m.key].length ? d.meals[m.key].join('  ¬∑  ') : '‚Äî']);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    const h = 20 + rows.reduce((a, r) => a + cellPad.top + cellPad.bottom + doc.splitTextToSize(r[1], textW).length * 9.4, 0);
+    if (y + h > BOTTOM) { newPage(); y = 40; }
+    doc.autoTable({
+      startY: y, margin: { left: M, right: M, bottom: 50 }, theme: 'plain', pageBreak: 'avoid', rowPageBreak: 'avoid',
+      head: [[{ content: d.name, styles: { font: display, fontSize: 11, fontStyle: 'normal' } },
+        { content: `${nf(d.k)} calor√≠as ¬∑ P ${nf(d.p)} g ¬∑ G ${nf(d.f)} g ¬∑ C ${nf(d.c)} g`, styles: { halign: 'right', fontSize: 7.5, textColor: C.muted, valign: 'bottom' } }]],
+      body: rows,
+      headStyles: { fillColor: [255, 255, 255], textColor: C.ink, cellPadding: { top: 3, bottom: 3, left: 0, right: 0 }, lineColor: C.gold, lineWidth: { bottom: 1 } },
+      styles: { font: 'helvetica', fontSize: 8, cellPadding: cellPad, textColor: C.ink, valign: 'top', lineColor: C.line, lineWidth: { bottom: 0.4 }, fillColor: [255, 255, 255] },
+      alternateRowStyles: { fillColor: C.rowAlt },
+      columnStyles: { 0: { fontStyle: 'bold', textColor: C.goldInk, cellWidth: mealW, fontSize: 7.4 } },
+    });
+    y = doc.lastAutoTable.finalY + 8;
+  });
+
+  // Lo que usas de tu casa, en tres columnas
+  const list = Object.entries(uses).sort((a, b) => b[1] - a[1]).map(([name, n]) => [name, ITEMS.find(i => i.name === name).uso(n)]);
+  const per = Math.ceil(list.length / 3);
+  if (y + 34 + per * 15 > BOTTOM) { newPage(); y = 44; }
+  title('Lo que usas de tu casa esta semana', M, y + 12, 15);
+  body(7.5, C.muted); doc.text('Revisa si te alcanza. Cantidades aproximadas.', W - M, y + 12, { align: 'right' });
+  doc.setDrawColor(...C.gold); doc.setLineWidth(1); doc.line(M, y + 19, W - M, y + 19);
+  const lgap = 12, lw = (W - 2 * M - 2 * lgap) / 3;
+  [0, 1, 2].forEach(c => doc.autoTable({
+    startY: y + 24, margin: { left: M + c * (lw + lgap), right: 0, bottom: 58 }, tableWidth: lw, theme: 'plain',
+    body: list.slice(c * per, (c + 1) * per),
+    styles: { fontSize: 8, cellPadding: { top: 2.6, bottom: 2.6, left: 5, right: 5 }, textColor: C.ink, lineColor: C.line, lineWidth: { bottom: 0.4 }, fillColor: [255, 255, 255] },
+    columnStyles: { 1: { halign: 'right', cellWidth: 82, textColor: C.muted } },
+    alternateRowStyles: { fillColor: C.rowAlt },
+  }));
+
+  // Pie en cada p√°gina
+  const pages = doc.getNumberOfPages();
+  for (let i = 1; i <= pages; i++) {
+    doc.setPage(i); body(7, C.muted);
+    doc.text('Proyecto educativo ¬∑ valores aproximados, no reemplaza a un profesional de la salud ¬∑ rasmorell.github.io', M, H - 26);
+    doc.text(`${i} / ${pages}`, W - M, H - 26, { align: 'right' });
+  }
+  return doc;
+}
+</script>
+<script>
+// ---------- D√≠a y noche, como en el sitio ----------
+const SUN = '<circle r="5" fill="#e3a72f"/><g stroke="#e3a72f" stroke-width="2" stroke-linecap="round"><path d="M0-9v-2M0 9v2M-9 0h-2M9 0h2M-6.4-6.4l-1.4-1.4M6.4 6.4l1.4 1.4M-6.4 6.4l-1.4 1.4M6.4-6.4l1.4-1.4"/></g>';
+const MOON = '<path d="M4 -8 A9 9 0 1 0 8 5 A7 7 0 0 1 4 -8Z" fill="#c98a1c"/>';
+function paintSky() {
+  const day = document.documentElement.dataset.theme === 'light', b = document.getElementById('skyBtn');
+  b.querySelector('svg').innerHTML = day ? MOON : SUN;
+  b.setAttribute('aria-label', day ? 'Cambiar a modo noche' : 'Cambiar a modo d√≠a');
+}
+function toggleSky() {
+  const day = document.documentElement.dataset.theme !== 'light';
+  const swap = () => { document.documentElement.dataset.theme = day ? 'light' : 'dark'; paintSky(); paintVine(); };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !document.startViewTransition) swap();
+  else {
+    document.documentElement.dataset.dir = day ? 'to-day' : 'to-night';
+    const vt = document.startViewTransition(swap); vt.ready.catch(() => {}); vt.finished.catch(() => {});
+  }
+  try { localStorage.setItem('ds.theme', day ? 'day' : 'night'); } catch (e) {}
+}
+document.getElementById('privacy').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
+// El pie se queda al final de la pantalla aunque la p√°gina sea corta (con al menos 96 px de aire arriba)
+(() => {
+  const cv = document.querySelector('.foot-row'); if (!cv) return;
+  let raf = 0;
+  const place = () => { raf = 0; cv.style.setProperty('margin-top', '96px', 'important'); const b = document.body, free = Math.floor(innerHeight - (b.getBoundingClientRect().bottom + scrollY) - parseFloat(getComputedStyle(b).marginBottom)); if (free > 0) cv.style.setProperty('margin-top', (96 + free) + 'px', 'important'); };
+  const ask = () => { if (!raf) raf = requestAnimationFrame(place); };
+  new ResizeObserver(ask).observe(document.body); addEventListener('resize', ask); ask();
+})();
+// ---------- La liana del sitio: crece con los pasos (1 de 4 ‚Ä¶ 4 de 4), una hoja por paso hecho ----------
+(() => {
+  const cv = document.getElementById('mastVine'), g = cv.getContext('2d');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let shown = 0, from = 0, target = 0, t0 = 0, raf = 0;
+  const y = x => 7 + 2.2 * Math.sin(x / 46);
+  function leaf(x, yy, ang, s, col) {   // la hoja del logo: dos curvas que se encuentran en punta
+    if (s < 0.5) return;
+    g.save(); g.translate(x, yy); g.rotate(ang); g.translate(s, 0);
+    g.beginPath(); g.moveTo(-s, 0); g.quadraticCurveTo(0, -s * 0.6, s, 0); g.quadraticCurveTo(0, s * 0.6, -s, 0);
+    g.fillStyle = col; g.fill(); g.restore();
+  }
+  function draw(p) {
+    const W = cv.clientWidth, H = 16, dpr = Math.min(2, devicePixelRatio || 1);
+    if (cv.width !== Math.round(W * dpr)) { cv.width = Math.round(W * dpr); cv.height = H * dpr; }
+    g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+    const end = p * W; if (end < 2) return;
+    const day = document.documentElement.dataset.theme === 'light';
+    const leaves = day ? ['#58822f', '#4a7528', '#365f1e'] : ['#a4cb63', '#95c055', '#78a842'];
+    g.strokeStyle = day ? '#4f7a2a' : '#9cc65a'; g.lineWidth = 2.5; g.lineCap = 'round';
+    g.beginPath(); g.moveTo(0, y(0)); for (let x = 4; x <= end; x += 4) g.lineTo(x, y(x)); g.stroke();
+    for (let k = 1; k < 4; k++) {
+      const x = k / 4 * W; if (x > end) break;
+      const up = k % 2 ? -1 : 1; leaf(x, y(x), up * 0.9 - 0.2, 12 * Math.min(1, (end - x) / 24), leaves[k % 3]);
+    }
+    g.beginPath(); g.arc(end, y(end), 3.2, 0, 7); g.fillStyle = day ? '#c98a1c' : '#e3a72f'; g.fill();   // la punta: una semilla
+  }
+  function frame(now) {
+    const u = still ? 1 : Math.min(1, (now - t0) / 700), e = 1 - Math.pow(1 - u, 3);
+    shown = from + (target - from) * e; draw(shown);
+    raf = u < 1 ? requestAnimationFrame(frame) : 0;
+  }
+  window.paintVine = () => {
+    const p = step / 4, lab = document.querySelector(`#stepper button[data-go="${step}"] .label`);
+    const done = step === 4 && lastWeek;
+    const txt = `Paso ${step} de 4 ¬∑ ` + (done ? 'Listo' : lab ? lab.textContent : '');
+    const st = document.getElementById('stepStatus'); if (st.textContent !== txt) st.textContent = txt;
+    if (p !== target) { from = shown; target = p; t0 = performance.now(); if (!raf) raf = requestAnimationFrame(frame); }
+    else draw(shown);
+  };
+  addEventListener('resize', () => draw(shown));
+})();
+paintSky();
+paintVine();
+</script>
+</body>
+</html>
