@@ -122,7 +122,21 @@
   /* Paso 1: resultado de la calculadora */
   .calc-out { margin-top: 16px; background: var(--soft); border-radius: 10px; padding: 14px 16px; }
   .kcal-line { font-size: 15px; margin: 0 0 2px; }
-  .kcal-sub { font-size: 12.5px; color: var(--muted); margin: 0 0 12px; }
+  .kcal-sub { font-size: 12.5px; color: var(--muted); margin: 0 0 20px; }
+  /* Lo que gastas, en una línea: en reposo → en promedio → lo que comes. Cada punto con su cifra arriba y su nombre abajo;
+     entre punto y punto, lo que se suma o se resta. */
+  .gasto { margin: 28px 0 24px; }   /* aire entre la meta, la línea, la frase y la proteína */
+  .gasto .gs-nums, .gasto .gs-names { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; }
+  .gasto .gs-num { font-family: Gloock, Georgia, serif; font-size: clamp(21px, 5.6vw, 28px); line-height: 1.1; }
+  .gasto .gs-name { font-size: 12.5px; color: var(--muted); line-height: 1.3; padding: 0 4px; }
+  .gasto .gs-line { position: relative; height: 46px; }
+  .gasto .gs-line::before { content: ''; position: absolute; left: 16.67%; right: 16.67%; bottom: 10px; height: 2px; background: var(--border); }
+  .gasto .gs-dot { position: absolute; bottom: 11px; width: 12px; height: 12px; margin: 0 0 -6px -6px; border-radius: 50%; background: var(--muted); }
+  .gasto .gs-step { position: absolute; top: 2px; transform: translateX(-50%); max-width: 32%; font-size: 12px; line-height: 1.2; color: var(--muted); text-align: center; }   /* encima de la línea, sin tapar los puntos */
+  .gasto .gs-goal { color: var(--gold-ink); }
+  .gasto .gs-name.gs-goal { font-weight: 600; }
+  .gasto .gs-dot.gs-goal { width: 14px; height: 14px; margin: 0 0 -7px -7px; background: var(--gold); }
+  .gasto .gs-foot { font-size: 13.5px; margin: 24px 0 0; }
   .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .tile { background: var(--card); border-radius: 8px; padding: 10px 12px; border-top: 3px solid; }
   .tile.p { border-color: var(--prot); } .tile.f { border-color: var(--fat); } .tile.c { border-color: var(--carb); }
@@ -201,6 +215,23 @@
   .session-bar { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font-size: 13px; background: var(--soft); border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; }
   .session-bar button { background: none; border: none; color: var(--accent); text-decoration: underline; font-size: 13px; padding: 0; }
   .meals li:last-child { border-bottom: none; }
+  /* Comida por elegir: quitaste algo y la persona decide el reemplazo (nada cambia sin que elija) */
+  .meals li.pending { display: block; margin: 4px -12px; padding: 10px 12px 12px; background: var(--gold-soft); border-bottom: none; border-radius: 8px; }
+  .pending .p-q { margin: 0 0 8px; font-size: 13.5px; }
+  .pending .p-q b { color: var(--gold-ink); }
+  .pending .p-opts { display: grid; gap: 6px; }
+  .pending .opt { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; width: 100%; text-align: left; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font: inherit; font-size: 13.5px; cursor: pointer; }
+  .pending .opt:hover { border-color: var(--gold); }
+  .pending .opt .o-amt { color: var(--muted); font-size: 12.5px; text-align: right; }
+  .pending .opt .o-day { grid-column: 1 / -1; color: var(--muted); font-size: 12px; }
+  .pending .opt .o-day.bad { color: var(--warn); }
+  .pend-bar { margin: 12px 0; padding: 12px 14px; border-radius: 10px; background: var(--gold-soft); color: var(--text); font-size: 14px; }
+  .pend-bar b { color: var(--gold-ink); }
+  .pend-bar button { margin-left: 6px; }
+  .day-flag.pend { color: var(--gold-ink); font-weight: 600; }
+  .pend-done { margin: 12px 0; }
+  .pend-block { padding: 12px 14px; border: 1px dashed var(--gold); border-radius: 10px; font-size: 13.5px; color: var(--muted); }
+  #pdfBtnMain[aria-disabled="true"] { opacity: .45; }
   .meals .slot { color: var(--faint); font-size: 12px; padding-top: 1px; }
   .meals .food small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.35; margin-top: 1px; }
   .meals .amt { color: var(--muted); font-size: 12.5px; white-space: nowrap; text-align: right; }
@@ -467,7 +498,7 @@
   .grid3, .grid2 { margin-bottom: 18px; gap: 16px; }
   label.field { margin-bottom: 7px; }
   .calc-out { margin-top: 24px; padding: 18px 20px; }
-  .kcal-sub { margin-bottom: 16px; }
+  .kcal-sub { margin-bottom: 24px; }
   details.more { margin-top: 20px; padding-top: 16px; }
   details.more[open] > summary { margin-bottom: 16px; }
   .food-toolbar { margin-bottom: 14px; }
@@ -881,6 +912,12 @@
   .talk .btn { padding: 12px 22px; font-size: 15px; }
   @media (max-width: 640px) { .talk { padding: 22px 18px; } .talk .btn { display: block; text-align: center; padding: 12px 12px; font-size: 14.5px; white-space: nowrap; } }
   .footer-note.credit { margin-top: 8px; }
+  /* El aviso de proyecto educativo: la última parte de la página, no el pie (el pie dice quién lo hizo) */
+  .edu-note { max-width: 30em; margin: 72px auto 0; text-align: center; color: var(--frame-muted); font-size: 14px; line-height: 1.55; }
+  .edu-note p { margin: 0; }
+  .edu-seeds { display: flex; justify-content: center; gap: 12px; margin-bottom: 14px; }
+  .edu-seeds i { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+  .edu-note .edu-title { font-family: Gloock, Georgia, serif; font-size: 20px; line-height: 1.2; color: var(--frame-text); margin-bottom: 6px; }
   /* el pie: la nota arriba; abajo, separada por una línea, la marca a la izquierda y Privacidad a la derecha */
   .foot-row { display: flex; justify-content: space-between; align-items: center; gap: 4px 16px; margin-top: 96px !important; padding-top: 14px; border-top: 1px solid var(--frame-line); }
   @media (max-width: 640px) { .foot-row { flex-direction: column; } }
@@ -909,6 +946,7 @@
   .choose-foot { margin: 48px 0 0; }
   /* privacidad: un enlace en el pie y una ventana corta */
   .privacy-link { padding: 12px 2px; margin: -12px 0; font-size: inherit; color: inherit; }
+  .footer-note.credit .privacy-link { font-size: inherit; padding: 12px 0; }
   dialog.privacy { width: min(34em, calc(100% - 32px)); border: 0; border-radius: 22px; padding: 26px 24px 18px; background: var(--card); color: var(--text); box-shadow: 0 18px 40px rgba(13, 20, 34, .28); }
   dialog.privacy::backdrop { background: rgba(13, 20, 34, .5); }
   dialog.privacy h2 { font: 400 26px/1.1 Gloock, Georgia, serif; margin: 0 0 12px; }
@@ -925,6 +963,8 @@
   .short-note p { margin: 0 0 10px; }
   .day-pick button.bad { position: relative; }
   .day-pick button.bad::after { content: ""; position: absolute; top: 6px; right: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--warn); }
+  .day-pick button.pend { position: relative; }
+  .day-pick button.pend::after { content: ""; position: absolute; top: 6px; right: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }   /* falta elegir: dorado, no rojo */
   .cmp-bar { height: 6px; border-radius: 999px; background: var(--soft); overflow: hidden; margin: 4px 0 8px; }
   .cmp-bar i { display: block; height: 100%; background: var(--btn-gold); border-radius: inherit; transition: width .4s ease-out; }
   .day-pick { display: none; }
@@ -1005,7 +1045,7 @@
 <header class="mast">
   <canvas class="mast-vine" id="mastVine" aria-hidden="true"></canvas>
   <span class="step-tag" id="stepStatus" role="status" data-no-i18n></span>
-  <a class="mast-brand" href="https://designingspring.substack.com/" target="_blank" rel="noopener"><svg class="logo-night" width="26" height="26" viewBox="-160 -160 320 320" aria-hidden="true"><path transform="translate(-16.1 14.8) rotate(192.5)" d="M-13.03 0 Q 0 -13.03 13.03 0 Q 0 13.03 -13.03 0 Z" fill="#c4de88"/><path transform="translate(2.7 -30.8) rotate(330.0)" d="M-13.77 0 Q 0 -13.77 13.77 0 Q 0 13.77 -13.77 0 Z" fill="#b4d575"/><path transform="translate(23.0 30.1) rotate(467.5)" d="M-14.33 0 Q 0 -14.33 14.33 0 Q 0 14.33 -14.33 0 Z" fill="#a4cb63"/><path transform="translate(-43.1 -7.6) rotate(605.0)" d="M-14.81 0 Q 0 -14.81 14.81 0 Q 0 14.81 -14.81 0 Z" fill="#95c055"/><path transform="translate(41.3 -26.2) rotate(742.5)" d="M-15.23 0 Q 0 -15.23 15.23 0 Q 0 15.23 -15.23 0 Z" fill="#87b44b"/><path transform="translate(-13.9 51.7) rotate(880.0)" d="M-15.61 0 Q 0 -15.61 15.61 0 Q 0 15.61 -15.61 0 Z" fill="#78a842"/><path transform="translate(-26.7 -51.3) rotate(1017.6)" d="M-15.96 0 Q 0 -15.96 15.96 0 Q 0 15.96 -15.96 0 Z" fill="#6a9c38"/><path transform="translate(58.1 21.2) rotate(1155.1)" d="M-16.28 0 Q 0 -16.28 16.28 0 Q 0 16.28 -16.28 0 Z" fill="#d4e89a"/><path transform="translate(-60.6 25.0) rotate(1292.6)" d="M-16.59 0 Q 0 -16.59 16.59 0 Q 0 16.59 -16.59 0 Z" fill="#c4de88"/><path transform="translate(29.3 -62.6) rotate(1430.1)" d="M-16.88 0 Q 0 -16.88 16.88 0 Q 0 16.88 -16.88 0 Z" fill="#b4d575"/><path transform="translate(21.7 69.2) rotate(1567.6)" d="M-17.15 0 Q 0 -17.15 17.15 0 Q 0 17.15 -17.15 0 Z" fill="#a4cb63"/><path transform="translate(-65.5 -38.0) rotate(1705.1)" d="M-17.41 0 Q 0 -17.41 17.41 0 Q 0 17.41 -17.41 0 Z" fill="#95c055"/><path transform="translate(77.0 -16.9) rotate(1842.6)" d="M-17.66 0 Q 0 -17.66 17.66 0 Q 0 17.66 -17.66 0 Z" fill="#87b44b"/><path transform="translate(-47.1 66.9) rotate(1980.1)" d="M-17.91 0 Q 0 -17.91 17.91 0 Q 0 17.91 -17.91 0 Z" fill="#78a842"/><path transform="translate(-10.9 -84.0) rotate(2117.6)" d="M-18.14 0 Q 0 -18.14 18.14 0 Q 0 18.14 -18.14 0 Z" fill="#6a9c38"/><path transform="translate(66.9 56.4) rotate(2255.1)" d="M-18.37 0 Q 0 -18.37 18.37 0 Q 0 18.37 -18.37 0 Z" fill="#d4e89a"/><path transform="translate(-90.1 3.7) rotate(2392.6)" d="M-18.58 0 Q 0 -18.58 18.58 0 Q 0 18.58 -18.58 0 Z" fill="#c4de88"/><path transform="translate(65.8 -65.4) rotate(2530.1)" d="M-18.80 0 Q 0 -18.80 18.80 0 Q 0 18.80 -18.80 0 Z" fill="#b4d575"/><path transform="translate(-4.4 95.2) rotate(2667.6)" d="M-19.00 0 Q 0 -19.00 19.00 0 Q 0 19.00 -19.00 0 Z" fill="#a4cb63"/><path transform="translate(-62.6 -75.1) rotate(2805.2)" d="M-19.20 0 Q 0 -19.20 19.20 0 Q 0 19.20 -19.20 0 Z" fill="#95c055"/><path transform="translate(99.3 13.4) rotate(2942.7)" d="M-19.40 0 Q 0 -19.40 19.40 0 Q 0 19.40 -19.40 0 Z" fill="#87b44b"/><path transform="translate(-84.2 58.6) rotate(3080.2)" d="M-19.59 0 Q 0 -19.59 19.59 0 Q 0 19.59 -19.59 0 Z" fill="#78a842"/><path transform="translate(23.0 -102.3) rotate(3217.7)" d="M-19.78 0 Q 0 -19.78 19.78 0 Q 0 19.78 -19.78 0 Z" fill="#6a9c38"/><path transform="translate(53.3 92.9) rotate(3355.2)" d="M-19.96 0 Q 0 -19.96 19.96 0 Q 0 19.96 -19.96 0 Z" fill="#d4e89a"/><circle cx="-104.1" cy="-33.2" r="14.10" fill="#e3a72f"/><circle cx="101.2" cy="-46.8" r="14.22" fill="#e3a72f"/><circle cx="-43.9" cy="104.8" r="14.34" fill="#e3a72f"/><circle cx="-39.2" cy="-108.9" r="14.46" fill="#e3a72f"/><circle cx="104.2" cy="54.8" r="14.58" fill="#e3a72f"/><circle cx="-115.8" cy="30.5" r="14.69" fill="#e3a72f"/><circle cx="65.8" cy="-102.4" r="14.81" fill="#e3a72f"/><circle cx="20.9" cy="121.9" r="14.92" fill="#e3a72f"/><circle cx="-99.3" cy="-76.9" r="15.03" fill="#e3a72f"/><circle cx="127.1" cy="-10.5" r="15.14" fill="#e3a72f"/><circle cx="-87.8" cy="95.0" r="15.24" fill="#e3a72f"/><circle cx="0.6" cy="-131.2" r="15.35" fill="#e3a72f"/><circle cx="89.4" cy="98.5" r="15.45" fill="#e3a72f"/><circle cx="-134.2" cy="-12.4" r="15.55" fill="#e3a72f"/><circle cx="108.8" cy="-82.5" r="15.65" fill="#e3a72f"/><circle cx="-24.7" cy="136.0" r="15.75" fill="#e3a72f"/></svg><svg class="logo-day" width="26" height="26" viewBox="-160 -160 320 320" aria-hidden="true"><path transform="translate(-16.1 14.8) rotate(192.5)" d="M-13.03 0 Q 0 -13.03 13.03 0 Q 0 13.03 -13.03 0 Z" fill="#7aa442"/><path transform="translate(2.7 -30.8) rotate(330.0)" d="M-13.77 0 Q 0 -13.77 13.77 0 Q 0 13.77 -13.77 0 Z" fill="#699339"/><path transform="translate(23.0 30.1) rotate(467.5)" d="M-14.33 0 Q 0 -14.33 14.33 0 Q 0 14.33 -14.33 0 Z" fill="#58822f"/><path transform="translate(-43.1 -7.6) rotate(605.0)" d="M-14.81 0 Q 0 -14.81 14.81 0 Q 0 14.81 -14.81 0 Z" fill="#4a7528"/><path transform="translate(41.3 -26.2) rotate(742.5)" d="M-15.23 0 Q 0 -15.23 15.23 0 Q 0 15.23 -15.23 0 Z" fill="#406a23"/><path transform="translate(-13.9 51.7) rotate(880.0)" d="M-15.61 0 Q 0 -15.61 15.61 0 Q 0 15.61 -15.61 0 Z" fill="#365f1e"/><path transform="translate(-26.7 -51.3) rotate(1017.6)" d="M-15.96 0 Q 0 -15.96 15.96 0 Q 0 15.96 -15.96 0 Z" fill="#2c5419"/><path transform="translate(58.1 21.2) rotate(1155.1)" d="M-16.28 0 Q 0 -16.28 16.28 0 Q 0 16.28 -16.28 0 Z" fill="#8bb54c"/><path transform="translate(-60.6 25.0) rotate(1292.6)" d="M-16.59 0 Q 0 -16.59 16.59 0 Q 0 16.59 -16.59 0 Z" fill="#7aa442"/><path transform="translate(29.3 -62.6) rotate(1430.1)" d="M-16.88 0 Q 0 -16.88 16.88 0 Q 0 16.88 -16.88 0 Z" fill="#699339"/><path transform="translate(21.7 69.2) rotate(1567.6)" d="M-17.15 0 Q 0 -17.15 17.15 0 Q 0 17.15 -17.15 0 Z" fill="#58822f"/><path transform="translate(-65.5 -38.0) rotate(1705.1)" d="M-17.41 0 Q 0 -17.41 17.41 0 Q 0 17.41 -17.41 0 Z" fill="#4a7528"/><path transform="translate(77.0 -16.9) rotate(1842.6)" d="M-17.66 0 Q 0 -17.66 17.66 0 Q 0 17.66 -17.66 0 Z" fill="#406a23"/><path transform="translate(-47.1 66.9) rotate(1980.1)" d="M-17.91 0 Q 0 -17.91 17.91 0 Q 0 17.91 -17.91 0 Z" fill="#365f1e"/><path transform="translate(-10.9 -84.0) rotate(2117.6)" d="M-18.14 0 Q 0 -18.14 18.14 0 Q 0 18.14 -18.14 0 Z" fill="#2c5419"/><path transform="translate(66.9 56.4) rotate(2255.1)" d="M-18.37 0 Q 0 -18.37 18.37 0 Q 0 18.37 -18.37 0 Z" fill="#8bb54c"/><path transform="translate(-90.1 3.7) rotate(2392.6)" d="M-18.58 0 Q 0 -18.58 18.58 0 Q 0 18.58 -18.58 0 Z" fill="#7aa442"/><path transform="translate(65.8 -65.4) rotate(2530.1)" d="M-18.80 0 Q 0 -18.80 18.80 0 Q 0 18.80 -18.80 0 Z" fill="#699339"/><path transform="translate(-4.4 95.2) rotate(2667.6)" d="M-19.00 0 Q 0 -19.00 19.00 0 Q 0 19.00 -19.00 0 Z" fill="#58822f"/><path transform="translate(-62.6 -75.1) rotate(2805.2)" d="M-19.20 0 Q 0 -19.20 19.20 0 Q 0 19.20 -19.20 0 Z" fill="#4a7528"/><path transform="translate(99.3 13.4) rotate(2942.7)" d="M-19.40 0 Q 0 -19.40 19.40 0 Q 0 19.40 -19.40 0 Z" fill="#406a23"/><path transform="translate(-84.2 58.6) rotate(3080.2)" d="M-19.59 0 Q 0 -19.59 19.59 0 Q 0 19.59 -19.59 0 Z" fill="#365f1e"/><path transform="translate(23.0 -102.3) rotate(3217.7)" d="M-19.78 0 Q 0 -19.78 19.78 0 Q 0 19.78 -19.78 0 Z" fill="#2c5419"/><path transform="translate(53.3 92.9) rotate(3355.2)" d="M-19.96 0 Q 0 -19.96 19.96 0 Q 0 19.96 -19.96 0 Z" fill="#8bb54c"/><circle cx="-104.1" cy="-33.2" r="14.10" fill="#c98a1c"/><circle cx="101.2" cy="-46.8" r="14.22" fill="#c98a1c"/><circle cx="-43.9" cy="104.8" r="14.34" fill="#c98a1c"/><circle cx="-39.2" cy="-108.9" r="14.46" fill="#c98a1c"/><circle cx="104.2" cy="54.8" r="14.58" fill="#c98a1c"/><circle cx="-115.8" cy="30.5" r="14.69" fill="#c98a1c"/><circle cx="65.8" cy="-102.4" r="14.81" fill="#c98a1c"/><circle cx="20.9" cy="121.9" r="14.92" fill="#c98a1c"/><circle cx="-99.3" cy="-76.9" r="15.03" fill="#c98a1c"/><circle cx="127.1" cy="-10.5" r="15.14" fill="#c98a1c"/><circle cx="-87.8" cy="95.0" r="15.24" fill="#c98a1c"/><circle cx="0.6" cy="-131.2" r="15.35" fill="#c98a1c"/><circle cx="89.4" cy="98.5" r="15.45" fill="#c98a1c"/><circle cx="-134.2" cy="-12.4" r="15.55" fill="#c98a1c"/><circle cx="108.8" cy="-82.5" r="15.65" fill="#c98a1c"/><circle cx="-24.7" cy="136.0" r="15.75" fill="#c98a1c"/></svg>Designing Spring</a>
+  <a class="mast-brand" href="./" aria-label="Designing Spring, volver al inicio"><svg class="logo-night" width="26" height="26" viewBox="-160 -160 320 320" aria-hidden="true"><path transform="translate(-16.1 14.8) rotate(192.5)" d="M-13.03 0 Q 0 -13.03 13.03 0 Q 0 13.03 -13.03 0 Z" fill="#c4de88"/><path transform="translate(2.7 -30.8) rotate(330.0)" d="M-13.77 0 Q 0 -13.77 13.77 0 Q 0 13.77 -13.77 0 Z" fill="#b4d575"/><path transform="translate(23.0 30.1) rotate(467.5)" d="M-14.33 0 Q 0 -14.33 14.33 0 Q 0 14.33 -14.33 0 Z" fill="#a4cb63"/><path transform="translate(-43.1 -7.6) rotate(605.0)" d="M-14.81 0 Q 0 -14.81 14.81 0 Q 0 14.81 -14.81 0 Z" fill="#95c055"/><path transform="translate(41.3 -26.2) rotate(742.5)" d="M-15.23 0 Q 0 -15.23 15.23 0 Q 0 15.23 -15.23 0 Z" fill="#87b44b"/><path transform="translate(-13.9 51.7) rotate(880.0)" d="M-15.61 0 Q 0 -15.61 15.61 0 Q 0 15.61 -15.61 0 Z" fill="#78a842"/><path transform="translate(-26.7 -51.3) rotate(1017.6)" d="M-15.96 0 Q 0 -15.96 15.96 0 Q 0 15.96 -15.96 0 Z" fill="#6a9c38"/><path transform="translate(58.1 21.2) rotate(1155.1)" d="M-16.28 0 Q 0 -16.28 16.28 0 Q 0 16.28 -16.28 0 Z" fill="#d4e89a"/><path transform="translate(-60.6 25.0) rotate(1292.6)" d="M-16.59 0 Q 0 -16.59 16.59 0 Q 0 16.59 -16.59 0 Z" fill="#c4de88"/><path transform="translate(29.3 -62.6) rotate(1430.1)" d="M-16.88 0 Q 0 -16.88 16.88 0 Q 0 16.88 -16.88 0 Z" fill="#b4d575"/><path transform="translate(21.7 69.2) rotate(1567.6)" d="M-17.15 0 Q 0 -17.15 17.15 0 Q 0 17.15 -17.15 0 Z" fill="#a4cb63"/><path transform="translate(-65.5 -38.0) rotate(1705.1)" d="M-17.41 0 Q 0 -17.41 17.41 0 Q 0 17.41 -17.41 0 Z" fill="#95c055"/><path transform="translate(77.0 -16.9) rotate(1842.6)" d="M-17.66 0 Q 0 -17.66 17.66 0 Q 0 17.66 -17.66 0 Z" fill="#87b44b"/><path transform="translate(-47.1 66.9) rotate(1980.1)" d="M-17.91 0 Q 0 -17.91 17.91 0 Q 0 17.91 -17.91 0 Z" fill="#78a842"/><path transform="translate(-10.9 -84.0) rotate(2117.6)" d="M-18.14 0 Q 0 -18.14 18.14 0 Q 0 18.14 -18.14 0 Z" fill="#6a9c38"/><path transform="translate(66.9 56.4) rotate(2255.1)" d="M-18.37 0 Q 0 -18.37 18.37 0 Q 0 18.37 -18.37 0 Z" fill="#d4e89a"/><path transform="translate(-90.1 3.7) rotate(2392.6)" d="M-18.58 0 Q 0 -18.58 18.58 0 Q 0 18.58 -18.58 0 Z" fill="#c4de88"/><path transform="translate(65.8 -65.4) rotate(2530.1)" d="M-18.80 0 Q 0 -18.80 18.80 0 Q 0 18.80 -18.80 0 Z" fill="#b4d575"/><path transform="translate(-4.4 95.2) rotate(2667.6)" d="M-19.00 0 Q 0 -19.00 19.00 0 Q 0 19.00 -19.00 0 Z" fill="#a4cb63"/><path transform="translate(-62.6 -75.1) rotate(2805.2)" d="M-19.20 0 Q 0 -19.20 19.20 0 Q 0 19.20 -19.20 0 Z" fill="#95c055"/><path transform="translate(99.3 13.4) rotate(2942.7)" d="M-19.40 0 Q 0 -19.40 19.40 0 Q 0 19.40 -19.40 0 Z" fill="#87b44b"/><path transform="translate(-84.2 58.6) rotate(3080.2)" d="M-19.59 0 Q 0 -19.59 19.59 0 Q 0 19.59 -19.59 0 Z" fill="#78a842"/><path transform="translate(23.0 -102.3) rotate(3217.7)" d="M-19.78 0 Q 0 -19.78 19.78 0 Q 0 19.78 -19.78 0 Z" fill="#6a9c38"/><path transform="translate(53.3 92.9) rotate(3355.2)" d="M-19.96 0 Q 0 -19.96 19.96 0 Q 0 19.96 -19.96 0 Z" fill="#d4e89a"/><circle cx="-104.1" cy="-33.2" r="14.10" fill="#e3a72f"/><circle cx="101.2" cy="-46.8" r="14.22" fill="#e3a72f"/><circle cx="-43.9" cy="104.8" r="14.34" fill="#e3a72f"/><circle cx="-39.2" cy="-108.9" r="14.46" fill="#e3a72f"/><circle cx="104.2" cy="54.8" r="14.58" fill="#e3a72f"/><circle cx="-115.8" cy="30.5" r="14.69" fill="#e3a72f"/><circle cx="65.8" cy="-102.4" r="14.81" fill="#e3a72f"/><circle cx="20.9" cy="121.9" r="14.92" fill="#e3a72f"/><circle cx="-99.3" cy="-76.9" r="15.03" fill="#e3a72f"/><circle cx="127.1" cy="-10.5" r="15.14" fill="#e3a72f"/><circle cx="-87.8" cy="95.0" r="15.24" fill="#e3a72f"/><circle cx="0.6" cy="-131.2" r="15.35" fill="#e3a72f"/><circle cx="89.4" cy="98.5" r="15.45" fill="#e3a72f"/><circle cx="-134.2" cy="-12.4" r="15.55" fill="#e3a72f"/><circle cx="108.8" cy="-82.5" r="15.65" fill="#e3a72f"/><circle cx="-24.7" cy="136.0" r="15.75" fill="#e3a72f"/></svg><svg class="logo-day" width="26" height="26" viewBox="-160 -160 320 320" aria-hidden="true"><path transform="translate(-16.1 14.8) rotate(192.5)" d="M-13.03 0 Q 0 -13.03 13.03 0 Q 0 13.03 -13.03 0 Z" fill="#7aa442"/><path transform="translate(2.7 -30.8) rotate(330.0)" d="M-13.77 0 Q 0 -13.77 13.77 0 Q 0 13.77 -13.77 0 Z" fill="#699339"/><path transform="translate(23.0 30.1) rotate(467.5)" d="M-14.33 0 Q 0 -14.33 14.33 0 Q 0 14.33 -14.33 0 Z" fill="#58822f"/><path transform="translate(-43.1 -7.6) rotate(605.0)" d="M-14.81 0 Q 0 -14.81 14.81 0 Q 0 14.81 -14.81 0 Z" fill="#4a7528"/><path transform="translate(41.3 -26.2) rotate(742.5)" d="M-15.23 0 Q 0 -15.23 15.23 0 Q 0 15.23 -15.23 0 Z" fill="#406a23"/><path transform="translate(-13.9 51.7) rotate(880.0)" d="M-15.61 0 Q 0 -15.61 15.61 0 Q 0 15.61 -15.61 0 Z" fill="#365f1e"/><path transform="translate(-26.7 -51.3) rotate(1017.6)" d="M-15.96 0 Q 0 -15.96 15.96 0 Q 0 15.96 -15.96 0 Z" fill="#2c5419"/><path transform="translate(58.1 21.2) rotate(1155.1)" d="M-16.28 0 Q 0 -16.28 16.28 0 Q 0 16.28 -16.28 0 Z" fill="#8bb54c"/><path transform="translate(-60.6 25.0) rotate(1292.6)" d="M-16.59 0 Q 0 -16.59 16.59 0 Q 0 16.59 -16.59 0 Z" fill="#7aa442"/><path transform="translate(29.3 -62.6) rotate(1430.1)" d="M-16.88 0 Q 0 -16.88 16.88 0 Q 0 16.88 -16.88 0 Z" fill="#699339"/><path transform="translate(21.7 69.2) rotate(1567.6)" d="M-17.15 0 Q 0 -17.15 17.15 0 Q 0 17.15 -17.15 0 Z" fill="#58822f"/><path transform="translate(-65.5 -38.0) rotate(1705.1)" d="M-17.41 0 Q 0 -17.41 17.41 0 Q 0 17.41 -17.41 0 Z" fill="#4a7528"/><path transform="translate(77.0 -16.9) rotate(1842.6)" d="M-17.66 0 Q 0 -17.66 17.66 0 Q 0 17.66 -17.66 0 Z" fill="#406a23"/><path transform="translate(-47.1 66.9) rotate(1980.1)" d="M-17.91 0 Q 0 -17.91 17.91 0 Q 0 17.91 -17.91 0 Z" fill="#365f1e"/><path transform="translate(-10.9 -84.0) rotate(2117.6)" d="M-18.14 0 Q 0 -18.14 18.14 0 Q 0 18.14 -18.14 0 Z" fill="#2c5419"/><path transform="translate(66.9 56.4) rotate(2255.1)" d="M-18.37 0 Q 0 -18.37 18.37 0 Q 0 18.37 -18.37 0 Z" fill="#8bb54c"/><path transform="translate(-90.1 3.7) rotate(2392.6)" d="M-18.58 0 Q 0 -18.58 18.58 0 Q 0 18.58 -18.58 0 Z" fill="#7aa442"/><path transform="translate(65.8 -65.4) rotate(2530.1)" d="M-18.80 0 Q 0 -18.80 18.80 0 Q 0 18.80 -18.80 0 Z" fill="#699339"/><path transform="translate(-4.4 95.2) rotate(2667.6)" d="M-19.00 0 Q 0 -19.00 19.00 0 Q 0 19.00 -19.00 0 Z" fill="#58822f"/><path transform="translate(-62.6 -75.1) rotate(2805.2)" d="M-19.20 0 Q 0 -19.20 19.20 0 Q 0 19.20 -19.20 0 Z" fill="#4a7528"/><path transform="translate(99.3 13.4) rotate(2942.7)" d="M-19.40 0 Q 0 -19.40 19.40 0 Q 0 19.40 -19.40 0 Z" fill="#406a23"/><path transform="translate(-84.2 58.6) rotate(3080.2)" d="M-19.59 0 Q 0 -19.59 19.59 0 Q 0 19.59 -19.59 0 Z" fill="#365f1e"/><path transform="translate(23.0 -102.3) rotate(3217.7)" d="M-19.78 0 Q 0 -19.78 19.78 0 Q 0 19.78 -19.78 0 Z" fill="#2c5419"/><path transform="translate(53.3 92.9) rotate(3355.2)" d="M-19.96 0 Q 0 -19.96 19.96 0 Q 0 19.96 -19.96 0 Z" fill="#8bb54c"/><circle cx="-104.1" cy="-33.2" r="14.10" fill="#c98a1c"/><circle cx="101.2" cy="-46.8" r="14.22" fill="#c98a1c"/><circle cx="-43.9" cy="104.8" r="14.34" fill="#c98a1c"/><circle cx="-39.2" cy="-108.9" r="14.46" fill="#c98a1c"/><circle cx="104.2" cy="54.8" r="14.58" fill="#c98a1c"/><circle cx="-115.8" cy="30.5" r="14.69" fill="#c98a1c"/><circle cx="65.8" cy="-102.4" r="14.81" fill="#c98a1c"/><circle cx="20.9" cy="121.9" r="14.92" fill="#c98a1c"/><circle cx="-99.3" cy="-76.9" r="15.03" fill="#c98a1c"/><circle cx="127.1" cy="-10.5" r="15.14" fill="#c98a1c"/><circle cx="-87.8" cy="95.0" r="15.24" fill="#c98a1c"/><circle cx="0.6" cy="-131.2" r="15.35" fill="#c98a1c"/><circle cx="89.4" cy="98.5" r="15.45" fill="#c98a1c"/><circle cx="-134.2" cy="-12.4" r="15.55" fill="#c98a1c"/><circle cx="108.8" cy="-82.5" r="15.65" fill="#c98a1c"/><circle cx="-24.7" cy="136.0" r="15.75" fill="#c98a1c"/></svg>Designing Spring</a>
   <button class="mast-btn" id="introBtn" onclick="startIntro()" aria-label="Ver la introducción"><span class="lg">Ver la introducción</span><span class="sh">Intro</span></button>
   <button class="mast-btn lang-btn" id="langBtn" onclick="toggleLang()" data-no-i18n lang="en" aria-label="Read in English"><span class="lg">English</span><span class="sh">EN</span></button>
   <button class="mast-btn sky-btn" id="skyBtn" onclick="toggleSky()" aria-label="Cambiar a modo día"><svg viewBox="-12 -12 24 24" width="18" height="18" aria-hidden="true"></svg></button>
@@ -1155,6 +1195,7 @@
 
   <div class="calc-out" id="calcResult" style="display:none;">
     <p class="kcal-line" id="calcKcal"></p>
+    <div class="gasto" id="calcKcalWhy"></div>
     <p class="kcal-sub" id="calcKcalSub"></p>
     <div class="tiles" id="calcTiles"></div>
     <ul class="notes" id="calcNotes"></ul>
@@ -1208,7 +1249,7 @@
     <ol style="font-size:13px; padding-left:18px; margin:10px 0;">
         <li><strong>Metabolismo basal</strong> (calorías en reposo): ecuación de Mifflin-St Jeor. <a href="https://pubmed.ncbi.nlm.nih.gov/2305711/" target="_blank" rel="noopener">Mifflin et al., 1990, Am J Clin Nutr</a></li>
         <li><strong>Gasto diario</strong>: metabolismo basal × factor de actividad (1.2 sedentario a 1.9 muy activo). Son multiplicadores de uso común, una aproximación.</li>
-        <li><strong>Calorías objetivo</strong>: −500 kcal para bajar de peso, +300 para subir músculo. Regla práctica; el resultado real varía de persona a persona.</li>
+        <li><strong>Calorías objetivo</strong>: −500 calorías para bajar de peso, +300 para subir músculo. Regla práctica; el resultado real varía de persona a persona.</li>
         <li><strong>Proteína</strong> (g por kg de peso):
           <ul style="padding-left:16px;">
             <li>0.8 g/kg es el mínimo recomendado para adultos. <a href="https://nap.nationalacademies.org/catalog/10490" target="_blank" rel="noopener">National Academies, Dietary Reference Intakes, 2005</a></li>
@@ -1378,7 +1419,8 @@
     <div class="right"><button class="btn secondary" onclick="generarOtro()">Generar otro plan</button><button class="btn primary" id="pdfBtnMain" onclick="downloadPDF(this)">Descargar tu plan (PDF)</button></div></div>
 </section>
 
-<div class="footer-note credit foot-row"><span>Proyecto educativo · valores aproximados</span><span><a href="https://designingspring.substack.com/" target="_blank" rel="noopener">Designing Spring</a> · 2026 · <button type="button" class="linklike privacy-link" onclick="document.getElementById('privacy').showModal()">Privacidad</button></span></div>
+<div class="edu-note"><span class="edu-seeds" aria-hidden="true"><i></i><i></i><i></i></span><p class="edu-title">Esto es un proyecto educativo</p><p>Los valores son aproximados y no reemplazan a un profesional de la salud.</p></div>
+<div class="footer-note credit foot-row"><span>Creado por <a href="https://rasmorell.github.io/">rasmorell</a></span><span><a href="https://designingspring.substack.com/" target="_blank" rel="noopener">Designing Spring</a> · 2026 · <button type="button" class="linklike privacy-link" onclick="document.getElementById('privacy').showModal()">Privacidad</button></span></div>
 
 <dialog class="privacy" id="privacy" aria-labelledby="privacyT">
   <form method="dialog" class="privacy-x"><button type="submit" aria-label="Cerrar"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></form>
@@ -1431,7 +1473,11 @@ const FOODS = {
     { name: "Tortilla de claras con espinaca", portion: "4 claras + 1 huevo", amount: 190, unit: "g", p: 20, f: 5.5, c: 2, lac: false, whole: true },
     { name: "Panqueques de avena y claras", portion: "2 unidades (~120g)", amount: 120, unit: "g", p: 14, f: 3, c: 18, lac: false },
     { name: "Yogur griego con granola", portion: "170g + 30g de granola", amount: 170, unit: "g de yogur (+ 30g de granola)", p: 20, f: 5, c: 30, lac: true },
-    { name: "Sándwich de pavo y queso", portion: "2 rebanadas + 50g de pavo + 1 lonja de queso", amount: 60, unit: "g de pan (+ pavo y queso)", p: 23, f: 8, c: 26, lac: true, whole: true },
+    { name: "Sándwich de jamón de pavo y queso", portion: "2 rebanadas + 50g de jamón de pavo + 1 lonja de queso", amount: 60, unit: "g de pan (+ jamón de pavo y queso)", p: 23, f: 8, c: 26, lac: true, whole: true },
+    // Sueltos, para quien desayuna lo básico (nuevo: Ana no los usa, así su semana no cambia)
+    { name: "Huevo", portion: "1 unidad (~50g)", amount: 50, unit: "g (~1 unidad)", p: 6.5, f: 5, c: 0.5, lac: false, whole: true, nuevo: true },
+    { name: "Lonjas de jamón de pavo", portion: "4 lonjas (~60g)", amount: 60, unit: "g", p: 13, f: 1.2, c: 1.2, lac: false, nuevo: true },
+    { name: "Queso blanco fresco", portion: "60g", amount: 60, unit: "g", p: 12, f: 14, c: 2, lac: true, nuevo: true },
   ],
   Bebida: [
     { name: "Leche descremada", portion: "250ml", amount: 250, unit: "ml", p: 8.5, f: 0.5, c: 12, lac: true },
@@ -1441,6 +1487,12 @@ const FOODS = {
     { name: "Batido de proteína whey", portion: "1 medida (30 g) + agua", amount: 30, unit: "g de polvo", p: 24, f: 1.5, c: 3, lac: true },
     { name: "Batido de proteína vegetal", portion: "1 medida (30 g) + agua", amount: 30, unit: "g de polvo", p: 21, f: 2, c: 2, lac: false },
     { name: "Smoothie de yogur griego y fruta", portion: "300ml", amount: 300, unit: "ml", p: 15, f: 2, c: 25, lac: true },
+    // Lo que la gente toma de verdad en la mañana (nuevo: Ana no los usa). Sin azúcar, salvo el chocolate.
+    { name: "Café negro", portion: "250ml", amount: 250, unit: "ml", p: 0.3, f: 0, c: 0, lac: false, nuevo: true },
+    { name: "Café con azúcar", portion: "250ml (2 cditas de azúcar)", amount: 250, unit: "ml", p: 0.3, f: 0, c: 8, lac: false, nuevo: true },
+    { name: "Café con leche", portion: "250ml (mitad café, mitad leche descremada)", amount: 250, unit: "ml", p: 4.5, f: 0.3, c: 6, lac: true, nuevo: true },
+    { name: "Café con leche vegetal", portion: "250ml (mitad café, mitad leche de soya)", amount: 250, unit: "ml", p: 3.5, f: 2, c: 2, lac: false, nuevo: true },
+    { name: "Chocolate caliente", portion: "250ml (leche descremada + cacao + 3 cditas de azúcar)", amount: 250, unit: "ml", p: 10.5, f: 2, c: 30, lac: true, nuevo: true },
   ],
   Snack: [
     { name: "Huevo duro", portion: "1 unidad (~50g)", amount: 50, unit: "g (~1 unidad)", p: 6, f: 5, c: 0.5, lac: false, whole: true },
@@ -1451,6 +1503,7 @@ const FOODS = {
     { name: "Jamón de pavo", portion: "100g", amount: 100, unit: "g", p: 22, f: 2, c: 2, lac: false },
     { name: "Atún en lata (en agua)", portion: "1 lata escurrida (~80g)", amount: 80, unit: "g", p: 20, f: 1, c: 0, lac: false, whole: true },
     { name: "Sardinas en lata (escurridas)", portion: "1 lata (~90g)", amount: 90, unit: "g", p: 21, f: 10, c: 0, lac: false, whole: true },
+    { name: "Edamame", portion: "1 taza (~155g)", amount: 155, unit: "g", p: 18, f: 8, c: 14, lac: false, nuevo: true },
     { name: "Almendras", portion: "1 puñado (~30g)", amount: 30, unit: "g", p: 6, f: 15, c: 6, lac: false },
     { name: "Hummus con zanahoria", portion: "60g de hummus + 1 zanahoria", amount: 60, unit: "g de hummus (+ 1 zanahoria)", p: 5, f: 6, c: 16, lac: false },
     { name: "Pan integral con mantequilla de maní", portion: "1 rebanada + 1 cda", amount: 30, unit: "g de pan (+ 1 cda de mantequilla de maní)", p: 7, f: 9, c: 15, lac: false, whole: true },
@@ -1553,11 +1606,18 @@ const RECETAS = {
   'Tortilla de claras con espinaca': [CL(4), H(1), { n: 'Espinaca', q: 50, u: 'g' }],
   'Panqueques de avena y claras': [{ n: 'Avena en hojuelas', q: 40, u: 'g' }, CL(3)],
   'Yogur griego con granola': [{ n: 'Yogur griego', q: 170, u: 'g' }, { n: 'Granola', q: 30, u: 'g' }],
-  'Sándwich de pavo y queso': [{ n: 'Pan integral', q: 2, u: 'rebanada' }, { n: 'Jamón de pavo', q: 50, u: 'g' }, { n: 'Queso', q: 1, u: 'lonja' }],
+  'Sándwich de jamón de pavo y queso': [{ n: 'Pan integral', q: 2, u: 'rebanada' }, { n: 'Jamón de pavo', q: 50, u: 'g' }, { n: 'Queso', q: 1, u: 'lonja' }],
   'Smoothie de yogur griego y fruta': [{ n: 'Yogur griego', q: 150, u: 'g' }, { n: 'Fruta (banana o fresas)', q: 100, u: 'g' }],
   'Batido de proteína whey': [{ n: 'Proteína whey', q: 1, u: 'medida' }],
+  'Café negro': [{ n: 'Café molido', q: 10, u: 'g' }],
+  'Café con leche': [{ n: 'Café molido', q: 5, u: 'g' }, { n: 'Leche descremada', q: 125, u: 'ml' }],
+  'Chocolate caliente': [{ n: 'Leche descremada', q: 250, u: 'ml' }, { n: 'Cacao en polvo', q: 2, u: 'cda' }, { n: 'Azúcar', q: 3, u: 'cdita' }],
+  'Café con azúcar': [{ n: 'Café molido', q: 10, u: 'g' }, { n: 'Azúcar', q: 2, u: 'cdita' }],
+  'Café con leche vegetal': [{ n: 'Café molido', q: 5, u: 'g' }, { n: 'Leche de soya', q: 125, u: 'ml' }],
   'Batido de proteína vegetal': [{ n: 'Proteína vegetal', q: 1, u: 'medida' }],
   'Huevo duro': [H(1)],
+  'Huevo': [H(1)],
+  'Lonjas de jamón de pavo': [{ n: 'Jamón de pavo', q: 60, u: 'g' }],
   'Claras de huevo': [CL(3)],
   'Hummus con zanahoria': [{ n: 'Hummus', q: 60, u: 'g' }, { n: 'Zanahoria', pl: 'Zanahorias', q: 1, u: 'u' }],
   'Pan integral con mantequilla de maní': [{ n: 'Pan integral', q: 1, u: 'rebanada' }, { n: 'Mantequilla de maní', q: 1, u: 'cda' }],
@@ -1650,7 +1710,7 @@ function applyMeals(save = true) {
   if (save) {
     try { localStorage.setItem(MEALS_KEY, JSON.stringify(on)); } catch (e) {}
     // Cambió la forma del día: el plan anterior y lo fijado ya no encajan.
-    currentPlan = null; previousPlan = null; locks.clear();
+    currentPlan = null; previousPlan = null; locks.clear(); pending.clear();
   }
   const hint = document.getElementById('mealsHint');
   if (hint) hint.textContent = on.length ? `Cada día lleva ${SLOTS.length} cosas para comer.` : 'Elige al menos una comida.';
@@ -1695,6 +1755,7 @@ function calcularNecesidades() {
     calculatedNeeds = null;
     document.getElementById('calcKcal').textContent = 'Completa peso, estatura y edad para calcular tu meta.';
     document.getElementById('calcKcalSub').textContent = '';
+    document.getElementById('calcKcalWhy').textContent = '';
     document.getElementById('calcTiles').innerHTML = '';
     document.getElementById('calcNotes').innerHTML = '';
     return;
@@ -1733,24 +1794,22 @@ function calcularNecesidades() {
 
   // Pisos y techos: grasa 20–35% de las calorías, carbohidratos al menos 130 g.
   const fatMin = targetCalories * 0.20, fatMax = targetCalories * 0.35, carbMin = 130 * 4;
-  if (fatKcal < fatMin) { carbKcal -= fatMin - fatKcal; fatKcal = fatMin; notes.push('La grasa llegó a su piso (20% de las calorías); el resto del recorte salió de los carbohidratos.'); }
+  if (fatKcal < fatMin) { carbKcal -= fatMin - fatKcal; fatKcal = fatMin; }   // ajuste interno: no se avisa, confundía más de lo que ayudaba
   if (fatKcal > fatMax) { carbKcal += fatKcal - fatMax; fatKcal = fatMax; }
   if (carbKcal < carbMin) {
     const falta = carbMin - carbKcal;
     carbKcal = carbMin;
     if (fatKcal - falta >= fatMin) {
       fatKcal -= falta;
-      notes.push('Los carbohidratos llegaron a su piso (130 g); el resto del recorte salió de la grasa.');
     } else {
       fatKcal = fatMin;
-      notes.push('Con esta proteína, los pisos de grasa y carbohidratos no caben en tus calorías: el total queda por encima del objetivo. Prueba una proteína por kg más baja o un recorte menor.');
     }
   }
   const fatG = fatKcal / 9, carbG = carbKcal / 4;
   const totalKcal = protKcal + fatKcal + carbKcal;
 
   const minKcal = sex === 'm' ? 1500 : 1200;
-  if (targetCalories < minKcal) notes.push(`Tu objetivo queda por debajo de ${minKcal} kcal, un valor de referencia común como mínimo sin supervisión. Conviene consultarlo con un profesional.`);
+  if (targetCalories < minKcal) notes.push(`Tu objetivo queda por debajo de ${minKcal} calorías, un valor de referencia común como mínimo sin supervisión. Conviene consultarlo con un profesional.`);
   if (goalAdjust > 0 && activity <= 1.2) notes.push('Subir músculo requiere entrenamiento de fuerza; sin él, el exceso de calorías se guarda sobre todo como grasa.');
 
   // Rangos: proteína hasta +15%; grasa y carbohidratos ±15%, respetando pisos y techos.
@@ -1765,23 +1824,28 @@ function calcularNecesidades() {
 
   const pct = k => Math.round(k / totalKcal * 100) + '%';
   const fmtK = v => Math.round(v).toLocaleString('es-MX');
-  const goalText = goalAdjust < 0 ? 'para bajar de peso' : goalAdjust > 0 ? 'para subir músculo' : 'para mantener tu peso';
-  document.getElementById('calcKcal').innerHTML = `Necesitas unas <strong>${fmtK(targetCalories)} kcal al día</strong> ${goalText}.`;
+  const goalText = goalAdjust < 0 ? 'Para bajar de peso' : goalAdjust > 0 ? 'Para subir músculo' : 'Para mantener tu peso';
+  document.getElementById('calcKcal').innerHTML = `${goalText}, debes comer unas <strong>${fmtK(targetCalories)} calorías al día</strong>.`;
+  // De dónde sale la cifra, en una línea: en reposo, + lo que te mueves = tu promedio, ± tu objetivo = lo que comes.
+  const at = ['16.67%', '50%', '83.33%'];
+  document.getElementById('calcKcalWhy').innerHTML =
+    `<div class="gs-nums"><span class="gs-num">${fmtK(bmr)}</span><span class="gs-num">${fmtK(tdee)}</span><span class="gs-num gs-goal">${fmtK(targetCalories)}</span></div>` +
+    `<div class="gs-line">` + at.map((x, i) => `<span class="gs-dot${i === 2 ? ' gs-goal' : ''}" style="left:${x}"></span>`).join('') +
+    `<span class="gs-step" style="left:33.33%">+ lo que te mueves</span>` +
+    `<span class="gs-step" style="left:66.67%">${goalAdjust < 0 ? `− ${Math.abs(goalAdjust)} para bajar` : goalAdjust > 0 ? `+ ${goalAdjust} para subir` : 'igual, para mantener'}</span></div>` +
+    `<div class="gs-names"><span class="gs-name">Lo que gastas en reposo, sin hacer nada</span><span class="gs-name">Lo que gastas en promedio, un día normal</span><span class="gs-name gs-goal">Lo que debes comer al día</span></div>` +
+    `<p class="gs-foot">${goalAdjust < 0 ? 'Así bajas poco a poco: alrededor de 1 libra (medio kilo) por semana.'
+      : goalAdjust > 0 ? 'El cuerpo usa lo que sobra para hacer músculo, si entrenas fuerza.'
+      : 'Comes lo mismo que gastas, así que tu peso se queda igual.'}</p>`;
   document.getElementById('calcKcalSub').textContent =
-    `Gastas ~${fmtK(tdee)} kcal al día (en reposo ${fmtK(bmr)}). Proteína: ${protPerKg} g por kg (≈ ${(protPerKg / 2.20462).toFixed(2)} g por libra)${protChoice === 'auto' ? ', automático' : ''}.`;
+    `Proteína: ${protPerKg} g por kg (≈ ${(protPerKg / 2.20462).toFixed(2)} g por libra)${protChoice === 'auto' ? ', automático' : ''}.`;
   const tile = (cls, label, g, kcal, k) =>
     `<div class="tile ${cls}"><div class="t-label">${label}</div><div class="t-value">${g.toFixed(0)} g</div>` +
     `<div class="t-range">rango ${ranges[k][0].toFixed(0)}–${ranges[k][1].toFixed(0)} g · ${pct(kcal)} de calorías</div></div>`;
   document.getElementById('calcTiles').innerHTML =
     tile('p', 'Proteína', proteinG, protKcal, 'prot') + tile('f', 'Grasa', fatG, fatKcal, 'fat') + tile('c', 'Carbohidratos', carbG, carbKcal, 'carb');
-  const infoNotes = [];
-  if (goalAdjust !== 0) {
-    const sg = v => (v >= 0 ? '+' : '') + v.toFixed(0);
-    const dF = fatKcal - fatMaint, dC = carbKcal - carbMaint;
-    infoNotes.push(`Los ${Math.abs(goalAdjust)} kcal de ${goalAdjust < 0 ? 'recorte' : 'aumento'} salen de: grasa ${sg(dF / 9)} g y carbohidratos ${sg(dC / 4)} g. La proteína no cambia.`);
-  }
-  document.getElementById('calcNotes').innerHTML =
-    infoNotes.map(n => `<li class="info">${n}</li>`).join('') + notes.map(n => `<li>${MARK_NO} ${n}</li>`).join('');
+  // Solo los avisos que piden hacer algo; de dónde sale el recorte (grasa y carbohidratos) ya no se explica: confundía
+  document.getElementById('calcNotes').innerHTML = notes.map(n => `<li>${MARK_NO} ${n}</li>`).join('');
 }
 
 function usarValoresCalculados() {
@@ -2132,6 +2196,7 @@ function readInputs() {
   Object.keys(FOODS).forEach(g => { selected[g] = []; });
   document.querySelectorAll('.foodCheck').forEach(cb => {
     if (!cb.checked && !exampleMode) return;   // Ana usa siempre la lista completa, no la de quien mira
+    if (exampleMode && FOODS[cb.dataset.group][cb.dataset.idx].nuevo) return;   // …la de cuando se armó su ejemplo
     // Filtro duro: lo desmarcado ni siquiera entra como opción del gen "alimento",
     // y el gen "porción" de cada alimento solo puede tomar valores hasta su máximo.
     // Lo que no se parte (data-whole) solo va en porciones enteras.
@@ -2323,6 +2388,10 @@ function daysOutside(chromo, limits) {
 let currentPlan = null, previousPlan = null, lastRender = null;
 const locks = new Map();      // "día|comida" -> { name, mult }: genes que el algoritmo no puede cambiar
 const removedStack = [];      // alimentos quitados desde el plan, para poder deshacer
+// Comidas por elegir: al quitar un alimento, cada lugar donde estaba queda esperando a que la persona elija el reemplazo.
+// Clave "día|comida" → { removed: nombre quitado, opts: [{ food, mult }] }. Mientras haya alguna, no se puede seguir (PDF, lista de compras).
+const pending = new Map();
+let justCompleted = false;   // se acaba de elegir la última: se avisa una vez que el plan quedó listo
 
 // Convierte las comidas fijadas en genes con los alimentos de esta corrida.
 function buildLockedDays(inp) {
@@ -2380,7 +2449,7 @@ function runGA(opts = {}) {
   best = polishWeek(best, inp.selected, inp.weights, inp.limits, inp.lockedDays);
   inp.polishGain = fitness(best, inp.weights, inp.limits) - beforePolish;
   previousPlan = opts.warm ? currentPlan : null;
-  currentPlan = best;
+  currentPlan = best; pending.clear();
   lastRender = [best, fitnessParts(best, inp.weights, inp.limits), history, inp.limits, repaired, inp.polishGain];
   renderResults(...lastRender, opts.warm);
   return true;
@@ -2572,7 +2641,7 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
   if (matchMedia('(max-width: 640px)').matches && !openDays.size) openDays = new Set([0]);   // en el teléfono siempre hay un día a la vista
   const card = document.getElementById('resultsCard');
   card.style.display = 'block';
-  const totals = chromo.map(dayTotals);
+  const totals = chromo.map((day, i) => dayTotals(withoutPending(day, i)));   // lo que falta elegir no cuenta todavía
   const avg = k => totals.reduce((a, t) => a + t[k], 0) / 7;
   const aP = avg('prot'), aF = avg('fat'), aC = avg('carb');
   const kcal = t => t.prot * 4 + t.fat * 9 + t.carb * 4;
@@ -2581,7 +2650,7 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
   const fmtK = v => Math.round(v).toLocaleString('es-MX');
 
   let html = (exampleMode ? `<div class="sample-note"><span>${anaCard()}</span></div>` : `<div class="sample-note me-note">${meCard()}</div>`) +
-    `<div class="res-head"><h2>${exampleMode ? 'La semana de Ana' : 'Tu semana'}</h2><span class="hint">~${fmtK(avgKcal)} kcal al día en promedio${calculatedNeeds && !exampleMode ? ` (tu meta: ${fmtK(calculatedNeeds.targetCalories)} kcal; lo que se cuida son los rangos)` : ''} · ${parts.distinct} alimentos distintos</span></div>`;
+    `<div class="res-head"><h2>${exampleMode ? 'La semana de Ana' : 'Tu semana'}</h2><span class="hint">~${fmtK(avgKcal)} calorías al día en promedio${calculatedNeeds && !exampleMode ? ` (tu meta: ${fmtK(calculatedNeeds.targetCalories)} calorías; lo que se cuida son los rangos)` : ''} · ${parts.distinct} alimentos distintos</span></div>`;
 
   // 1) Resumen en palabras simples: va antes de la lección, para no festejar algo que no llegó
   if (stillOut === 0) {
@@ -2618,12 +2687,12 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
   if (exampleMode) {
     const MEALS3 = [['Desayuno', ['Desayuno']], ['Almuerzo', ['Comida1', 'Guarnicion1', 'Vegetales1']], ['Cena', ['Comida2', 'Guarnicion2', 'Vegetales2']]];
     // cada plato con su cantidad, y el total de cada día en kcal y gramos: así se ve de dónde salen las cuentas
-    const tot = t => `<span class="aw-tot"><small>Total del día</small><b>${fmtK(kcal(t))} kcal</b><span>${Math.round(t.prot)} g proteína</span><span>${Math.round(t.fat)} g grasa</span><span>${Math.round(t.carb)} g carbohidratos</span></span>`;
+    const tot = t => `<span class="aw-tot"><small>Total del día</small><b>${fmtK(kcal(t))} calorías</b><span>${Math.round(t.prot)} g proteína</span><span>${Math.round(t.fat)} g grasa</span><span>${Math.round(t.carb)} g carbohidratos</span></span>`;
     html += `<div class="ana-week"><div class="aw-row aw-head" aria-hidden="true"><span></span>${MEALS3.map(([m]) => `<span>${m}</span>`).join('')}<span>Total del día</span></div>` +
       chromo.map((day, i) => `<div class="aw-row"><span class="aw-day">${DAYS[i]}${violatesLimits(totals[i], limits) ? ' ' + MARK_NO : ''}</span>` +
         MEALS3.map(([m, keys]) => `<span class="aw-cell"><small>${m}</small>${keys.map(k => day[k]).filter(Boolean).map(g => `<span><span>${LANG === 'en' ? (FOOD_EN[g.food.name] || g.food.name) : g.food.name}</span> <em>${geneAmount(g)}</em></span>`).join('')}</span>`).join('') +
         tot(totals[i]) + '</div>').join('') +
-      `<div class="aw-notes"><p class="aw-goal">Meta de Ana al día: ${fmtK(calculatedNeeds ? calculatedNeeds.targetCalories : avgKcal)} kcal · rangos de ${Math.round(limits.minProt)}–${Math.round(limits.maxProt)} g de proteína, ${Math.round(limits.minFat)}–${Math.round(limits.maxFat)} g de grasa y ${Math.round(limits.minCarb)}–${Math.round(limits.maxCarb)} g de carbohidratos. La meta son esos rangos; por eso las calorías pueden quedar un poco por debajo.</p>` +
+      `<div class="aw-notes"><p class="aw-goal">Meta de Ana al día: ${fmtK(calculatedNeeds ? calculatedNeeds.targetCalories : avgKcal)} calorías · rangos de ${Math.round(limits.minProt)}–${Math.round(limits.maxProt)} g de proteína, ${Math.round(limits.minFat)}–${Math.round(limits.maxFat)} g de grasa y ${Math.round(limits.minCarb)}–${Math.round(limits.maxCarb)} g de carbohidratos. La meta son esos rangos; por eso las calorías pueden quedar un poco por debajo.</p>` +
       avocadoNote(chromo, limits) + '</div>' +
       '</div>';
     document.getElementById('results').innerHTML = html + noteHtml + recapHtml;
@@ -2639,27 +2708,41 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
   barsHtml += `<p class="legend">La barra es tu promedio diario, la zona clara tu rango y la rayita vertical tu meta.</p>`;
 
   // 3) Una tarjeta por día, con ✕ (no lo quiero) y 📌 (fijar) en cada comida
-  html += `<p class="hint how-to" style="margin:14px 0 8px;">Toca ${ICON_X} en lo que no quieras (se quita y el plan se ajusta) y ${ICON_PIN} en lo que quieras conservar.</p>`;
+  html += `<p class="hint how-to" style="margin:14px 0 8px;">Toca ${ICON_X} en lo que no quieras (tú eliges con qué reemplazarlo) y ${ICON_PIN} en lo que quieras conservar.</p>`;
+  if (justCompleted && !pending.size) {   // una sola vez, al elegir la última
+    html += `<div class="pend-done notice ok" role="status" data-no-i18n>${MARK_OK} ${LANG === 'en' ? 'Done: your plan is complete. You can now download it and see the shopping list.' : 'Listo: tu plan quedó completo. Ya puedes descargarlo y ver la lista de compras.'}</div>`;
+    justCompleted = false;
+  }
+  if (pending.size) {
+    const en = LANG === 'en', n = pending.size, first = Math.min(...[...pending.keys()].map(k => +k.split('|')[0]));
+    html += `<div class="pend-bar" role="status" data-no-i18n><b>${en ? `${n} ${n === 1 ? 'meal is' : 'meals are'} waiting for you to choose.` : `Te falta elegir ${n} ${n === 1 ? 'comida' : 'comidas'}.`}</b> ` +
+      `${en ? 'Pick a replacement in each highlighted meal to download your plan or see the shopping list.' : 'Elige un reemplazo en cada comida marcada para descargar tu plan o ver la lista de compras.'}` +
+      `<button type="button" class="linklike" data-act="gopend" data-day="${first}">${en ? 'Go to the first one' : 'Ir a la primera'} →</button></div>`;
+  }
   if (locks.size) {
     html += '<div class="session-bar">';
     if (locks.size) html += `<span>${ICON_PIN} ${locks.size} ${locks.size === 1 ? 'comida fijada' : 'comidas fijadas'} · <button data-act="unlockall">Soltar todas</button></span>`;
     html += '</div>';
   }
   // En el teléfono se ve un día a la vez: se elige arriba (Lun–Dom)
-  html += '<div class="day-pick" role="group" aria-label="Elegir día">' + DAY_SHORT.map((d, i) => `<button type="button" data-act="pick" data-day="${i}" aria-pressed="${openDays.has(i)}" aria-label="${DAYS[i]}${violatesLimits(totals[i], limits) ? ' · ' + dayFlags(totals[i], limits).join(', ') : ''}"${violatesLimits(totals[i], limits) ? ' class="bad"' : ''}>${d}</button>`).join('') + '</div>';
+  html += '<div class="day-pick" role="group" aria-label="Elegir día">' + DAY_SHORT.map((d, i) => `<button type="button" data-act="pick" data-day="${i}" aria-pressed="${openDays.has(i)}" aria-label="${DAYS[i]}${hasPending(i) ? ' · falta elegir' : violatesLimits(totals[i], limits) ? ' · ' + dayFlags(totals[i], limits).join(', ') : ''}"${hasPending(i) ? ' class="pend"' : violatesLimits(totals[i], limits) ? ' class="bad"' : ''}>${d}</button>`).join('') + '</div>';
   html += `<button type="button" class="linklike days-all" data-act="alldays">${openDays.size === 7 ? 'Cerrar todos los días' : 'Abrir todos los días'}</button>`;
   html += '<div class="days">';
   chromo.forEach((day, i) => {
     const t = totals[i], flags = dayFlags(t, limits), open = openDays.has(i);
+    const nPend = SLOTS.filter(s => pending.has(i + '|' + s.key)).length;
     // En el teléfono, cada día es un acordeón (el primero abierto); en la computadora, todos se ven.
     const peek = ['Comida1', 'Comida2'].map(k => day[k] && (LANG === 'en' ? (FOOD_EN[day[k].food.name] || day[k].food.name) : day[k].food.name)).filter(Boolean).join(' · ');   // vista previa: los platos fuertes del día y sus kcal
     html += `<article class="day${open ? ' open' : ''}"><div class="day-head" data-act="day" data-day="${i}"><h3 aria-level="2">${DAYS[i]}</h3>` +
-      `<span class="day-peek" data-no-i18n>${peek ? peek + ' · ' : ''}${fmtK(kcal(t))} kcal</span>` +
-      `<span class="day-flag${flags.length ? ' bad' : ''}">${flags.length ? MARK_NO + ' ' + flags.join(', ') : MARK_OK + ' dentro'}</span>` +
+      `<span class="day-peek" data-no-i18n>${peek ? peek + ' · ' : ''}${fmtK(kcal(t))} ${LANG === 'en' ? 'calories' : 'calorías'}</span>` +
+      (nPend ? `<span class="day-flag pend" data-no-i18n>${LANG === 'en' ? 'Choose ' + nPend : 'Falta elegir ' + nPend}</span>`
+        : `<span class="day-flag${flags.length ? ' bad' : ''}">${flags.length ? MARK_NO + ' ' + flags.join(', ') : MARK_OK + ' dentro'}</span>`) +
       `<button type="button" class="day-tog" data-act="day" data-day="${i}" aria-expanded="${open}" aria-label="${open ? 'Cerrar' : 'Abrir'} ${DAYS[i]}">` +
       `<svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="meals">`;
     SLOTS.forEach((s, si) => {
       if (si === 0 || SLOTS[si - 1].meal !== s.meal) html += `<li class="meal-head">${s.meal}</li>`;
+      const pend = pending.get(i + '|' + s.key);
+      if (pend) { html += pendingRow(i, s, pend, chromo); return; }
       const g = day[s.key], note = portionNote(g);
       const locked = locks.has(i + '|' + s.key);
       const prev = previousPlan && previousPlan[i][s.key];
@@ -2673,7 +2756,7 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
         `<button class="ic" data-act="remove" data-day="${i}" data-slot="${s.key}" title="No quiero este alimento" aria-label="Quitar ${g.food.name}">${ICON_X}</button></span></li>`;
     });
     html += `</ul><div class="day-foot"><span class="chip p">P ${t.prot.toFixed(0)} g</span><span class="chip f">G ${t.fat.toFixed(0)} g</span>` +
-      `<span class="chip c">C ${t.carb.toFixed(0)} g</span><span class="kcal">${fmtK(kcal(t))} kcal</span></div>` + (i < 6 ? `<button type="button" class="linklike next-day" data-act="pick" data-day="${i + 1}">${tx(DAYS[i + 1])} →</button>` : '') + `</article>`;
+      `<span class="chip c">C ${t.carb.toFixed(0)} g</span><span class="kcal">${fmtK(kcal(t))} calorías</span></div>` + (i < 6 ? `<button type="button" class="linklike next-day" data-act="pick" data-day="${i + 1}">${tx(DAYS[i + 1])} →</button>` : '') + `</article>`;
   });
   html += '</div>';
   html += noteHtml + barsHtml + recapHtml;   // primero la semana; después la nota, el promedio y el resumen de la lección
@@ -2695,7 +2778,8 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
   const shopItems = Object.values(shop).sort((a, b) => label(a).localeCompare(label(b), LANG));
   shopList = shopItems.map(it => [label(it), shopQty(it.pt, it.q)]);
   shopText = tx('Lista de compras de la semana') + '\n' + shopItems.map(it => `- ${label(it)}: ${shopQty(it.pt, it.q)}`).join('\n');
-  html += `<details class="more shop-box"><summary>Lista de compras (${shopItems.length} ingredientes) · copiar, descargar o imprimir</summary><section class="shop"><div class="shop-head"><h3 aria-level="2">Lista de compras (${shopItems.length} ingredientes)</h3>` +
+  if (pending.size) html += `<p class="pend-block">${LANG === 'en' ? 'The shopping list will appear once you choose the missing meals.' : 'La lista de compras aparece cuando elijas las comidas que faltan.'}</p>`;
+  else html += `<details class="more shop-box"><summary>Lista de compras (${shopItems.length} ingredientes) · copiar, descargar o imprimir</summary><section class="shop"><div class="shop-head"><h3 aria-level="2">Lista de compras (${shopItems.length} ingredientes)</h3>` +
     `<span><button class="btn secondary" id="copyBtn" onclick="copyShopping()">Copiar lista</button> <button class="btn secondary" onclick="window.print()">Imprimir</button></span></div>` +
     `<p class="hint" style="margin:6px 0 0;">Los platos están desglosados en sus ingredientes. Cantidades aproximadas.</p>` +
     `<ul>${shopItems.map(it => `<li>${label(it)}<span>${shopQty(it.pt, it.q)}</span></li>`).join('')}</ul></section></details>`;
@@ -2703,6 +2787,8 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
 
 
   document.getElementById('results').innerHTML = html;
+  const pdfBtn = document.getElementById('pdfBtnMain');   // mientras falte elegir, el PDF se ve apagado y lleva al aviso
+  if (pdfBtn) pdfBtn.setAttribute('aria-disabled', pending.size ? 'true' : 'false');
 
 }
 
@@ -2740,6 +2826,13 @@ document.addEventListener('click', e => {
   }
   if (act === 'lock') toggleLock(+btn.dataset.day, btn.dataset.slot);
   if (act === 'remove') excludeFood(currentPlan[+btn.dataset.day][btn.dataset.slot].food.name);
+  if (act === 'choose') chooseReplacement(+btn.dataset.day, btn.dataset.slot, +btn.dataset.opt);
+  if (act === 'gopend') {
+    const d = +btn.dataset.day;
+    if (matchMedia('(max-width: 640px)').matches) openDays = new Set([d]); else openDays.add(d);
+    renderResults(...lastRender, true);
+    const li = document.querySelector('#results li.pending'); if (li) li.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
   if (act === 'undo') undoRemove();
   if (act === 'unlockall') { locks.clear(); renderResults(...lastRender, true); }
 });
@@ -2759,7 +2852,8 @@ function setFoodChecked(name, on) {
   row.querySelector('.foodCheck').checked = on;
   saveFoodPrefs();
 }
-// Quitar un alimento cambia solo ese alimento: cada vez que aparece, se pone el mejor reemplazo para ese día; el resto de la semana queda igual.
+// Quitar un alimento no cambia nada por su cuenta: cada lugar donde estaba queda "por elegir", con las mejores
+// opciones para ese día (las que lo dejan dentro de tus rangos, primero). La persona decide; el resto de la semana queda igual.
 const planStack = [];   // la semana tal como estaba antes de cada cambio, para que Deshacer la devuelva exacta
 let lastTouched = 0;   // el día que cambió, para devolver ahí el foco al deshacer
 function setPlan(plan, inp) {
@@ -2767,40 +2861,88 @@ function setPlan(plan, inp) {
   lastRender = [plan, fitnessParts(plan, inp.weights, inp.limits), lastRender ? lastRender[2] : [], inp.limits, false, 0];
   renderResults(...lastRender, true);
 }
+// Una comida vacía: lo que falta elegir no suma nada al día mientras tanto
+const EMPTY_GENE = { food: { name: '', p: 0, f: 0, c: 0, amount: 0, unit: 'g' }, mult: 1 };
+const hasPending = i => SLOTS.some(s => pending.has(i + '|' + s.key));
+function withoutPending(day, i) {
+  if (!pending.size) return day;
+  const d = { ...day };
+  SLOTS.forEach(s => { if (pending.has(i + '|' + s.key)) d[s.key] = EMPTY_GENE; });
+  return d;
+}
+// Las mejores opciones para un lugar: primero que el día quede dentro, luego la mejor semana; una por alimento.
+function replacementOptions(plan, i, slot, inp, n = 4) {
+  const base = withoutPending(plan[i], i), scored = [];
+  for (const food of inp.selected[slot.pool]) {
+    let best = null;
+    for (const mult of food.allowed) {
+      const nd = { ...base, [slot.key]: { food, mult } }, week = plan.map((d, k) => k === i ? nd : d);
+      const score = -1000 * limitGap(dayTotals(nd), inp.limits) + fitness(week, inp.weights, inp.limits);
+      if (!best || score > best.score) best = { food, mult, score };
+    }
+    if (best) scored.push(best);
+  }
+  return scored.sort((a, b) => b.score - a.score).slice(0, n).map(({ food, mult }) => ({ food, mult }));
+}
 function excludeFood(name) {
   const before = currentPlan;
   setFoodChecked(name, false);
   for (const [k, v] of [...locks]) if (v.name === name) locks.delete(k);
   const inp = readInputs();
   if (!inp || !before) return;
-  const plan = before.map(d => ({ ...d })), touched = new Set();
-  plan.forEach((day, i) => SLOTS.forEach(s => {
-    if (!day[s.key] || day[s.key].food.name !== name) return;
-    let best = null, bestScore = -Infinity;
-    for (const food of inp.selected[s.pool]) for (const mult of food.allowed) {
-      const nd = { ...day, [s.key]: { food, mult } }, week = plan.map((d, k) => k === i ? nd : d);
-      const score = -1000 * limitGap(dayTotals(nd), inp.limits) + fitness(week, inp.weights, inp.limits);   // primero que el día siga dentro; luego, la mejor semana
-      if (score > bestScore) { bestScore = score; best = { food, mult }; }
-    }
-    if (best) day[s.key] = best;
+  const touched = new Set();
+  before.forEach((day, i) => SLOTS.forEach(s => {
+    if (!day[s.key] || day[s.key].food.name !== name || pending.has(i + '|' + s.key)) return;
+    pending.set(i + '|' + s.key, { removed: name, opts: [] });
     touched.add(i);
   }));
-  // si un solo reemplazo no alcanza, se ajustan las otras comidas de ese mismo día (los demás días no se tocan)
-  if ([...touched].some(i => violatesLimits(dayTotals(plan[i]), inp.limits))) {
-    const fixed = repairWeek(plan, inp.selected, inp.weights, inp.limits, buildLockedDays(inp));
-    touched.forEach(i => { plan[i] = fixed[i]; });
-  }
-  const locked = buildLockedDays(inp);
-  touched.forEach(i => dedupeDay(plan[i], i, plan, inp.selected, inp.weights, inp.limits, locked));   // sin repetir plato en el mismo día
+  pending.forEach((v, k) => { const [d, key] = k.split('|'); v.opts = replacementOptions(before, +d, SLOTS.find(s => s.key === key), inp); });
   lastTouched = touched.size ? Math.min(...touched) : 0;
+  openDays.add(lastTouched);
   removedStack.push(name); planStack.push(before);
-  previousPlan = before;
-  setPlan(plan, inp);
+  previousPlan = before; justCompleted = false;
+  if (matchMedia('(max-width: 640px)').matches) openDays = new Set([lastTouched]);
+  setPlan(before.map(d => ({ ...d })), inp);
   showUndo(name);
+}
+// Elegir un reemplazo: entra en ese lugar y, si ya no falta nada, la semana queda lista para seguir.
+function chooseReplacement(d, key, k) {
+  const p = pending.get(d + '|' + key);
+  if (!p || !p.opts[k]) return;
+  const inp = readInputs(); if (!inp) return;
+  const plan = currentPlan.map(x => ({ ...x }));
+  plan[d][key] = p.opts[k];
+  pending.delete(d + '|' + key);
+  // las demás que siguen esperando se recalculan con la semana nueva
+  pending.forEach((v, kk) => { const [dd, kk2] = kk.split('|'); v.opts = replacementOptions(plan, +dd, SLOTS.find(s => s.key === kk2), inp); });
+  // Si falta otra, se abre su día y se lleva la vista ahí (en el teléfono se ve un día a la vez y quedaba escondida)
+  const next = pending.size ? Math.min(...[...pending.keys()].map(x => +x.split('|')[0])) : -1;
+  if (next >= 0) { if (matchMedia('(max-width: 640px)').matches) openDays = new Set([next]); else openDays.add(next); }
+  justCompleted = !pending.size;
+  setPlan(plan, inp);
+  const target = next >= 0 ? document.querySelector('#results li.pending') : document.querySelector('#results .pend-done');
+  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function pendingRow(i, s, pend, chromo) {
+  const en = LANG === 'en', fmtK = v => Math.round(v).toLocaleString('es-MX');
+  const label = s.label === s.meal ? s.meal : s.label;
+  const fname = n => en ? (FOOD_EN[n] || n) : n;
+  const base = withoutPending(chromo[i], i);
+  const limits = lastRender ? lastRender[3] : null;
+  const opts = pend.opts.map((g, k) => {
+    const t = dayTotals({ ...base, [s.key]: g }), cal = t.prot * 4 + t.fat * 9 + t.carb * 4;
+    const ok = !limits || !violatesLimits(t, limits);
+    return `<button type="button" class="opt" data-act="choose" data-day="${i}" data-slot="${s.key}" data-opt="${k}">` +
+      `<span class="o-name">${fname(g.food.name)}</span><span class="o-amt">${geneAmount(g)}</span>` +
+      `<span class="o-day${ok ? '' : ' bad'}">${en ? 'Day total' : 'El día queda en'} ${fmtK(cal)} ${en ? 'calories' : 'calorías'} · ${ok ? MARK_OK + (en ? ' within' : ' dentro') : MARK_NO + (en ? ' outside' : ' fuera')}</span></button>`;
+  }).join('');
+  return `<li class="pending" data-no-i18n><p class="p-q">${en ? `<b>${tx(label)}: you removed ${fname(pend.removed)}.</b> What would you like instead?` : `<b>${label}: quitaste ${pend.removed}.</b> ¿Con qué lo reemplazas?`}</p>` +
+    `<div class="p-opts">${opts || (en ? 'No other options in this group: undo or turn more foods on in step 2.' : 'No quedan opciones en este grupo: deshaz el cambio o marca más alimentos en el paso 2.')}</div></li>`;
 }
 function undoRemove() {
   const name = removedStack.pop(), plan = planStack.pop();
   if (!name || !plan) return;
+  for (const [k, v] of [...pending]) if (v.removed === name) pending.delete(k);
   setFoodChecked(name, true);
   const inp = readInputs(); if (!inp) return;
   previousPlan = null;
@@ -2832,6 +2974,7 @@ function loadScript(src) {
 }
 async function downloadPDF(btn = document.getElementById('pdfBtnMain')) {
   if (!currentPlan) return;
+  if (pending.size) { const b = document.querySelector('#results .pend-bar'); if (b) { b.scrollIntoView({ behavior: 'smooth', block: 'center' }); b.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.02)' }, { transform: 'scale(1)' }], 400); } return; }
   const label = btn.id === 'pdfBtnMain' ? 'Descargar tu plan (PDF)' : 'Descargar PDF'; // el texto original en español; la pantalla lo traduce
   btn.disabled = true; btn.textContent = 'Preparando…';
   try {
@@ -2969,7 +3112,7 @@ async function buildPDF() {
     doc.autoTable({
       startY: y, margin: { left: M, right: M, bottom: 50 }, theme: 'plain', pageBreak: 'avoid', rowPageBreak: 'avoid',
       head: [[{ content: tx(DAYS[i]), colSpan: 2, styles: { font: display, fontSize: 11, fontStyle: 'normal' } },
-        { content: `P ${t.prot.toFixed(0)} g · ${LANG === 'en' ? 'F' : 'G'} ${t.fat.toFixed(0)} g · C ${t.carb.toFixed(0)} g · ${Math.round(kcal(t))} kcal`, colSpan: 2,
+        { content: `P ${t.prot.toFixed(0)} g · ${LANG === 'en' ? 'F' : 'G'} ${t.fat.toFixed(0)} g · C ${t.carb.toFixed(0)} g · ${Math.round(kcal(t))} ${LANG === 'en' ? 'calories' : 'calorías'}`, colSpan: 2,
           styles: { halign: 'right', fontSize: 7.5, textColor: PDF_C.muted, valign: 'bottom' } }]],
       body: rows,
       headStyles: { fillColor: [255, 255, 255], textColor: PDF_C.ink, cellPadding: { top: 3, bottom: 3, left: 0, right: 0 }, lineColor: PDF_C.gold, lineWidth: { bottom: 1 } },
@@ -3263,8 +3406,8 @@ function anaCard() {
   const en = LANG === 'en', n = calculatedNeeds, f = v => Math.round(v).toLocaleString(en ? 'en-US' : 'es-MX');
   const facts = en ? ['35 years old', '68 kg (150 lb)', '1.68 m (5 ft 6 in)', 'Moderately active', 'Wants to keep her weight']
                    : ['35 años', '68 kg (150 lb)', '1.68 m (5 pies 6 pulg.)', 'Actividad moderada', 'Quiere mantener su peso'];
-  const need = n ? (en ? `She needs about <strong>${f(n.targetCalories)} kcal</strong> a day: <strong>${f(n.proteinG)} g</strong> protein, <strong>${f(n.fatG)} g</strong> fat and <strong>${f(n.carbG)} g</strong> carbs.`
-                       : `Necesita unas <strong>${f(n.targetCalories)} kcal</strong> al día: <strong>${f(n.proteinG)} g</strong> de proteína, <strong>${f(n.fatG)} g</strong> de grasa y <strong>${f(n.carbG)} g</strong> de carbohidratos.`) : '';
+  const need = n ? (en ? `She needs about <strong>${f(n.targetCalories)} calories</strong> a day: <strong>${f(n.proteinG)} g</strong> protein, <strong>${f(n.fatG)} g</strong> fat and <strong>${f(n.carbG)} g</strong> carbs.`
+                       : `Necesita unas <strong>${f(n.targetCalories)} calorías</strong> al día: <strong>${f(n.proteinG)} g</strong> de proteína, <strong>${f(n.fatG)} g</strong> de grasa y <strong>${f(n.carbG)} g</strong> de carbohidratos.`) : '';
   return `<div class="ana" data-no-i18n>${ANA_PORTRAIT}<div class="ana-body"><p class="ana-t">${en ? '<strong>Meet Ana</strong>, the person in this demo.' : '<strong>Conoce a Ana</strong>, la persona de esta demostración.'}</p>` +
     `<ul class="ana-facts">${facts.map(x => `<li>${x}</li>`).join('')}</ul><p class="ana-need">${need}</p><p class="ana-credit">${en ? 'Photo' : 'Foto'}: <a href="https://unsplash.com/photos/smiling-woman-at-wooden-table-Ll9YOG20UFI" target="_blank" rel="noopener">Nolan Manning / Unsplash</a></p></div></div>`;
 }
@@ -3278,8 +3421,8 @@ function meCard() {
   if (!lb || !n) return '';
   const kg = Math.round(lb * 0.4536), m = ((ft * 12 + inch) * 0.0254).toFixed(2);
   const facts = [en ? `${v('calcAge')} years old` : `${v('calcAge')} años`, `${kg} kg (${lb} lb)`, en ? `${m} m (${ft} ft ${inch} in)` : `${m} m (${ft} pies ${inch} pulg.)`, opt('calcActivity'), opt('calcGoal')].filter(Boolean);
-  const need = en ? `You need about <strong>${f(n.targetCalories)} kcal</strong> a day: <strong>${f(n.proteinG)} g</strong> protein, <strong>${f(n.fatG)} g</strong> fat and <strong>${f(n.carbG)} g</strong> carbs.`
-                  : `Necesitas unas <strong>${f(n.targetCalories)} kcal</strong> al día: <strong>${f(n.proteinG)} g</strong> de proteína, <strong>${f(n.fatG)} g</strong> de grasa y <strong>${f(n.carbG)} g</strong> de carbohidratos.`;
+  const need = en ? `You need about <strong>${f(n.targetCalories)} calories</strong> a day: <strong>${f(n.proteinG)} g</strong> protein, <strong>${f(n.fatG)} g</strong> fat and <strong>${f(n.carbG)} g</strong> carbs.`
+                  : `Necesitas unas <strong>${f(n.targetCalories)} calorías</strong> al día: <strong>${f(n.proteinG)} g</strong> de proteína, <strong>${f(n.fatG)} g</strong> de grasa y <strong>${f(n.carbG)} g</strong> de carbohidratos.`;
   return `<div class="ana me" data-no-i18n><div class="ana-body"><p class="ana-t">${en ? '<strong>Your data</strong>' : '<strong>Tus datos</strong>'} · <button type="button" class="link-btn run-lock" onclick="go(1)"${running ? ' disabled' : ''}>${en ? 'Change' : 'Cambiar'}</button></p>` +
     `<ul class="ana-facts">${facts.map(x => `<li>${x}</li>`).join('')}</ul><p class="ana-need">${need}</p></div></div>`;
 }
@@ -3298,7 +3441,7 @@ function usarMisDatos() {
   OWN_IDS.forEach((id, i) => { document.getElementById(id).value = ownValues ? ownValues[i] : ''; });   // vuelven tus datos, si ya los habías escrito
   recalc();
   dirty = true;
-  currentPlan = null; previousPlan = null; lastRender = null;
+  currentPlan = null; previousPlan = null; lastRender = null; pending.clear();
   locks.clear(); removedStack.length = 0; planStack.length = 0; hideUndo();
   document.getElementById('results').innerHTML = '';
   resetGACard();
@@ -3463,7 +3606,7 @@ async function runFull() {
   best = polishWeek(best, inp.selected, inp.weights, inp.limits, inp.lockedDays);
   const polishGain = fitness(best, inp.weights, inp.limits) - beforePolish;
   previousPlan = null;
-  currentPlan = best;
+  currentPlan = best; pending.clear();
   // Para el cierre: el azar con los mismos intentos (una prueba) y la flor final de esta búsqueda.
   const rnd = randomSearch(inp, inp.popSize * inp.numGens);
   gaInfo = { tried: inp.popSize * inp.numGens, digits: Math.floor(spaceLog10(inp)) + 1, gens: inp.numGens,
@@ -3636,7 +3779,7 @@ const FOOD_EN = {
   'Avena cocida': 'Cooked oatmeal', 'Avena con yogur griego y fruta': 'Oats with Greek yogurt and fruit', 'Pan integral con huevo': 'Whole-wheat toast with egg',
   'Tostadas con aguacate y huevo': 'Avocado toast with egg', 'Huevos revueltos (2 huevos + 2 claras)': 'Scrambled eggs (2 eggs + 2 whites)',
   'Tortilla de claras con espinaca': 'Egg-white omelet with spinach', 'Panqueques de avena y claras': 'Oat and egg-white pancakes', 'Yogur griego con granola': 'Greek yogurt with granola',
-  'Sándwich de pavo y queso': 'Turkey and cheese sandwich', 'Leche descremada': 'Skim milk', 'Leche descremada deslactosada': 'Lactose-free skim milk', 'Leche de soya': 'Soy milk',
+  'Sándwich de jamón de pavo y queso': 'Turkey ham and cheese sandwich', 'Huevo': 'Egg', 'Café negro': 'Black coffee', 'Café con leche': 'Coffee with milk', 'Café con azúcar': 'Coffee with sugar', 'Café con leche vegetal': 'Coffee with plant milk', 'Chocolate caliente': 'Hot chocolate', 'Lonjas de jamón de pavo': 'Turkey ham slices', 'Queso blanco fresco': 'Fresh white cheese', 'Edamame': 'Edamame', 'Leche descremada': 'Skim milk', 'Leche descremada deslactosada': 'Lactose-free skim milk', 'Leche de soya': 'Soy milk',
   'Yogur bebible / kéfir': 'Drinkable yogurt / kefir', 'Batido de proteína whey': 'Whey protein shake', 'Batido de proteína vegetal': 'Plant protein shake',
   'Smoothie de yogur griego y fruta': 'Greek yogurt fruit smoothie', 'Huevo duro': 'Hard-boiled egg', 'Claras de huevo': 'Egg whites', 'Yogur griego': 'Greek yogurt',
   'Queso cottage': 'Cottage cheese', 'Queso en tiras (light)': 'String cheese (light)', 'Jamón de pavo': 'Turkey ham', 'Atún en lata (en agua)': 'Canned tuna (in water)',
@@ -3658,7 +3801,7 @@ const FOOD_EN = {
   'Espinacas salteadas': 'Sautéed spinach', 'Champiñones salteados': 'Sautéed mushrooms', 'Remolacha': 'Beets', 'Vegetales salteados': 'Sautéed vegetables', 'Aguacate': 'Avocado',
 };
 const ING_EN = {
-  'Aceite': 'oil', 'Aderezo ligero': 'light dressing', 'Aguacate': 'avocado', 'Aguacates': 'avocados', 'Arroz blanco (crudo)': 'white rice (uncooked)',
+  'Aceite': 'oil', 'Azúcar': 'sugar', 'Cacao en polvo': 'cocoa powder', 'Café molido': 'ground coffee', 'Leche descremada': 'skim milk', 'Leche de soya': 'soy milk', 'Aderezo ligero': 'light dressing', 'Aguacate': 'avocado', 'Aguacates': 'avocados', 'Arroz blanco (crudo)': 'white rice (uncooked)',
   'Arroz integral (crudo)': 'brown rice (uncooked)', 'Atún en lata (en agua)': 'canned tuna (in water)', 'Avena en hojuelas': 'rolled oats', 'Banana': 'banana', 'Bananas': 'bananas',
   'Batata (camote)': 'sweet potato', 'Batatas (camotes)': 'sweet potatoes', 'Bistec de res (corte magro)': 'beef steak (lean cut)', 'Calabaza (auyama)': 'squash (pumpkin)',
   'Carne molida de res magra': 'lean ground beef', 'Champiñones': 'mushrooms', 'Clara de huevo': 'egg white', 'Claras de huevo': 'egg whites', 'Durazno': 'peach', 'Duraznos': 'peaches',
@@ -3824,17 +3967,37 @@ i18nAdd({
   "Completa tus datos para seguir.": "Fill in your data to continue.",
   "Para menores de # años estas fórmulas no aplican.": "These formulas don't apply to people under #.",
   "Ver la demostración con la persona de ejemplo": "See the demo with the sample person",
-  "Necesitas unas <strong># kcal al día</strong> para bajar de peso.": "You need about <strong># kcal a day</strong> to lose weight.",
-  "Necesitas unas <strong># kcal al día</strong> para mantener tu peso.": "You need about <strong># kcal a day</strong> to maintain your weight.",
-  "Necesitas unas <strong># kcal al día</strong> para subir músculo.": "You need about <strong># kcal a day</strong> to build muscle.",
-  "Gastas ~# kcal al día (en reposo #). Proteína: # g por kg (≈ # g por libra), automático.": "You burn ~# kcal a day (# at rest). Protein: # g per kg (≈ # g per pound), automatic.",
+  "Para bajar de peso, debes comer unas <strong># calorías al día</strong>.": "To lose weight, you should eat about <strong># calories a day</strong>.",
+  "Para mantener tu peso, debes comer unas <strong># calorías al día</strong>.": "To maintain your weight, you should eat about <strong># calories a day</strong>.",
+  "Para subir músculo, debes comer unas <strong># calorías al día</strong>.": "To build muscle, you should eat about <strong># calories a day</strong>.",
+  "Según tus datos, tu cuerpo gasta…": "Based on your details, your body burns…",
+  "En reposo, sin hacer nada": "At rest, doing nothing",
+  "Lo que gastas en reposo, sin hacer nada": "What you burn at rest, doing nothing",
+  "Lo que gastas en promedio, un día normal": "What you burn on an average day",
+  "+ lo que te mueves ↓": "+ how much you move ↓",
+  "+ lo que te mueves": "+ how much you move",
+  "− # para bajar": "− # to lose weight",
+  "+ # para subir": "+ # to build muscle",
+  "igual, para mantener": "the same, to keep your weight",
+  "En promedio, un día normal": "On average, on a normal day",
+  "− # para bajar de peso ↓": "− # to lose weight ↓",
+  "+ # para subir músculo ↓": "+ # to build muscle ↓",
+  "lo mismo, para mantener tu peso ↓": "the same, to keep your weight ↓",
+  "Lo que comes cada día": "What you eat each day",
+  "Lo que debes comer al día": "What you should eat each day",
+  "Así bajas poco a poco: alrededor de # libra (medio kilo) por semana.": "That way you lose weight slowly: about # pound (half a kilo) a week.",
+  "El cuerpo usa lo que sobra para hacer músculo, si entrenas fuerza.": "Your body uses the extra to build muscle, if you do strength training.",
+  "Comes lo mismo que gastas, así que tu peso se queda igual.": "You eat the same as you burn, so your weight stays the same.",
+  "Proteína: # g por kg (≈ # g por libra), automático.": "Protein: # g per kg (≈ # g per pound), automatic.",
+  "Proteína: # g por kg (≈ # g por libra).": "Protein: # g per kg (≈ # g per pound).",
+  "Gastas ~# calorías al día (en reposo #). Proteína: # g por kg (≈ # g por libra), automático.": "You burn ~# calories a day (# at rest). Protein: # g per kg (≈ # g per pound), automatic.",
   "<strong>Proteína: # g</strong> al día": "<strong>Protein: # g</strong> a day",
   "<strong>Grasa: # g</strong> al día": "<strong>Fat: # g</strong> a day",
   "<strong>Carbohidratos: # g</strong> al día": "<strong>Carbs: # g</strong> a day",
   "meta # g · rango #–# g": "goal # g · range #–# g",
   "rango #–# g · #% de calorías": "range #–# g · #% of calories",
-  "Los # kcal de recorte salen de: grasa -# g y carbohidratos -# g. La proteína no cambia.": "The # kcal cut comes from: fat -# g and carbs -# g. Protein stays the same.",
-  "Los # kcal de aumento salen de: grasa +# g y carbohidratos +# g. La proteína no cambia.": "The # kcal increase comes from: fat +# g and carbs +# g. Protein stays the same.",
+  "Las # calorías de recorte salen de: grasa -# g y carbohidratos -# g. La proteína no cambia.": "The # calories cut comes from: fat -# g and carbs -# g. Protein stays the same.",
+  "Las # calorías de aumento salen de: grasa +# g y carbohidratos +# g. La proteína no cambia.": "The # calories increase comes from: fat +# g and carbs +# g. Protein stays the same.",
   "La grasa llegó a su piso (#% de las calorías); el resto del recorte salió de los carbohidratos.": "Fat reached its floor (#% of calories); the rest of the cut came from carbs.",
   "Subir músculo requiere entrenamiento de fuerza; sin él, el exceso de calorías se guarda sobre todo como grasa.": "Building muscle requires strength training; without it, extra calories are stored mostly as fat.",
   "Es una estimación general con fórmulas estándar. No reemplaza a un nutricionista o médico, sobre todo si tienes alguna condición de salud, estás embarazada o eres menor de edad.": "This is a general estimate using standard formulas. It does not replace a dietitian or doctor, especially if you have a health condition, are pregnant or are under 18.",
@@ -3866,7 +4029,7 @@ i18nAdd({
   "Cómo se calcula y fuentes": "How it's calculated, and sources",
   "<strong>Metabolismo basal</strong> (calorías en reposo): ecuación de Mifflin-St Jeor. <a>Mifflin et al., #, Am J Clin Nutr</a>": "<strong>Basal metabolism</strong> (calories at rest): the Mifflin-St Jeor equation. <a>Mifflin et al., #, Am J Clin Nutr</a>",
   "<strong>Gasto diario</strong>: metabolismo basal × factor de actividad (# sedentario a # muy activo). Son multiplicadores de uso común, una aproximación.": "<strong>Daily energy use</strong>: basal metabolism × activity factor (# sedentary to # very active). These are common multipliers, an approximation.",
-  "<strong>Calorías objetivo</strong>: −# kcal para bajar de peso, +# para subir músculo. Regla práctica; el resultado real varía de persona a persona.": "<strong>Target calories</strong>: −# kcal to lose weight, +# to build muscle. A rule of thumb; real results vary from person to person.",
+  "<strong>Calorías objetivo</strong>: −# calorías para bajar de peso, +# para subir músculo. Regla práctica; el resultado real varía de persona a persona.": "<strong>Target calories</strong>: −# calories to lose weight, +# to build muscle. A rule of thumb; real results vary from person to person.",
   "<strong>Proteína</strong> (g por kg de peso):": "<strong>Protein</strong> (g per kg of body weight):",
   "# g/kg es el mínimo recomendado para adultos. <a>National Academies, Dietary Reference Intakes, #</a>": "# g/kg is the recommended minimum for adults. <a>National Academies, Dietary Reference Intakes, #</a>",
   "#–# g/kg para quien hace ejercicio. <a>ISSN, Jäger et al., #</a>": "#–# g/kg for people who exercise. <a>ISSN, Jäger et al., #</a>",
@@ -3984,7 +4147,7 @@ i18nAdd({
   "Cada día lleva # cosas para comer.": "Each day has # things to eat.",
   "Un experimento interactivo · de # a # minutos": "An interactive experiment · # to # minutes",
   "Quitaste": "Removed",
-  "Meta de Ana al día: # kcal · rangos de #–# g de proteína, #–# g de grasa y #–# g de carbohidratos. La meta son esos rangos; por eso las calorías pueden quedar un poco por debajo.": "Ana’s daily goal: # kcal · ranges of #–# g protein, #–# g fat and #–# g carbs. The goal is those ranges, so calories may land a little lower.",
+  "Meta de Ana al día: # calorías · rangos de #–# g de proteína, #–# g de grasa y #–# g de carbohidratos. La meta son esos rangos; por eso las calorías pueden quedar un poco por debajo.": "Ana’s daily goal: # calories · ranges of #–# g protein, #–# g fat and #–# g carbs. The goal is those ranges, so calories may land a little lower.",
   "La evolución sola llegó a # g: el ajuste fino no tuvo nada que quitar.": "Evolution alone reached # g: fine-tuning had nothing left to remove.",
   "(menos es mejor)": "(less is better)",
   "Listo": "Done",
@@ -3994,13 +4157,18 @@ i18nAdd({
   "# g proteína": "# g protein",
   "# g grasa": "# g fat",
   "# g carbohidratos": "# g carbs",
-  "Meta de Ana al día: # kcal · rangos de #–# g de proteína, #–# g de grasa y #–# g de carbohidratos.": "Ana’s daily goal: # kcal · ranges of #–# g protein, #–# g fat and #–# g carbs.",
+  "Meta de Ana al día: # calorías · rangos de #–# g de proteína, #–# g de grasa y #–# g de carbohidratos.": "Ana’s daily goal: # calories · ranges of #–# g protein, #–# g fat and #–# g carbs.",
   "Preguntas frecuentes": "Frequently asked questions",
   "¿Qué es un algoritmo genético?": "What is a genetic algorithm?",
   "¿Quién hizo el trabajo: la evolución o el ajuste fino?": "Who did the work: evolution or fine-tuning?",
   "¿Cómo sabe cuál semana es mejor?": "How does it know which week is better?",
   "Ver la semana de Ana →": "See Ana’s week →",
   "Proyecto educativo · valores aproximados": "Educational project · approximate values",
+  "Esto es un proyecto educativo": "This is an educational project",
+  "Los valores son aproximados y no reemplazan a un profesional de la salud.": "The values are approximate and do not replace a health professional.",
+  "Creado por <a>rasmorell</a>": "Created by <a>rasmorell</a>",
+  "<a>El jardín</a> · <a>Designing Spring</a> · # ·": "<a>The garden</a> · <a>Designing Spring</a> · # ·",
+  "Designing Spring, volver al inicio": "Designing Spring, back to the start",
   "<strong>Es un proyecto educativo.</strong> Los alimentos, recetas y valores nutricionales son aproximados y no reemplazan la orientación de un profesional de la salud.": "<strong>This is an educational project.</strong> The foods, recipes and nutrition values are approximate and do not replace advice from a health professional.",
   "# días": "# days",
   "Mira cómo <em>evoluciona</em> la semana de Ana": "Watch Ana’s week <em>evolve</em>",
@@ -4089,8 +4257,8 @@ i18nAdd({
   "Grasa al día (meta # g)": "Fat per day (goal # g)",
   "Carbohidratos al día (meta # g)": "Carbs per day (goal # g)",
   "La barra es tu promedio diario, la zona clara tu rango y la rayita vertical tu meta.": "The bar is your daily average, the light area your range and the small vertical line your goal.",
-  "~# kcal al día en promedio · # alimentos distintos": "~# kcal a day on average · # different foods",
-  "~# kcal al día en promedio (tu meta: # kcal; lo que se cuida son los rangos) · # alimentos distintos": "~# kcal a day on average (your goal: # kcal; the plan sticks to the ranges) · # different foods",
+  "~# calorías al día en promedio · # alimentos distintos": "~# calories a day on average · # different foods",
+  "~# calorías al día en promedio (tu meta: # calorías; lo que se cuida son los rangos) · # alimentos distintos": "~# calories a day on average (your goal: # calories; the plan sticks to the ranges) · # different foods",
   "La evolución sola llegó a # g fuera de tus rangos. Después, el ajuste fino solo acercó algunos días a tu meta.": "Evolution alone reached # g outside your ranges. Then fine-tuning only brought some days closer to your goal.",
   "Por dentro, el algoritmo le da un puntaje a cada semana: sube si se acerca a tu meta y baja si se pasa de tus rangos, repite mucho la misma comida o alarga la lista de compras. Gana la semana con más puntaje. Para contarte el resultado usamos solo los gramos.": "Inside, the algorithm gives each week a score: it goes up when the week gets close to your goal and down when it goes over your ranges, repeats the same meal a lot or makes the shopping list long. The week with the highest score wins. To tell you the result we only use grams.",
   "Desliza de lado para ver los # días →": "Swipe sideways to see all # days →",
@@ -4114,7 +4282,7 @@ i18nAdd({
   "P # g": "P # g",
   "G # g": "F # g",
   "C # g": "C # g",
-  "# kcal": "# kcal",
+  "# calorías": "# calories",
   "# g": "# g",
   "# ml": "# ml",
   "# kg": "# kg",
@@ -4174,13 +4342,14 @@ i18nAdd({
   "# unidad (#g)": "# piece (#g)",
   "# unidad (~#g)": "# piece (~#g)",
   "# unidades (~#g)": "# pieces (~#g)",
+  "# lonjas (~#g)": "# slices (~#g)",
   "# unidad + #g": "# piece + #g",
   "# tortilla (~#g)": "# omelet (~#g)",
   "# rebanadas (~#g)": "# slices (~#g)",
   "# rebanadas + # huevo": "# slices + # egg",
   "# rebanada + # cda": "# slice + # tbsp",
   "# rebanadas + #/# de aguacate + # huevo": "# slices + #/# avocado + # egg",
-  "# rebanadas + #g de pavo + # lonja de queso": "# slices + #g turkey + # slice of cheese",
+  "# rebanadas + #g de jamón de pavo + # lonja de queso": "# slices + #g turkey ham + # slice of cheese",
   "# claras + # huevo": "# whites + # egg",
   "#g (~# claras)": "#g (~# whites)",
   "# scoop (#g) + agua": "# scoop (#g) + water",
@@ -4191,6 +4360,10 @@ i18nAdd({
   "#g de hummus + # zanahoria": "#g hummus + # carrot",
   "#g": "#g",
   "#ml": "#ml",
+  "#ml (mitad café, mitad leche descremada)": "#ml (half coffee, half skim milk)",
+  "#ml (leche descremada + cacao + # cditas de azúcar)": "#ml (skim milk + cocoa + # tsp sugar)",
+  "#ml (# cditas de azúcar)": "#ml (# tsp sugar)",
+  "#ml (mitad café, mitad leche de soya)": "#ml (half coffee, half soy milk)",
   "poca proteína": "low protein",
   "mucha proteína": "high protein",
   "poca grasa": "low fat",
@@ -4200,7 +4373,7 @@ i18nAdd({
   "# g<em>#× porción</em>": "# g<em>#× portion</em>",
   "# g<em>media porción</em>": "# g<em>half portion</em>",
   "# ml<em>media porción</em>": "# ml<em>half portion</em>",
-  "<strong># de # días no llegan a tus límites.</strong> Con las porciones permitidas un día suma ~# kcal y tu meta es # kcal. <br></br>": "<strong># of # days don't reach your limits.</strong> With the allowed portions a day adds up to ~# kcal and your goal is # kcal. <br></br>",
+  "<strong># de # días no llegan a tus límites.</strong> Con las porciones permitidas un día suma ~# calorías y tu meta es # calorías. <br></br>": "<strong># of # days don't reach your limits.</strong> With the allowed portions a day adds up to ~# calories and your goal is # calories. <br></br>",
   "<strong># de # días</strong> están dentro de tus rangos de proteína, grasa y carbohidratos. La barra muestra cuántos gramos se sale cada día: mientras más corta, mejor. La evolución dejó la semana a # g (el final de la línea dorada); el ajuste fino, que cambia una comida a la vez, quitó el resto.": "<strong># of # days</strong> are within your protein, fat and carb ranges. The bar shows how many grams each day falls outside: the shorter, the better. Evolution left the week at # g (the end of the golden line); fine-tuning, which changes one meal at a time, removed the rest.",
   "Para armar tu semana usamos un <strong>algoritmo genético</strong>: una forma de buscar que copia cómo mejora la naturaleza. No prueba todas las semanas posibles (son demasiadas), sino que hace \"evolucionar\" las mejores.": "To build your week we use a <strong>genetic algorithm</strong>: a way of searching that copies how nature improves. It doesn't try every possible week (there are too many); instead it makes the best ones \"evolve\".",
   "Saltar": "Skip",
@@ -4235,7 +4408,7 @@ i18nAdd({
   "la edad (hasta # años)": "the age (up to # years)",
   "Los carbohidratos llegaron a su piso (# g); el resto del recorte salió de la grasa.": "Carbs reached their floor (# g); the rest of the cut came from fat.",
   "Con esta proteína, los pisos de grasa y carbohidratos no caben en tus calorías: el total queda por encima del objetivo. Prueba una proteína por kg más baja o un recorte menor.": "With this protein, the fat and carb floors don't fit in your calories: the total ends up above the goal. Try a lower protein per kg or a smaller cut.",
-  "Tu objetivo queda por debajo de # kcal, un valor de referencia común como mínimo sin supervisión. Conviene consultarlo con un profesional.": "Your goal is below # kcal, a common reference minimum without supervision. It's a good idea to check with a professional.",
+  "Tu objetivo queda por debajo de # calorías, un valor de referencia común como mínimo sin supervisión. Conviene consultarlo con un profesional.": "Your goal is below # calories, a common reference minimum without supervision. It's a good idea to check with a professional.",
   "Elige al menos una comida en el paso # (Tu semana).": "Choose at least one meal in step # (Your week).",
   "¿Cómo funcionan las porciones?": "How do portions work?",
   "¿Cuánto necesita tu <em>cuerpo</em>?": "How much does your <em>body</em> need?",
