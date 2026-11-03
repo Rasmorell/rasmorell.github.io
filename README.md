@@ -1,4 +1,4 @@
-# Ramona Santos · Un jardín de curiosidades
+# Designing Spring · El jardín de Ramona Santos
 
 Experimentos con algoritmos inspirados en la naturaleza e historias de ciencia ficción.
 
