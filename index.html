@@ -186,8 +186,9 @@
   .chapter q { color: var(--muted); font-style: italic; font-size: 15.5px; line-height: 1.45; quotes: "“" "”"; }
   .chapter .foot { margin-top: auto; padding-top: 16px; display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; color: var(--soft); }
   .chapter .foot b { color: var(--ink); font-weight: 600; }
-  section.part .reveal { margin: 48px 0 0; color: var(--muted); font-size: 16px; display: flex; align-items: center; gap: 12px; }
-  .reveal svg { width: 40px; height: 40px; flex: none; }
+  section.part .reveal { margin: 48px 0 0; color: var(--muted); font-size: 16px; display: flex; align-items: center; gap: 20px; }
+  .reveal canvas { width: 112px; height: 112px; flex: none; }   /* logo vivo: una sola regla, muchas formas */
+  @media (max-width: 520px) { section.part .reveal { gap: 16px; } .reveal canvas { width: 88px; height: 88px; } }
 
   /* Publicaciones (el camino): una planta que crece; cada etapa suma algo nuevo (semillas, brote, capullos, flor) */
   .path-intro p { font-size: 18px; max-width: 62ch; margin-top: 6px; }
@@ -448,7 +449,7 @@
         <span class="face back" aria-hidden="true"><img src="img/dp4.jpg" alt="" width="560" height="306" loading="lazy" decoding="async"><span class="back-cap"><b>Capítulo 4 · Flores</b><span>Leer en Substack →</span></span></span>
       </span></a>
     </div>
-    <p class="reveal"><svg aria-hidden="true"><use href="#logo-night" class="logo-night" width="100%" height="100%"/><use href="#logo-day" class="logo-day" width="100%" height="100%"/></svg>¿Las reconoces? Las flores que crecen en el jardín de la portada son las de estos capítulos.</p>
+    <p class="reveal"><canvas id="logoVivo" aria-hidden="true"></canvas><span>¿Las reconoces? Las flores que crecen en el jardín de la portada son las de estos capítulos.</span></p>
   </section>
   <section class="part alt" id="quien">
     <div class="who">
@@ -570,6 +571,22 @@ const DAY = { bg: '#eef0f3', gold: '#b47a12',
   bloom: ['#d08e14', '#c48412', '#b87a10', '#ab6f0e', '#9e650c', '#915b0a', '#844f08', '#764506'] };
 let PAL = NIGHT;
 
+// El color como gen: cada jardín tiene dos padres de la paleta y todas sus flores van de un padre al otro.
+// El verde es del follaje. Las parejas están elegidas: dos dorados casi no se distinguen y oro con azul da un tono sucio.
+const PADRES = {
+  night: ['#e3a72f', '#a35626', '#dc87a3', '#c4577f', '#ec9a74', '#8fb6e2'],   // oro, óxido, rosa, rosa hondo, coral, azul
+  day:   ['#c98a1c', '#88431c', '#c9668b', '#a8436b', '#9c3c19', '#2c5a8c'],
+};
+const PAREJAS = [[0, 2], [0, 3], [1, 2], [4, 3], [2, 5], [3, 5], [4, 5]];
+const mezclar = (a, b, t) => { const c = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)), A = c(a), B = c(b); return `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * t)).join()})`; };
+function tonosDeJardin(s) {
+  const P = PAL === DAY ? PADRES.day : PADRES.night;
+  if (s.tonos && s.tonosDe === P) return s.tonos;
+  s.tonosDe = P;
+  // ocho tonos de un padre al otro: cada flor los lleva todos, y el jardín se ve como una sola especie
+  return s.tonos = Array.from({ length: 8 }, (_, i) => mezclar(P[s.padres[0]], P[s.padres[1]], i / 7));
+}
+
 // Hoja con la forma del logo: dos curvas que se encuentran en las puntas.
 function leaf(g, x, y, ang, len, color, wide) {
   g.save(); g.translate(x, y); g.rotate(ang);
@@ -584,7 +601,7 @@ function chapterFlower(g, x, y, R, k, type, N, rot, v) {
     if (v.double) leaf(g, px, py, a + 0.38, len * 0.78, col, v.petal * 0.9);
     leaf(g, px - Math.cos(a) * back, py - Math.sin(a) * back, a, len, col, v.petal);
   };
-  const B = PAL.bloom;   // en el follaje, las flores verdes van en crema y oro para que resalten
+  const B = v.tonos || PAL.bloom, D2 = v.tonos || PAL.dp2, D4 = v.tonos || PAL.dp4, G = v.tonos ? v.tonos[0] : PAL.gold;   // en el jardín, los tonos de la flor; sin ellos (tarjetas), los de su capítulo. En el follaje, las flores verdes van en crema y oro para que resalten
   for (let i = 0; i < Math.min(Math.ceil(k), N); i++) {
     const gi = Math.min(1, Math.max(0, (k - i) / 5)), e = 1 - Math.pow(1 - gi, 3);
     if (e <= 0) continue;
@@ -593,19 +610,19 @@ function chapterFlower(g, x, y, R, k, type, N, rot, v) {
     const fc = v.reverse ? 1 - f : f;
     if (type === 'logo') {
       if (i < N * 0.6) petal(px, py, a, s * 1.35, B[Math.min(7, Math.floor(fc * 8))], s * 0.6);
-      else { g.beginPath(); g.arc(px, py, s * 0.45, 0, 7); g.fillStyle = PAL.gold; g.fill(); }
+      else { g.beginPath(); g.arc(px, py, s * 0.45, 0, 7); g.fillStyle = G; g.fill(); }
     } else if (type === 'DP1') {            // selección natural: semillas llenas y vacías
       g.beginPath(); g.arc(px, py, s * 0.45, 0, 7);
       if (((i * 0.618034) % 1) < v.empty) { g.strokeStyle = B[(i + 2) % 8]; g.lineWidth = PAL === DAY ? 2.1 : 1.6; g.stroke(); } else { g.fillStyle = B[i % 8]; g.fill(); }
     } else if (type === 'DP2') {            // hojas secas: ocre, óxido y café
-      petal(px, py, a + 0.5, s * 1.4, PAL.dp2[Math.min(6, Math.floor(fc * 7))], s * 0.6);
+      petal(px, py, a + 0.5, s * 1.4, D2[Math.min(6, Math.floor(fc * 7))], s * 0.6);
     } else if (type === 'DP3') {            // mutaciones: trazos; algunos se tuercen
       const tw = (i * 37) % v.twist === 0 ? 0.9 : 0, l = s * 0.7 * v.stroke;
       g.strokeStyle = B[i % 8]; g.lineWidth = PAL === DAY ? 2.4 : 2; g.lineCap = 'round';
       g.beginPath(); g.moveTo(px - Math.cos(a + Math.PI / 2 + tw) * l, py - Math.sin(a + Math.PI / 2 + tw) * l); g.lineTo(px + Math.cos(a + Math.PI / 2 + tw) * l, py + Math.sin(a + Math.PI / 2 + tw) * l); g.stroke();
     } else {                                // DP4 flores: semillas doradas al centro, pétalos rosados afuera
-      if (f < 0.38) { g.beginPath(); g.arc(px, py, s * 0.32, 0, 7); g.fillStyle = PAL.gold; g.fill(); }
-      else { const pf = (f - 0.38) / 0.62; petal(px, py, a, s * 1.55, PAL.dp4[Math.min(5, Math.floor((v.reverse ? 1 - pf : pf) * 6))], s * 0.4); }
+      if (f < 0.38) { g.beginPath(); g.arc(px, py, s * 0.32, 0, 7); g.fillStyle = G; g.fill(); }
+      else { const pf = (f - 0.38) / 0.62; petal(px, py, a, s * 1.55, D4[Math.min(5, Math.floor((v.reverse ? 1 - pf : pf) * 6))], s * 0.4); }
     }
   }
 }
@@ -735,7 +752,9 @@ function setup(W, H, r, room) {
     const [x, y] = vAt(l.v.pts, l.t);
     if (flowers.some(f => Math.hypot(f.x - x, f.y - y) < f.R * 1.05)) leaves.splice(i, 1);
   }
-  return { vines, leaves, curls, flowers, buds, seeds, leafKind, type, shape };
+  // al final, para no cambiar la forma de cada jardín: los padres de sus flores
+  const padres = PAREJAS[Math.floor(r() * PAREJAS.length)];
+  return { vines, leaves, curls, flowers, buds, seeds, leafKind, type, shape, padres };
 }
 
 // Pinta el espécimen en el momento u (0 → empieza, ~0.5 → todo abierto).
@@ -755,7 +774,7 @@ function paint(g, W, H, s, u) {
       const [x, y] = vAt(v.pts, b.t), a = vAng(v.pts, b.t) + b.side * 0.7, k = Math.min(1, (pf - b.t - 0.05) * 5), ex = x + Math.cos(a) * 8 * k, ey = y + Math.sin(a) * 8 * k + 4 * k;
       g.strokeStyle = PAL.stem[2]; g.lineWidth = 0.8; g.beginPath(); g.moveTo(x, y); g.lineTo(ex, ey); g.stroke();
       g.beginPath(); g.ellipse(ex, ey + b.size * 0.6 * k, b.size * 0.6 * k, b.size * k, 0, 0, 7);
-      g.fillStyle = s.type === 'DP4' ? PAL.dp4[3] : s.type === 'DP2' ? PAL.dp2[4] : PAL.gold; g.fill();
+      const PB = PAL === DAY ? PADRES.day : PADRES.night; g.fillStyle = mezclar(PB[s.padres[0]], PB[s.padres[1]], 0.5); g.fill();
     });
   });
   drawLayer(0); drawLayer(1);
@@ -772,7 +791,7 @@ function paint(g, W, H, s, u) {
       g.fillStyle = h; g.beginPath(); g.arc(f.x, f.y, f.R * 1.25, 0, 7); g.fill();
     }
     for (let k = 0; k < 3; k++) leaf(g, f.x, f.y, f.sep + k * 2.094, f.R * (dayK ? 0.7 : 0.9) * Math.min(1, b * 1.6), PAL.fol[3 + k], 0.6);
-    chapterFlower(g, f.x, f.y, f.R, b * (f.N + 5), s.type, f.N, f.rot, { ...s.shape, piece: s.shape.piece * (dayK ? 1.6 : 1.35), petal: Math.max(1, s.shape.petal) });
+    chapterFlower(g, f.x, f.y, f.R, b * (f.N + 5), s.type, f.N, f.rot, { ...s.shape, tonos: tonosDeJardin(s), piece: s.shape.piece * (dayK ? 1.6 : 1.35), petal: Math.max(1, s.shape.petal) });
   });
   drawLayer(2);   // el follaje de adelante tapa un poco las flores
 }
@@ -1163,6 +1182,87 @@ PAL = document.documentElement.dataset.theme === 'day' ? DAY : NIGHT;
   const due = () => items.forEach(it => { if (!it.started && it.h2.getBoundingClientRect().top < innerHeight * 0.82) { it.started = true; io.unobserve(it.h2); start(it); } });
   addEventListener('scroll', function first() { if (Math.abs(scrollY - y0) < 8) return; moved = true; removeEventListener('scroll', first); due(); }, { passive: true });   // al primer movimiento, pasa la ráfaga de lo que ya estaba a la vista
   setTimeout(() => { if (moved) due(); }, 4000);   // por si el navegador no avisa
+})();
+</script>
+<script>
+// ---- Logo vivo: la misma espiral en el ángulo de oro, cambiando de forma. Se mueve solo mientras se ve ----
+(() => {
+  const cv = document.getElementById('logoVivo'); if (!cv) return;
+  const ctx = cv.getContext('2d'), N = 70, ARMS = 13, GA = Math.PI * (3 - Math.sqrt(5)), RIM = 0.6;
+  const LEAF = { len: 1, w: .5, tip: 1, turn: 55, fill: 1, alt: 0 }, SEED = { len: .62, w: 1, tip: 0, turn: 0, fill: 1, alt: 0 };
+  const FORMS = [
+    { in: LEAF, out: SEED },                                   // el logo: hojas y semillas
+    { in: SEED, out: SEED },                                   // todo semillas
+    { in: { ...SEED, alt: 1 }, out: { ...SEED, alt: 1 } },     // semillas llenas y vacías
+    { in: LEAF, out: LEAF },                                   // todo hojas
+    { in: { len: .7, w: .5, tip: 1, turn: 0, fill: 1, alt: 0 }, out: { len: 1.35, w: .42, tip: 1, turn: 0, fill: 1, alt: 0 } },   // pétalos
+    { in: { len: 1.05, w: .02, tip: 0, turn: 90, fill: 0, alt: 0 }, out: { len: 1.05, w: .02, tip: 0, turn: 90, fill: 0, alt: 0 } },   // trazos
+    { in: { len: .8, w: .85, tip: .6, turn: 180, fill: 1, alt: 0 }, out: { len: .8, w: .85, tip: .6, turn: 180, fill: 1, alt: 0 } },   // escamas de piña
+  ];
+  const PAL = { night: { greens: ['#d4e89a', '#9cc65a', '#6a9c38'], gold: '#e3a72f' }, day: { greens: ['#8bb54c', '#4f7a2a', '#2c5419'], gold: '#c98a1c' } };
+  const MORPH = 1300, HOLD = 1000, BIRTH = 2200;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const ramp = (stops, t) => { const s = stops.map(hex), n = s.length - 1, i = Math.min(Math.floor(t * n), n - 1), f = t * n - i; return s[i].map((c, j) => Math.round(c + (s[i + 1][j] - c) * f)); };
+  let from = 0, to = 0, clock = 0, shapeT = 0, last = 0, seen = false, running = false, raf = 0;
+
+  function fit() {
+    const px = Math.round(cv.clientWidth * Math.min(devicePixelRatio || 1, 2));
+    if (px && cv.width !== px) { cv.width = cv.height = px; }
+  }
+  function piece(L, W, tip) {
+    ctx.beginPath();
+    for (let i = 0; i <= 48; i++) {
+      const th = i / 48 * Math.PI * 2, s = Math.sin(th), y = (W / 2) * s * lerp(1, Math.abs(s), tip), x = (L / 2) * Math.cos(th);
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    }
+    ctx.closePath();
+  }
+  function paint() {
+    fit();
+    const size = cv.width, R = size * .44, cc = R / Math.sqrt(N + 1), pal = PAL[document.documentElement.dataset.theme === 'day' ? 'day' : 'night'];
+    const phase = still ? 1 : Math.min(1, shapeT / MORPH), grow = still ? 1 : Math.min(1, clock / BIRTH);
+    ctx.clearRect(0, 0, size, size);
+    for (let k = 1; k <= N; k++) {
+      const t = k / N, appear = Math.max(0, Math.min(1, (grow * 1.25 - t) * 4));
+      if (appear <= 0) continue;
+      const r = cc * Math.sqrt(k), a = k * GA, rim = t > RIM, local = ease(Math.max(0, Math.min(1, phase * 1.6 - t * .6)));
+      const A = FORMS[from][rim ? 'out' : 'in'], B = FORMS[to][rim ? 'out' : 'in'];
+      const base = (.5 + .5 * Math.sqrt(t)) * 11 * size / 320 * 3 * appear, L = base * lerp(A.len, B.len, local), W = L * lerp(A.w, B.w, local);
+      const fill = lerp(A.fill, B.fill, local) * (1 - lerp(A.alt && k % 2 === 0 ? 1 : 0, B.alt && k % 2 === 0 ? 1 : 0, local));
+      const [cr, cg, cb] = rim ? hex(pal.gold) : ramp(pal.greens, (k % ARMS) / (ARMS - 1));
+      ctx.save();
+      ctx.translate(size / 2 + r * Math.cos(a), size / 2 + r * Math.sin(a));
+      ctx.rotate(a + lerp(A.turn, B.turn, local) * Math.PI / 180);
+      piece(L, Math.max(W, .6 * size / 880), lerp(A.tip, B.tip, local));
+      if (fill > .01) { ctx.fillStyle = `rgba(${cr},${cg},${cb},${fill})`; ctx.fill(); }
+      if (fill < .99) { ctx.strokeStyle = `rgb(${cr},${cg},${cb})`; ctx.lineWidth = size / 320 * 2.4; ctx.globalAlpha = 1 - fill; ctx.stroke(); }
+      ctx.restore();
+    }
+  }
+  function frame(now) {
+    if (!running) return;
+    // el reloj solo avanza mientras se ve: al volver sigue donde iba, sin saltos
+    const dt = Math.min(now - last, 50); last = now; clock += dt;
+    if (clock >= BIRTH) {
+      shapeT += dt;
+      if (shapeT > MORPH + HOLD) { from = to; to = (to + 1) % FORMS.length; shapeT = 0; }
+    }
+    paint();
+    raf = requestAnimationFrame(frame);
+  }
+  function setRunning(on) {
+    if (still || on === running) return;
+    running = on; cancelAnimationFrame(raf);
+    if (on) { last = performance.now(); raf = requestAnimationFrame(frame); }
+  }
+  shapeT = MORPH;   // nace con su forma de logo, ya completa
+  new IntersectionObserver(es => { seen = es[es.length - 1].isIntersecting; setRunning(seen && !document.hidden); if (seen && still) paint(); }, { threshold: .25 }).observe(cv);
+  document.addEventListener('visibilitychange', () => setRunning(seen && !document.hidden));
+  new MutationObserver(() => { if (!running && (clock || still)) paint(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  addEventListener('resize', () => { if (!running && (clock || still)) paint(); }, { passive: true });
 })();
 </script>
 </body>
