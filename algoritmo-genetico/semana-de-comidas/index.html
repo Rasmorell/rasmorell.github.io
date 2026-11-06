@@ -590,18 +590,9 @@
   .meals li.meal-head { display: block; border-bottom: none; padding: 10px 0 2px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
   .meals li.meal-head:first-child { padding-top: 4px; }
   .meals-pick { border: 0; padding: 0; margin: 0 0 24px; }
-  /* Dos caminos para armar la semana: platos listos (aquí) o lo que tienes en casa (otra página que recibe tu meta) */
-  .modo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 28px; }
-  .modo-op { display: block; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border); background: var(--soft); color: var(--text); text-decoration: none; }
-  .modo-op b { display: block; font: 400 18px/1.2 Gloock, Georgia, serif; margin-bottom: 4px; }
-  .modo-op span { display: block; font-size: 13.5px; color: var(--muted); line-height: 1.45; }
-  .modo-op.on { border: 2px solid var(--gold); background: transparent; }
-  .modo-op.on b::before { content: "✓ "; color: var(--gold-ink); }
-  a.modo-op:hover { border-color: var(--gold); }
-  @media (max-width: 560px) { .modo { grid-template-columns: 1fr; } }
   .meals-pick legend { padding: 0; margin-bottom: 10px; }
   .meal-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px 16px; }
-  .meal-checks label.check { flex-wrap: wrap; align-items: center; }
+  .meal-checks label.check { flex-wrap: wrap; align-items: center; min-height: 24px; }
   .meal-checks small { flex-basis: 100%; margin-left: 26px; color: var(--muted); font-size: 12.5px; }
   .meals-pick .hint { margin: 10px 0 0; }
   .h2-hi { display: block; margin-top: 10px; color: var(--accent); }
@@ -778,8 +769,12 @@
   .ana-facts li { background: var(--card); border-radius: 999px; padding: 3px 11px; font-size: 13.5px; }
   .ana-need { font-size: 14.5px; }
   @media (max-width: 640px) { .btn { min-height: 44px; } }   /* botones de 44 px para el dedo */
-  .faq { margin-top: 30px; }
-  .faq h3 { font: 400 22px/1.15 Gloock, Georgia, serif; margin: 0 0 4px; }
+  /* Todas juntas en un solo acordeón, cerrado: casi no ocupan espacio */
+  details.faq { margin-top: 24px; }
+  details.faq > details.more { margin-top: 0; padding: 10px 0; }
+  details.faq > summary { min-height: 44px; }
+  details.faq > details.more > summary { min-height: 34px; }
+  details.faq > details.more[open] > summary { margin-bottom: 8px; }
   /* la semana de Ana: una tabla corta, 7 días × desayuno, almuerzo y cena */
   .ana-week { margin: 16px 0 4px; border-top: 1px solid var(--border); }
   .aw-row { display: grid; grid-template-columns: 96px repeat(3, minmax(0, 1fr)) 128px; gap: 4px 16px; padding: 12px 2px; border-bottom: 1px solid var(--border); align-items: start; }
@@ -800,17 +795,18 @@
     .aw-cell small { display: block; grid-row: 1 / span 3; font-size: 12.5px; color: var(--muted); padding-top: 2px; }
     .aw-cell > span { grid-column: 2; }   /* cada plato en la columna de platos, aunque sean tres */
     .aw-tot { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; padding-top: 4px; }
-    .aw-tot small { display: inline; color: var(--muted); }
+    .aw-tot small { display: inline; color: var(--muted); font-size: 12.5px; }
     .aw-tot b { display: inline; }
   }
   /* Demostración: la flor con la persona de ejemplo, sin el recorrido de pasos */
   .demo-nav { display: none !important; }
   body.in-demo .demo-nav { display: flex !important; }
   body.in-demo .normal-nav, body.in-demo .stepper { display: none !important; }
+  #resultsCard .step-nav a.btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
   .demo-nav5 { display: none !important; }   /* el plan de Ana termina invitando a armar el tuyo */
   body.in-demo5 .demo-nav5 { display: flex !important; }
   body.in-demo5 .normal-nav5 { display: none !important; }
-  body.in-demo5 .talk { display: none; }   /* «¿Qué te pareció?» va solo al final de tu propio plan */
+
   @media (max-width: 640px) { .demo-nav .right { flex-direction: column-reverse; width: 100%; } .demo-nav .right .btn { width: 100%; } }
   /* Cierre al inicio del paso 5 */
   .recap-top { margin: 18px 0 26px; }
@@ -823,6 +819,7 @@
   .recap-bars .pday.bad .bar-fill { background: var(--warn); }
   .recap-note { color: var(--muted); font-size: 14px !important; margin-top: 8px !important; }
   .shop-box { margin-top: 28px; }
+  /* Segunda parte: al final del plan, la invitación a armar la semana con un presupuesto */
   .shop-box .shop { margin-top: 8px; }
   @media (max-width: 640px) { .recap-grid { grid-template-columns: 1fr; } .recap-flower { max-width: 220px; margin: 0 auto; } }
   .warn-fix { display: inline-block; margin-top: 10px; }
@@ -914,12 +911,6 @@
     #step1 .exp-note { font-size: 13.5px; padding: 10px 12px; margin-bottom: 18px; }
     .subtitle { font-size: 15px; margin-bottom: 20px; }
   }
-  .talk { background: var(--salvia); border-radius: 18px; margin-top: 32px; padding: 26px 28px 28px; } /* cierre: el mismo fondo salvia de "Lo que acabas de ver" */
-  .talk h3 { font-family: Gloock, Georgia, serif; font-weight: 400; font-size: 23px; margin: 0 0 8px; }
-  .talk p { margin: 0 0 18px; max-width: 36em; color: var(--text); }
-  .talk .btn { display: inline-block; text-decoration: none; }
-  .talk .btn { padding: 12px 22px; font-size: 15px; }
-  @media (max-width: 640px) { .talk { padding: 22px 18px; } .talk .btn { display: block; text-align: center; padding: 12px 12px; font-size: 14.5px; white-space: nowrap; } }
   .footer-note.credit { margin-top: 8px; }
   /* El aviso de proyecto educativo: la última parte de la página, no el pie (el pie dice quién lo hizo) */
   .edu-note { max-width: 30em; margin: 72px auto 0; text-align: center; color: var(--frame-muted); font-size: 14px; line-height: 1.55; }
@@ -967,6 +958,14 @@
   .linklike { background: none; border: 0; padding: 12px 4px; color: var(--frame-muted); font: inherit; font-size: 14.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
   .mast-btn#introBtn { border-color: var(--input-border); }
   .g-actions button, .link-btn { min-height: 44px; padding: 0 8px; }   /* Todos / Ninguno / Restablecer: zona de toque de 44 px */
+  .g-actions { display: flex; flex: 0 0 auto; white-space: nowrap; }
+  @media (max-width: 640px) {   /* en el teléfono: nombre arriba, cuenta debajo y los dos botones siempre en una línea */
+    details.group > summary { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 10px; row-gap: 0; }
+    details.group > summary::before { grid-row: 1 / span 2; }
+    .g-name { grid-column: 2; grid-row: 1; }
+    .g-count { grid-column: 2; grid-row: 2; }
+    .g-actions { grid-column: 3; grid-row: 1 / span 2; }
+  }
   .meals .ic { position: relative; } .meals .ic::after { content: ""; position: absolute; inset: -5px; }   /* fijar y quitar: 44 px para el dedo */
   .short-note { margin: 14px 0 0; background: var(--soft); border-radius: 14px; padding: 14px 16px; color: var(--text); }
   .short-note p { margin: 0 0 10px; }
@@ -999,8 +998,11 @@
   /* Un título por paso: el título grande de arriba manda; el de la tarjeta se quita para no repetir */
   body:not([data-step="1"]) .subtitle { display: none; }
   body:not([data-step="1"]) .top-head h1 { margin-bottom: 24px; }
-  .step-head h2, #gaTitle, #results .res-head h2 { display: none; }
+  .step-head h2, #gaTitle, #results .res-head h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }   /* no se ven, pero el lector de pantalla los sigue encontrando */
   .step-head .hint { margin-top: 4px; }
+  /* Pantalla final: los botones reparten todo el ancho de la fila. */
+  #resultsCard > .step-nav .right { width: 100%; margin-left: 0; }
+  #resultsCard > .step-nav .right .btn { flex: 1 1 auto; }
   @media (max-width: 640px) { #resultsCard > .step-nav .right { flex-direction: column; width: 100%; } #resultsCard > .step-nav .right .btn { width: 100%; } }
   /* iPhone: Safari agranda la página al tocar un campo con letra menor a 16px. En pantallas táctiles, los campos van a 16px. */
   @media (max-width: 640px), (pointer: coarse) {
@@ -1059,6 +1061,7 @@
   <button class="mast-btn lang-btn" id="langBtn" onclick="toggleLang()" data-no-i18n lang="en" aria-label="Read in English"><span class="lg">English</span><span class="sh">EN</span></button>
   <button class="mast-btn sky-btn" id="skyBtn" onclick="toggleSky()" aria-label="Cambiar a modo día"><svg viewBox="-12 -12 24 24" width="18" height="18" aria-hidden="true"></svg></button>
 </header>
+<main>
 <div class="top-head">
   <h1 id="stepTitle">¿Cuánto necesita tu <em>cuerpo</em>?</h1>
 </div>
@@ -1144,7 +1147,7 @@
     <button type="button" class="row-opt" onclick="elegirDemo()">
       <svg class="ro-ico" id="icoDemo" viewBox="-50 -50 100 100" aria-hidden="true"></svg>
       <span class="ro-t">Con una persona de ejemplo</span>
-      <span class="ro-d">Ana, 35 años: mira cómo evoluciona su semana y cómo le gana al azar.</span>
+      <span class="ro-d">Ana, 35 años: mira cómo evoluciona su semana.</span>
       <span class="ro-m">Unos 2 minutos · sin escribir nada</span>
       <span class="ro-a" aria-hidden="true">→</span>
     </button>
@@ -1274,7 +1277,7 @@
       </ol>
     <p class="hint">Es una estimación general con fórmulas estándar. No reemplaza a un nutricionista o médico, sobre todo si tienes alguna condición de salud, estás embarazada o eres menor de edad.</p>
   </details>
-  <div class="step-nav"><span class="hint" id="step1Hint">Completa tus datos para seguir.</span><div class="right"><button class="btn primary" id="step1Next" onclick="go(3)" disabled>Siguiente: tu semana →</button></div></div>
+  <div class="step-nav"><span class="hint" id="step1Hint" role="status">Completa tus datos para seguir.</span><div class="right"><button class="btn primary" id="step1Next" onclick="go(3)" disabled>Siguiente: tu semana →</button></div></div>
 </section>
 
 <!-- PASO 2: tu semana (comidas, preferencias y alimentos) -->
@@ -1283,18 +1286,17 @@
     <h2>Tu semana</h2>
     <p class="hint">Elige qué comidas quieres y cómo prefieres tu semana.</p>
   </div></div>
-  <div class="modo" id="modo" data-no-i18n></div>
   <fieldset class="meals-pick">
     <legend class="field">¿Qué comidas quieres en tu plan?</legend>
     <div class="meal-checks">
-      <label class="check"><input type="checkbox" class="mealCheck" value="Desayuno" checked> Desayuno <small>plato + bebida</small></label>
+      <label class="check"><input type="checkbox" class="mealCheck" value="Desayuno" checked> Desayuno <small>proteína + base + bebida</small></label>
       <label class="check"><input type="checkbox" class="mealCheck" value="Almuerzo" checked> Almuerzo <small>proteína + guarnición + vegetales</small></label>
       <label class="check"><input type="checkbox" class="mealCheck" value="Cena" checked> Cena <small>proteína + guarnición + vegetales</small></label>
       <label class="check"><input type="checkbox" class="mealCheck" value="Snack" checked> Snack</label>
       <label class="check"><input type="checkbox" class="mealCheck" value="Fruta" checked> Fruta</label>
       <label class="check"><input type="checkbox" class="mealCheck" value="Postre" checked> Postre</label>
     </div>
-    <p class="hint" id="mealsHint"></p>
+    <p class="hint" id="mealsHint" role="status"></p>
   </fieldset>
   <div class="grid2" style="margin-bottom:0;">
     <div><label class="field" for="prefShop">Prefiero…</label>
@@ -1303,23 +1305,22 @@
         <option value="15" selected>Equilibrio</option>
         <option value="80">Lista de compras corta</option>
       </select></div>
-    <div class="lac-cell"><label class="check"><input type="checkbox" id="avoidLactose"> Evitar lactosa cuando se pueda</label></div>
+    <div class="lac-cell"><label class="check"><input type="checkbox" id="avoidLactose"> Sin lactosa</label></div>
   </div>
   <div class="foods-block">
-  <p class="hint">Todos vienen marcados: puedes seguir así y quitar después lo que no quieras desde el plan con <svg class="mk no" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>.</p>
+  <p class="hint">Todos vienen marcados: abre cada grupo y desmarca lo que no te guste. Con lo que quede se crea tu menú, con las porciones de cada uno. Si luego cambias de idea, también puedes quitarlo desde el plan con <svg class="mk no" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>.</p>
 
-  <details class="more" id="foodDetails">
-  <summary>Tus alimentos · <span id="foodCountSummary"></span></summary>
+  <details class="more" id="foodDetails" open>
+  <summary><span>Tus alimentos · <span id="foodCountSummary"></span></span></summary>
   <div class="food-toolbar">
-    <input type="search" id="foodSearch" placeholder="Buscar alimento…" aria-label="Buscar alimento">
     <span class="food-count" id="foodCount" hidden></span>
     <button class="link-btn" onclick="resetFoodPrefs()">Restablecer</button>
   </div>
   <div id="foodLists"></div>
-  <p class="hint" style="margin-top:12px;"><strong>¿De dónde salen estos alimentos?</strong> Es una lista de ejemplo con alimentos comunes en muchos países, armada para este experimento. Si un alimento tiene otro nombre en otros lugares, lo ponemos entre paréntesis. Los valores de proteína, grasa y carbohidratos son aproximados (tablas generales y recetas caseras típicas): sirven para mostrar cómo trabaja el algoritmo, no como guía de nutrición.</p>
+  <p class="hint" style="margin-top:12px;"><strong>¿De dónde salen estos alimentos?</strong> Son productos de los supermercados dominicanos, nombrados como se suelen comer. Los valores de proteína, grasa y carbohidratos son aproximados (tablas generales y recetas caseras típicas): sirven para mostrar cómo trabaja el algoritmo, no como guía de nutrición.</p>
   <details class="more">
     <summary>¿Cómo funcionan las porciones?</summary>
-    <p class="hint">Cada porción que ves es la base. Para acercarse a tu meta, el plan puede servir media porción, 1, 1½ o 2 porciones. La <strong>porción</strong> que eliges en cada alimento es lo más que puede servir de él: súbela en lo que sí comerías en más cantidad (arroz, pollo…). Lo que no tiene sentido partir (un huevo duro, una lata, un muffin) siempre se sirve entero.</p>
+    <p class="hint">Debajo de cada alimento ves cuánto se puede servir de él. El algoritmo elige la cantidad dentro de ese rango para acercarse a tu meta; tú solo decides qué alimentos quedan marcados. Lo que no tiene sentido partir (un vaso de leche, un flan) siempre se sirve entero. Si tu meta es muy alta, puede servir más proteína y más base de lo que indica el rango.</p>
   </details>
   </details>
   </div>
@@ -1352,7 +1353,7 @@
     <ol class="as-steps">
       <li><strong>Una flor de semanas.</strong> Cada semilla es una semana que probamos; la flor crece vuelta a vuelta.</li>
       <li><strong>Una línea que sube</strong> a medida que la mejor semana se acerca a lo que Ana necesita.</li>
-      <li><strong>Una comparación con el azar</strong>, con la misma cantidad de intentos.</li>
+      <li><strong>Si quieres, una comparación con el azar</strong>, con la misma cantidad de intentos.</li>
     </ol>
     <div class="as-go"><p class="as-time">Tarda unos 10 segundos. Al final verás la semana de Ana.</p>
       <button type="button" class="btn primary go" onclick="empezarAna()">Empezar la búsqueda →</button></div>
@@ -1381,8 +1382,8 @@
     <button class="btn primary" onclick="runComparison()">Comparar con el azar</button>
     <div id="compareCard" style="display:none; margin-top:14px;"><div id="compare"></div></div>
   </section>
-  <section class="faq" aria-labelledby="faqT">
-  <h3 id="faqT" aria-level="2">Preguntas frecuentes</h3>
+  <details class="more faq">
+  <summary>Preguntas frecuentes</summary>
   <details class="more" id="gaStoryBox">
     <summary>¿Qué es un algoritmo genético?</summary>
     <div class="ga-story">
@@ -1406,7 +1407,7 @@
     <summary>¿Cómo sabe cuál semana es mejor?</summary>
     <div id="gaScore"></div>
   </details>
-  </section>
+  </details>
   <div class="step-nav demo-nav"><button class="btn secondary run-lock" onclick="startIntro()">← Ver la introducción</button>
     <div class="right"><button class="btn secondary" id="demoAgain" onclick="dirty = true; rerun()">Ver crecer otra vez</button>
       <button class="btn primary go" id="demoPlan" onclick="go(5)" disabled>Ver la semana de Ana →</button></div></div>
@@ -1417,18 +1418,13 @@
 
 <section class="card screen hidden-screen" id="resultsCard" data-step="5">
   <div id="results"></div>
-  <!-- Comentarios: cuando se publique el artículo, cambia este enlace por el del artículo (termina en /comments) -->
-  <div class="talk">
-    <h3 aria-level="2">¿Qué te pareció?</h3>
-    <p>Me encantaría leerte. ¿Podrías explicar con tus palabras qué hizo el algoritmo? ¿Algo te sorprendió o lo cambiarías? Cuéntamelo en los comentarios del artículo.</p>
-    <a class="btn leaf" id="talkLink" href="https://designingspring.substack.com/" target="_blank" rel="noopener" onclick="track('8-comentar')">Comentar en Designing Spring →</a>
-  </div>
-  <div class="step-nav demo-nav5"><button class="btn secondary" onclick="go(4)">← Ver cómo evolucionó tu semana</button>
+  <div class="step-nav demo-nav5">
     <div class="right"><button class="btn primary go" onclick="usarMisDatos()">Ahora arma la tuya →</button></div></div>
-  <div class="step-nav normal-nav5"><button class="btn secondary" onclick="go(4)">← Ver cómo evolucionó tu semana</button>
-    <div class="right"><button class="btn secondary" onclick="generarOtro()">Generar otro plan</button><button class="btn primary" id="pdfBtnMain" onclick="downloadPDF(this)">Descargar tu plan (PDF)</button></div></div>
+  <div class="step-nav normal-nav5">
+    <div class="right"><button class="btn secondary" onclick="generarOtro()">Generar otro plan</button><button class="btn secondary" id="pdfBtnMain" onclick="downloadPDF(this)">Descargar tu plan (PDF)</button><a class="btn primary" id="presuLink" href="presupuesto/index.html" onclick="return irPresupuesto()">Crear mi presupuesto y lista →</a></div></div>
 </section>
 
+</main>
 <div class="edu-note"><span class="edu-seeds" aria-hidden="true"><i></i><i></i><i></i></span><p class="edu-title">Esto es un proyecto educativo</p><p>Los valores son aproximados y no reemplazan a un profesional de la salud.</p></div>
 <div class="footer-note credit foot-row"><span>Creado por <a href="https://rasmorell.github.io/">rasmorell</a></span><span><a href="https://designingspring.substack.com/" target="_blank" rel="noopener">Designing Spring</a> · 2026 · <button type="button" class="linklike privacy-link" onclick="document.getElementById('privacy').showModal()">Privacidad</button></span></div>
 
@@ -1473,130 +1469,174 @@ let LANG = (() => {
 })();
 </script>
 <script>
+// Los productos: la misma lista del presupuesto (se revisa con catalogo/verificar.py).
 const FOODS = {
-  Desayuno: [
-    { name: "Avena cocida", portion: "1 taza (~235g)", amount: 235, unit: "g", p: 6, f: 3.5, c: 27, lac: false },
-    { name: "Avena con yogur griego y fruta", portion: "40g de avena + 150g de yogur + fruta", amount: 40, unit: "g de avena (+ yogur y fruta)", p: 21, f: 3.6, c: 50, lac: true },
-    { name: "Pan integral con huevo", portion: "2 rebanadas + 1 huevo", amount: 60, unit: "g de pan (+ 1 huevo)", p: 13, f: 7, c: 24, lac: false, whole: true },
-    { name: "Tostadas con aguacate y huevo", portion: "2 rebanadas + 1/4 de aguacate + 1 huevo", amount: 60, unit: "g de pan (+ aguacate y huevo)", p: 14, f: 12, c: 27, lac: false, whole: true },
-    { name: "Huevos revueltos (2 huevos + 2 claras)", portion: "1 plato (~170g)", amount: 170, unit: "g", p: 19, f: 10, c: 1, lac: false, whole: true },
-    { name: "Tortilla de claras con espinaca", portion: "4 claras + 1 huevo", amount: 190, unit: "g", p: 20, f: 5.5, c: 2, lac: false, whole: true },
-    { name: "Panqueques de avena y claras", portion: "2 unidades (~120g)", amount: 120, unit: "g", p: 14, f: 3, c: 18, lac: false },
-    { name: "Yogur griego con granola", portion: "170g + 30g de granola", amount: 170, unit: "g de yogur (+ 30g de granola)", p: 20, f: 5, c: 30, lac: true },
-    { name: "Sándwich de jamón de pavo y queso", portion: "2 rebanadas + 50g de jamón de pavo + 1 lonja de queso", amount: 60, unit: "g de pan (+ jamón de pavo y queso)", p: 23, f: 8, c: 26, lac: true, whole: true },
-    // Sueltos, para quien desayuna lo básico (nuevo: Ana no los usa, así su semana no cambia)
-    { name: "Huevo", portion: "1 unidad (~50g)", amount: 50, unit: "g (~1 unidad)", p: 6.5, f: 5, c: 0.5, lac: false, whole: true, nuevo: true },
-    { name: "Lonjas de jamón de pavo", portion: "4 lonjas (~60g)", amount: 60, unit: "g", p: 13, f: 1.2, c: 1.2, lac: false, nuevo: true },
-    { name: "Queso blanco fresco", portion: "60g", amount: 60, unit: "g", p: 12, f: 14, c: 2, lac: true, nuevo: true },
+  "Desayuno": [
+    {"name":"Claras revueltas","portion":"4 claras","amount":4,"unit":"u","p":14.4,"f":0.3,"c":0.9,"lac":false,"b":2,"uMin":2,"uMax":2,"nuevo":true},
+    {"name":"Huevos revueltos","prod":"Huevos","portion":"2 huevos","amount":2,"unit":"u","p":12.6,"f":9.6,"c":0.8,"lac":false,"b":2,"uMin":2,"uMax":3},
+    {"name":"Atún en agua","portion":"1 lata de atún","amount":1,"unit":"lata","p":26,"f":1,"c":0,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Salami","portion":"4 lonjas de salami","amount":4,"unit":"lonja","p":8,"f":16,"c":2,"lac":false,"b":2,"uMin":2,"uMax":2},
+    {"name":"Jamón de pavo","portion":"4 lonjas de jamón de pavo","amount":4,"unit":"lonja","p":12,"f":2,"c":2,"lac":false,"b":2,"uMin":2,"uMax":3},
+    {"name":"Sardinas en lata","portion":"1 lata de sardinas","amount":1,"unit":"lata","p":22,"f":10,"c":0,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Tofu a la plancha","prod":"Tofu","portion":"200 g","amount":200,"unit":"g","p":16,"f":9,"c":4,"lac":false,"b":2,"uMin":2,"uMax":2},
+    {"name":"Queso de freír","portion":"2 lonjas de queso de freír","amount":2,"unit":"lonja","p":12,"f":16,"c":2,"lac":true,"b":2,"uMin":2,"uMax":2},
+    {"name":"Queso blanco fresco","portion":"60 g","amount":60,"unit":"g","p":12,"f":11,"c":2,"lac":true,"b":2,"uMin":2,"uMax":2},
+    {"name":"Yogur griego","portion":"1 taza de yogur griego","amount":1,"unit":"taza","p":17,"f":0.7,"c":6,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Yogur natural","portion":"1 taza de yogur natural","amount":1,"unit":"taza","p":8.5,"f":8,"c":11.4,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Queso amarillo","portion":"2 lonjas de queso amarillo","amount":2,"unit":"lonja","p":10,"f":13,"c":1,"lac":true,"b":2,"uMin":2,"uMax":2},
+    {"name":"Queso cottage","portion":"½ taza de queso cottage","amount":0.5,"unit":"taza","p":12,"f":2.5,"c":4,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Batida de proteína","prod":"Proteína en polvo","portion":"1 batida de proteína","amount":1,"unit":"medida","p":24,"f":1.5,"c":3,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
   ],
-  Bebida: [
-    { name: "Leche descremada", portion: "250ml", amount: 250, unit: "ml", p: 8.5, f: 0.5, c: 12, lac: true },
-    { name: "Leche descremada deslactosada", portion: "250ml", amount: 250, unit: "ml", p: 8.5, f: 0.5, c: 12, lac: false },
-    { name: "Leche de soya", portion: "250ml", amount: 250, unit: "ml", p: 7, f: 4, c: 4, lac: false },
-    { name: "Yogur bebible / kéfir", portion: "250ml", amount: 250, unit: "ml", p: 8, f: 5, c: 12, lac: true },
-    { name: "Batido de proteína whey", portion: "1 medida (30 g) + agua", amount: 30, unit: "g de polvo", p: 24, f: 1.5, c: 3, lac: true },
-    { name: "Batido de proteína vegetal", portion: "1 medida (30 g) + agua", amount: 30, unit: "g de polvo", p: 21, f: 2, c: 2, lac: false },
-    { name: "Smoothie de yogur griego y fruta", portion: "300ml", amount: 300, unit: "ml", p: 15, f: 2, c: 25, lac: true },
-    // Lo que la gente toma de verdad en la mañana (nuevo: Ana no los usa). Sin azúcar, salvo el chocolate.
-    { name: "Café negro", portion: "250ml", amount: 250, unit: "ml", p: 0.3, f: 0, c: 0, lac: false, nuevo: true },
-    { name: "Café con azúcar", portion: "250ml (2 cditas de azúcar)", amount: 250, unit: "ml", p: 0.3, f: 0, c: 8, lac: false, nuevo: true },
-    { name: "Café con leche", portion: "250ml (mitad café, mitad leche descremada)", amount: 250, unit: "ml", p: 4.5, f: 0.3, c: 6, lac: true, nuevo: true },
-    { name: "Café con leche vegetal", portion: "250ml (mitad café, mitad leche de soya)", amount: 250, unit: "ml", p: 3.5, f: 2, c: 2, lac: false, nuevo: true },
-    { name: "Chocolate caliente", portion: "250ml (leche descremada + cacao + 3 cditas de azúcar)", amount: 250, unit: "ml", p: 10.5, f: 2, c: 30, lac: true, nuevo: true },
+  "DesayunoBase": [
+    {"name":"Pan integral","portion":"2 rebanadas de pan integral","amount":2,"unit":"rebanada","p":7,"f":2,"c":24,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Pan de agua","portion":"1 pan de agua","amount":1,"unit":"u","p":5,"f":1,"c":32,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Avena cocida","prod":"Avena","portion":"½ taza de avena","amount":0.5,"unit":"taza","p":5,"f":2.5,"c":27,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Mangú","prod":"Plátano verde","portion":"1 plátano (mangú o hervido)","amount":1,"unit":"u","p":2,"f":0.4,"c":58,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Yuca hervida","prod":"Yuca","portion":"100 g","amount":100,"unit":"g","p":1.4,"f":0.3,"c":38,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Batata hervida","prod":"Batata","portion":"1 batata mediana","amount":1,"unit":"u","p":2,"f":0.1,"c":26,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Tortillas de trigo","portion":"2 tortillas","amount":2,"unit":"u","p":8,"f":7,"c":48,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Pan de molde","portion":"2 rebanadas de pan de molde","amount":2,"unit":"rebanada","p":5,"f":2,"c":28,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Casabe","portion":"1 torta de casabe","amount":1,"unit":"torta","p":0.5,"f":0.1,"c":26,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Guineítos hervidos","prod":"Guineo verde","portion":"2 guineos verdes","amount":2,"unit":"u","p":2.6,"f":0.8,"c":56,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Ñame hervido","prod":"Ñame","portion":"100 g","amount":100,"unit":"g","p":1.5,"f":0.2,"c":28,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Yautía hervida","prod":"Yautía","portion":"100 g","amount":100,"unit":"g","p":1.5,"f":0.2,"c":24,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Granola","portion":"¼ taza de granola","amount":0.25,"unit":"taza","p":3,"f":5,"c":16,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
   ],
-  Snack: [
-    { name: "Huevo duro", portion: "1 unidad (~50g)", amount: 50, unit: "g (~1 unidad)", p: 6, f: 5, c: 0.5, lac: false, whole: true },
-    { name: "Claras de huevo", portion: "100g (~3 claras)", amount: 100, unit: "g", p: 11, f: 0.2, c: 0.7, lac: false },
-    { name: "Yogur griego", portion: "125g", amount: 125, unit: "g", p: 12, f: 4, c: 5, lac: true },
-    { name: "Queso cottage", portion: "100g", amount: 100, unit: "g", p: 11, f: 4.3, c: 3.4, lac: true },
-    { name: "Queso en tiras (light)", portion: "30g", amount: 30, unit: "g", p: 7, f: 5, c: 1, lac: true },
-    { name: "Jamón de pavo", portion: "100g", amount: 100, unit: "g", p: 22, f: 2, c: 2, lac: false },
-    { name: "Atún en lata (en agua)", portion: "1 lata escurrida (~80g)", amount: 80, unit: "g", p: 20, f: 1, c: 0, lac: false, whole: true },
-    { name: "Sardinas en lata (escurridas)", portion: "1 lata (~90g)", amount: 90, unit: "g", p: 21, f: 10, c: 0, lac: false, whole: true },
-    { name: "Edamame", portion: "1 taza (~155g)", amount: 155, unit: "g", p: 18, f: 8, c: 14, lac: false, nuevo: true },
-    { name: "Almendras", portion: "1 puñado (~30g)", amount: 30, unit: "g", p: 6, f: 15, c: 6, lac: false },
-    { name: "Hummus con zanahoria", portion: "60g de hummus + 1 zanahoria", amount: 60, unit: "g de hummus (+ 1 zanahoria)", p: 5, f: 6, c: 16, lac: false },
-    { name: "Pan integral con mantequilla de maní", portion: "1 rebanada + 1 cda", amount: 30, unit: "g de pan (+ 1 cda de mantequilla de maní)", p: 7, f: 9, c: 15, lac: false, whole: true },
+  "Bebida": [
+    {"name": "Leche de soya", "portion": "1 vaso", "amount": 1, "unit": "vaso", "p": 7, "f": 4, "c": 4, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "nuevo": true, "whole": true},
+    {"name":"Leche descremada","portion":"1 vaso de leche","amount":1,"unit":"vaso","p":8,"f":0.2,"c":12,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Leche entera","portion":"1 vaso de leche entera","amount":1,"unit":"vaso","p":8,"f":8,"c":12,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true},
+    // De la app 1: sin ellas, el desayuno siempre llevaba leche y «Evitar lactosa» no podía cumplirse.
+    {"name":"Leche deslactosada","portion":"1 vaso","amount":1,"unit":"vaso","p":8.5,"f":0.5,"c":12,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true,"nuevo":true},
+    {"name":"Café negro","portion":"1 taza","amount":250,"unit":"ml","p":0.3,"f":0,"c":0,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true,"nuevo":true},
+    {"name":"Café con azúcar","portion":"1 taza (2 cditas de azúcar)","amount":250,"unit":"ml","p":0.3,"f":0,"c":8,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true,"nuevo":true},
+    {"name":"Café con leche","portion":"1 taza (mitad café, mitad leche)","amount":250,"unit":"ml","p":4.5,"f":0.3,"c":6,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true,"nuevo":true},
+    {"name":"Chocolate caliente","portion":"1 taza (leche, cacao y azúcar)","amount":250,"unit":"ml","p":10.5,"f":2,"c":30,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true,"nuevo":true},
   ],
-  ComidaPrincipal: [
-    { name: "Pechuga de pollo", portion: "100g", amount: 100, unit: "g", p: 31, f: 3.6, c: 0, lac: false },
-    { name: "Muslo de pollo sin piel", portion: "100g", amount: 100, unit: "g", p: 26, f: 8, c: 0, lac: false },
-    { name: "Pechuga de pavo", portion: "100g", amount: 100, unit: "g", p: 29, f: 1, c: 0, lac: false },
-    { name: "Carne molida de res magra", portion: "100g", amount: 100, unit: "g", p: 26, f: 10, c: 0, lac: false },
-    { name: "Bistec de res (corte magro)", portion: "100g", amount: 100, unit: "g", p: 27, f: 6, c: 0, lac: false },
-    { name: "Lomo de cerdo", portion: "100g", amount: 100, unit: "g", p: 27, f: 6, c: 0, lac: false },
-    { name: "Salmón", portion: "100g", amount: 100, unit: "g", p: 25, f: 13, c: 0, lac: false },
-    { name: "Atún", portion: "100g", amount: 100, unit: "g", p: 26, f: 1, c: 0, lac: false },
-    { name: "Tilapia", portion: "100g", amount: 100, unit: "g", p: 26, f: 2.7, c: 0, lac: false },
-    { name: "Pescado blanco (merluza, bacalao)", portion: "100g", amount: 100, unit: "g", p: 23, f: 0.9, c: 0, lac: false },
-    { name: "Camarones", portion: "100g", amount: 100, unit: "g", p: 24, f: 0.3, c: 0.2, lac: false },
-    { name: "Tofu firme", portion: "100g", amount: 100, unit: "g", p: 15, f: 8, c: 3, lac: false },
-    { name: "Lentejas cocidas", portion: "100g", amount: 100, unit: "g", p: 9, f: 0.4, c: 20, lac: false },
-    { name: "Garbanzos cocidos", portion: "100g", amount: 100, unit: "g", p: 9, f: 2.6, c: 27, lac: false },
-    // Platos moderados en proteína: para metas bajas o medias (y más variedad).
-    { name: "Sopa de lentejas", portion: "1 plato (~300g)", amount: 300, unit: "g", p: 13, f: 3, c: 30, lac: false },
-    { name: "Sopa de pollo con vegetales", portion: "1 plato (~400g)", amount: 400, unit: "g", p: 18, f: 5, c: 20, lac: false },
-    { name: "Tortilla de vegetales (2 huevos)", portion: "1 tortilla (~180g)", amount: 180, unit: "g", p: 13, f: 11, c: 6, lac: false, whole: true },
-    { name: "Ensalada de pollo", portion: "1 plato (~200g, 60g de pollo)", amount: 200, unit: "g", p: 18, f: 8, c: 8, lac: false },
-    { name: "Ensalada de atún", portion: "1 plato (~200g, 80g de atún)", amount: 200, unit: "g", p: 20, f: 6, c: 6, lac: false },
-    { name: "Salteado de res con vegetales", portion: "1 plato (~250g)", amount: 250, unit: "g", p: 24, f: 10, c: 10, lac: false },
-    { name: "Chili de frijoles con carne", portion: "1 taza (~250g)", amount: 250, unit: "g", p: 18, f: 8, c: 25, lac: false },
-    { name: "Crema de calabaza con queso", portion: "1 plato (~300g)", amount: 300, unit: "g", p: 8, f: 6, c: 22, lac: true },
-  ],
-  Postre: [
-    { name: "Yogur griego con miel", portion: "170g + 1 cdita de miel", amount: 170, unit: "g de yogur (+ 1 cdita de miel)", p: 17, f: 0.7, c: 14, lac: true },
-    { name: "Queso cottage con fruta", portion: "120g + 1/2 taza de fruta", amount: 120, unit: "g de queso (+ fruta)", p: 13, f: 4.5, c: 14, lac: true },
-    { name: "Manzana con mantequilla de maní", portion: "1 unidad + 15g", amount: 15, unit: "g de mantequilla de maní (+ manzana entera)", p: 4, f: 8, c: 20, lac: false, whole: true },
-    { name: "Chocolate oscuro (70%)", portion: "20g", amount: 20, unit: "g", p: 1.6, f: 8.5, c: 9, lac: false },
-    { name: "Pudín de proteína", portion: "150g", amount: 150, unit: "g", p: 20, f: 3, c: 10, lac: true },
-    { name: "Helado proteico", portion: "100g", amount: 100, unit: "g", p: 15, f: 5, c: 15, lac: true },
-    { name: "Barra de proteína", portion: "40g", amount: 40, unit: "g", p: 15, f: 8, c: 15, lac: false, whole: true },
-    { name: "Muffin proteico", portion: "1 unidad (60g)", amount: 60, unit: "g", p: 12, f: 4, c: 18, lac: false, whole: true },
-  ],
-  Fruta: [
-    { name: "Banana (guineo)", portion: "1 mediana (~120g)", amount: 120, unit: "g", p: 1.3, f: 0.4, c: 27, lac: false },
-    { name: "Manzana", portion: "1 mediana (~180g)", amount: 180, unit: "g", p: 0.5, f: 0.3, c: 25, lac: false },
-    { name: "Naranja", portion: "1 mediana (~130g)", amount: 130, unit: "g", p: 1.2, f: 0.2, c: 15, lac: false },
-    { name: "Pera", portion: "1 mediana (~180g)", amount: 180, unit: "g", p: 0.7, f: 0.2, c: 27, lac: false },
-    { name: "Uvas", portion: "1 taza (~150g)", amount: 150, unit: "g", p: 1.1, f: 0.3, c: 27, lac: false },
-    { name: "Fresas", portion: "1 taza (~150g)", amount: 150, unit: "g", p: 1, f: 0.5, c: 12, lac: false },
-    { name: "Arándanos", portion: "1 taza (~150g)", amount: 150, unit: "g", p: 1.1, f: 0.5, c: 21, lac: false },
-    { name: "Kiwi", portion: "2 unidades (~150g)", amount: 150, unit: "g", p: 1.7, f: 0.8, c: 22, lac: false },
-    { name: "Durazno (melocotón)", portion: "1 mediano (~150g)", amount: 150, unit: "g", p: 1.4, f: 0.4, c: 14, lac: false },
-    { name: "Piña", portion: "1 taza (~165g)", amount: 165, unit: "g", p: 0.9, f: 0.2, c: 22, lac: false },
-    { name: "Mango", portion: "1 taza (~165g)", amount: 165, unit: "g", p: 1.4, f: 0.6, c: 25, lac: false },
-    { name: "Papaya (lechosa)", portion: "1 taza (~145g)", amount: 145, unit: "g", p: 0.7, f: 0.4, c: 16, lac: false },
-    { name: "Melón", portion: "1 taza (~160g)", amount: 160, unit: "g", p: 1.3, f: 0.3, c: 13, lac: false },
-    { name: "Sandía", portion: "2 tazas (~300g)", amount: 300, unit: "g", p: 1.8, f: 0.5, c: 23, lac: false },
+  "ComidaPrincipal": [
+    {"name": "Salmón al horno", "portion": "100 g", "amount": 100, "unit": "g", "p": 25, "f": 13, "c": 0, "lac": false, "b": 2, "uMin": 2, "uMax": 3, "nuevo": true},
+    {"name": "Tilapia a la plancha", "portion": "100 g", "amount": 100, "unit": "g", "p": 26, "f": 2.7, "c": 0, "lac": false, "b": 2, "uMin": 2, "uMax": 4, "nuevo": true},
+    {"name": "Muslo de pollo al horno", "portion": "100 g", "amount": 100, "unit": "g", "p": 26, "f": 8, "c": 0, "lac": false, "b": 2, "uMin": 2, "uMax": 3, "nuevo": true},
+    {"name": "Lomo de cerdo al horno", "portion": "100 g", "amount": 100, "unit": "g", "p": 27, "f": 6, "c": 0, "lac": false, "b": 2, "uMin": 2, "uMax": 3, "nuevo": true},
+    {"name": "Edamame", "portion": "1 taza", "amount": 1, "unit": "taza", "p": 18, "f": 8, "c": 14, "lac": false, "b": 2, "uMin": 2, "uMax": 2, "nuevo": true},
+    {"name":"Huevos revueltos","prod":"Huevos","portion":"2 huevos","amount":2,"unit":"u","p":12.6,"f":9.6,"c":0.8,"lac":false,"b":2,"uMin":2,"uMax":3},
+    {"name":"Pechuga a la plancha","prod":"Pechuga de pollo","portion":"100 g","amount":100,"unit":"g","p":31,"f":3.6,"c":0,"lac":false,"b":2,"uMin":2,"uMax":4},
+    {"name":"Carne molida guisada","prod":"Carne molida","portion":"100 g","amount":100,"unit":"g","p":26,"f":16,"c":0,"lac":false,"b":2,"uMin":2,"uMax":3},
+    {"name":"Atún en agua","portion":"1 lata de atún","amount":1,"unit":"lata","p":26,"f":1,"c":0,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Habichuelas guisadas","prod":"Habichuelas","portion":"1 taza de habichuelas","amount":1,"unit":"taza","p":15,"f":1,"c":40,"lac":false,"b":2,"uMin":2,"uMax":2},
+    {"name":"Salami","portion":"4 lonjas de salami","amount":4,"unit":"lonja","p":8,"f":16,"c":2,"lac":false,"b":2,"uMin":2,"uMax":2},
+    {"name":"Jamón de pavo","portion":"4 lonjas de jamón de pavo","amount":4,"unit":"lonja","p":12,"f":2,"c":2,"lac":false,"b":2,"uMin":2,"uMax":3},
+    {"name":"Pescado horneado","prod":"Pescado blanco","portion":"100 g","amount":100,"unit":"g","p":26,"f":2.6,"c":0,"lac":false,"b":2,"uMin":2,"uMax":4},
+    {"name":"Chuleta al horno","prod":"Chuleta de cerdo","portion":"100 g","amount":100,"unit":"g","p":26,"f":11,"c":0,"lac":false,"b":2,"uMin":2,"uMax":3},
+    {"name":"Bistec de res","prod":"Res guisada","portion":"100 g","amount":100,"unit":"g","p":28,"f":12,"c":0,"lac":false,"b":2,"uMin":2,"uMax":3},
+    {"name":"Camarones a la plancha","prod":"Camarones","portion":"100 g","amount":100,"unit":"g","p":22,"f":1,"c":1,"lac":false,"b":2,"uMin":2,"uMax":4},
+    {"name":"Longaniza","portion":"100 g","amount":100,"unit":"g","p":16,"f":26,"c":2,"lac":false,"b":2,"uMin":2,"uMax":2},
+    {"name":"Sardinas en lata","portion":"1 lata de sardinas","amount":1,"unit":"lata","p":22,"f":10,"c":0,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Gandules guisados","prod":"Gandules","portion":"1 taza de gandules","amount":1,"unit":"taza","p":13,"f":0.8,"c":38,"lac":false,"b":2,"uMin":2,"uMax":2},
+    {"name":"Lentejas guisadas","prod":"Lentejas","portion":"1 taza de lentejas","amount":1,"unit":"taza","p":18,"f":0.8,"c":40,"lac":false,"b":2,"uMin":2,"uMax":2},
+    {"name":"Garbanzos guisados","prod":"Garbanzos","portion":"1 taza de garbanzos","amount":1,"unit":"taza","p":14,"f":4,"c":44,"lac":false,"b":2,"uMin":2,"uMax":2},
+    {"name":"Tofu a la plancha","prod":"Tofu","portion":"200 g","amount":200,"unit":"g","p":16,"f":9,"c":4,"lac":false,"b":2,"uMin":2,"uMax":2},
   ],
   "Guarnición": [
-    { name: "Arroz blanco", portion: "1 taza cocido (~160g)", amount: 160, unit: "g", p: 4, f: 0.4, c: 45, lac: false },
-    { name: "Arroz integral", portion: "1 taza cocido (~195g)", amount: 195, unit: "g", p: 5, f: 1.8, c: 45, lac: false },
-    { name: "Pasta cocida", portion: "1 taza (~140g)", amount: 140, unit: "g", p: 8, f: 1.3, c: 43, lac: false },
-    { name: "Quinoa cocida", portion: "1 taza (~185g)", amount: 185, unit: "g", p: 8, f: 3.6, c: 39, lac: false },
-    { name: "Papa hervida", portion: "1 mediana (~170g)", amount: 170, unit: "g", p: 3.4, f: 0.2, c: 34, lac: false },
-    { name: "Batata (camote) hervida", portion: "1 mediana (~150g)", amount: 150, unit: "g", p: 2.1, f: 0.2, c: 30, lac: false },
-    { name: "Maíz dulce (elote)", portion: "1 taza (~145g)", amount: 145, unit: "g", p: 4.7, f: 1.9, c: 27, lac: false },
-    { name: "Frijoles cocidos (habichuelas)", portion: "1/2 taza (~130g)", amount: 130, unit: "g", p: 11, f: 0.6, c: 30, lac: false },
-    { name: "Pan integral", portion: "2 rebanadas (~60g)", amount: 60, unit: "g", p: 7, f: 2, c: 24, lac: false },
+    {"name": "Quinoa cocida", "portion": "1 taza", "amount": 1, "unit": "taza", "p": 8, "f": 3.6, "c": 39, "lac": false, "b": 2, "uMin": 1, "uMax": 3, "nuevo": true},
+    {"name": "Maíz dulce", "portion": "1 taza", "amount": 1, "unit": "taza", "p": 4.7, "f": 1.9, "c": 27, "lac": false, "b": 2, "uMin": 1, "uMax": 2, "nuevo": true},
+    {"name":"Arroz blanco","prod":"Arroz","portion":"1 taza de arroz","amount":1,"unit":"taza","p":4,"f":0.4,"c":44,"lac":false,"b":2,"uMin":1,"uMax":3},
+    {"name":"Pan integral","portion":"2 rebanadas de pan integral","amount":2,"unit":"rebanada","p":7,"f":2,"c":24,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Pan de agua","portion":"1 pan de agua","amount":1,"unit":"u","p":5,"f":1,"c":32,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Mangú","prod":"Plátano verde","portion":"1 plátano (mangú o hervido)","amount":1,"unit":"u","p":2,"f":0.4,"c":58,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Yuca hervida","prod":"Yuca","portion":"100 g","amount":100,"unit":"g","p":1.4,"f":0.3,"c":38,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Batata hervida","prod":"Batata","portion":"1 batata mediana","amount":1,"unit":"u","p":2,"f":0.1,"c":26,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Pasta cocida","prod":"Pasta","portion":"1 taza de pasta","amount":1,"unit":"taza","p":8,"f":1.2,"c":44,"lac":false,"b":2,"uMin":1,"uMax":3},
+    {"name":"Tortillas de trigo","portion":"2 tortillas","amount":2,"unit":"u","p":8,"f":7,"c":48,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Arroz integral","portion":"1 taza de arroz integral","amount":1,"unit":"taza","p":5,"f":1.8,"c":44.8,"lac":false,"b":2,"uMin":1,"uMax":3},
+    {"name":"Pan de molde","portion":"2 rebanadas de pan de molde","amount":2,"unit":"rebanada","p":5,"f":2,"c":28,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Casabe","portion":"1 torta de casabe","amount":1,"unit":"torta","p":0.5,"f":0.1,"c":26,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Guineítos hervidos","prod":"Guineo verde","portion":"2 guineos verdes","amount":2,"unit":"u","p":2.6,"f":0.8,"c":56,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Papa hervida","prod":"Papa","portion":"1 papa mediana","amount":1,"unit":"u","p":4.3,"f":0.2,"c":37,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Ñame hervido","prod":"Ñame","portion":"100 g","amount":100,"unit":"g","p":1.5,"f":0.2,"c":28,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Yautía hervida","prod":"Yautía","portion":"100 g","amount":100,"unit":"g","p":1.5,"f":0.2,"c":24,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
   ],
-  Vegetales: [
-    { name: "Ensalada verde (lechuga, tomate, pepino)", portion: "1 plato (~150g)", amount: 150, unit: "g", p: 1.5, f: 0.3, c: 6, lac: false },
-    { name: "Brócoli al vapor", portion: "1 taza (~155g)", amount: 155, unit: "g", p: 3.7, f: 0.6, c: 11, lac: false },
-    { name: "Coliflor al vapor", portion: "1 taza (~125g)", amount: 125, unit: "g", p: 2.3, f: 0.6, c: 5, lac: false },
-    { name: "Zanahoria cocida", portion: "1 taza (~155g)", amount: 155, unit: "g", p: 1.2, f: 0.3, c: 13, lac: false },
-    { name: "Judías verdes (vainitas)", portion: "1 taza (~125g)", amount: 125, unit: "g", p: 2.4, f: 0.4, c: 10, lac: false },
-    { name: "Calabacín (zucchini) al vapor", portion: "1 taza (~180g)", amount: 180, unit: "g", p: 2.1, f: 0.6, c: 5, lac: false },
-    { name: "Espinacas salteadas", portion: "1 taza cocida (~180g, 1 cdita de aceite)", amount: 180, unit: "g", p: 5.3, f: 5, c: 7, lac: false },
-    { name: "Champiñones salteados", portion: "1 taza (~150g, 1 cdita de aceite)", amount: 150, unit: "g", p: 3.4, f: 5, c: 8, lac: false },
-    { name: "Remolacha", portion: "1 taza (~170g)", amount: 170, unit: "g", p: 2.9, f: 0.3, c: 17, lac: false },
-    { name: "Vegetales salteados", portion: "1 taza (~150g, 1 cdita de aceite)", amount: 150, unit: "g", p: 2, f: 5, c: 10, lac: false },
-    { name: "Aguacate", portion: "1/2 mediano (~100g)", amount: 100, unit: "g", p: 2, f: 15, c: 9, lac: false },
+  "Vegetales": [
+    {"name": "Coliflor al vapor", "portion": "1 taza", "amount": 1, "unit": "taza", "p": 2.3, "f": 0.6, "c": 5, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "nuevo": true, "whole": true},
+    {"name": "Calabacín al vapor", "portion": "1 taza", "amount": 1, "unit": "taza", "p": 2.1, "f": 0.6, "c": 5, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "nuevo": true, "whole": true},
+    {"name": "Champiñones salteados", "portion": "1 taza", "amount": 1, "unit": "taza", "p": 3.4, "f": 5, "c": 8, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "nuevo": true, "whole": true},
+    {"name":"Ensalada verde","portion":"2 tazas de ensalada verde","amount":2,"unit":"taza","p":2,"f":0.4,"c":8,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Brócoli al vapor","prod":"Brócoli","portion":"1 taza de brócoli","amount":1,"unit":"taza","p":3.7,"f":0.6,"c":11,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Zanahoria","portion":"2 zanahorias","amount":2,"unit":"u","p":1.2,"f":0.2,"c":12,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Aguacate","portion":"½ aguacate","amount":0.5,"unit":"u","p":2,"f":14.8,"c":8.6,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Tomate","portion":"2 tomates","amount":2,"unit":"u","p":2,"f":0.4,"c":9.6,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Pepino","portion":"1 taza de pepino","amount":1,"unit":"taza","p":0.7,"f":0.1,"c":3.8,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Repollo","portion":"1 taza de repollo","amount":1,"unit":"taza","p":1,"f":0.1,"c":5,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Berenjena asada","prod":"Berenjena","portion":"1 taza de berenjena","amount":1,"unit":"taza","p":0.8,"f":0.2,"c":8.6,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Vainitas al vapor","prod":"Vainitas","portion":"1 taza de vainitas","amount":1,"unit":"taza","p":2.4,"f":0.4,"c":10,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Auyama hervida","prod":"Auyama","portion":"1 taza de auyama","amount":1,"unit":"taza","p":1.8,"f":0.2,"c":12,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Espinaca cocida","prod":"Espinaca","portion":"1 taza de espinaca cocida","amount":1,"unit":"taza","p":5.3,"f":0.5,"c":6.8,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Tayota hervida","prod":"Tayota","portion":"1 taza de tayota","amount":1,"unit":"taza","p":0.8,"f":0.8,"c":9,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Remolacha cocida","prod":"Remolacha","portion":"1 taza de remolacha","amount":1,"unit":"taza","p":2.2,"f":0.2,"c":13,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+  ],
+  "Snack": [
+    {"name": "Hummus con zanahoria", "portion": "60 g + 1 zanahoria", "amount": 60, "unit": "g", "p": 5, "f": 6, "c": 16, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "nuevo": true, "whole": true},
+    {"name": "Edamame", "portion": "1 taza", "amount": 1, "unit": "taza", "p": 18, "f": 8, "c": 14, "lac": false, "b": 2, "uMin": 2, "uMax": 2, "nuevo": true},
+    {"name":"Yogur griego","portion":"1 taza de yogur griego","amount":1,"unit":"taza","p":17,"f":0.7,"c":6,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Leche descremada","portion":"1 vaso de leche","amount":1,"unit":"vaso","p":8,"f":0.2,"c":12,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Leche entera","portion":"1 vaso de leche entera","amount":1,"unit":"vaso","p":8,"f":8,"c":12,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Yogur natural","portion":"1 taza de yogur natural","amount":1,"unit":"taza","p":8.5,"f":8,"c":11.4,"lac":true,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Granola","portion":"¼ taza de granola","amount":0.25,"unit":"taza","p":3,"f":5,"c":16,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Galletas de soda","portion":"4 galletas de soda","amount":4,"unit":"u","p":1,"f":1.3,"c":9,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Mantequilla de maní","portion":"2 cucharadas de mantequilla de maní","amount":2,"unit":"cda","p":8,"f":16,"c":6,"lac":false,"b":2,"uMin":1,"uMax":2},
+    {"name":"Maní","portion":"1 puñado de maní","amount":1,"unit":"puñado","p":7,"f":14,"c":5,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Almendras","portion":"1 puñado de almendras","amount":1,"unit":"puñado","p":6,"f":14,"c":6,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Batida de proteína","prod":"Proteína en polvo","portion":"1 batida de proteína","amount":1,"unit":"medida","p":24,"f":1.5,"c":3,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+  ],
+  "Postre": [
+    // Primero los más saludables. Valores aproximados.
+    {"name": "Ensalada de frutas", "portion": "1 taza", "amount": 1, "unit": "porcion", "p": 1.5, "f": 0.6, "c": 31, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Yogur griego con mango", "portion": "1 taza de yogur + 1 taza de mango", "amount": 1, "unit": "porcion", "p": 18.4, "f": 1.3, "c": 31, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Yogur griego con piña", "portion": "1 taza de yogur + 1 taza de piña", "amount": 1, "unit": "porcion", "p": 17.9, "f": 0.9, "c": 28, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Yogur natural con lechosa", "portion": "1 taza de yogur + 1 taza de lechosa", "amount": 1, "unit": "porcion", "p": 9.2, "f": 8.4, "c": 26.4, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Guineo con mantequilla de maní", "portion": "1 guineo + 1 cucharada", "amount": 1, "unit": "porcion", "p": 5.3, "f": 8.4, "c": 30, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Fresas con chocolate oscuro", "portion": "1 taza de fresas + 2 cuadritos", "amount": 1, "unit": "porcion", "p": 2.6, "f": 9, "c": 21, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Gelatina con fresas", "portion": "½ taza de gelatina + 1 taza de fresas", "amount": 1, "unit": "porcion", "p": 3, "f": 0.5, "c": 31, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Helado de vainilla", "antojo": true, "portion": "½ taza", "amount": 1, "unit": "porcion", "p": 2.5, "f": 7.5, "c": 16, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Flan", "antojo": true, "portion": "1 flan pequeño", "amount": 1, "unit": "porcion", "p": 4, "f": 4, "c": 25, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Dulce de leche", "antojo": true, "portion": "2 cucharadas", "amount": 1, "unit": "porcion", "p": 2.5, "f": 3, "c": 22, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Dulce de coco", "antojo": true, "portion": "1 pedacito", "amount": 1, "unit": "porcion", "p": 1, "f": 6, "c": 22, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Bizcocho", "antojo": true, "portion": "1 pedazo pequeño", "amount": 1, "unit": "porcion", "p": 3, "f": 11, "c": 38, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Tres leches", "antojo": true, "portion": "1 pedazo pequeño", "amount": 1, "unit": "porcion", "p": 5, "f": 10, "c": 35, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Habichuelas con dulce", "antojo": true, "portion": "½ taza", "amount": 1, "unit": "porcion", "p": 4, "f": 5, "c": 28, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Arroz con leche", "antojo": true, "portion": "½ taza", "amount": 1, "unit": "porcion", "p": 4, "f": 3, "c": 28, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Majarete", "antojo": true, "portion": "½ taza", "amount": 1, "unit": "porcion", "p": 3, "f": 4, "c": 30, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Pudín de chocolate", "antojo": true, "portion": "1 vasito", "amount": 1, "unit": "porcion", "p": 3, "f": 3, "c": 22, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Gelatina", "portion": "½ taza", "amount": 1, "unit": "porcion", "p": 2, "f": 0, "c": 19, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Chocolate oscuro", "portion": "2 cuadritos", "amount": 1, "unit": "porcion", "p": 1.6, "f": 8.5, "c": 9, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Galletas de chocolate", "antojo": true, "portion": "2 galletas", "amount": 1, "unit": "porcion", "p": 1, "f": 5, "c": 14, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Yogur griego con fruta", "portion": "1 taza de yogur + 1 taza de fresas", "amount": 1, "unit": "porcion", "p": 18, "f": 1.2, "c": 18, "lac": true, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+    {"name": "Manzana con mantequilla de maní", "portion": "1 manzana + 1 cucharada", "amount": 1, "unit": "porcion", "p": 4.5, "f": 8.3, "c": 28, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "whole": true, "nuevo": true, "fijo": true},
+  ],
+  "Fruta": [
+    {"name": "Pera", "portion": "1 pera", "amount": 1, "unit": "u", "p": 0.7, "f": 0.2, "c": 27, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "nuevo": true, "whole": true},
+    {"name": "Kiwi", "portion": "2 kiwis", "amount": 2, "unit": "u", "p": 1.7, "f": 0.8, "c": 22, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "nuevo": true, "whole": true},
+    {"name": "Sandía", "portion": "2 tazas", "amount": 2, "unit": "taza", "p": 1.8, "f": 0.5, "c": 23, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "nuevo": true, "whole": true},
+    {"name": "Arándanos", "portion": "1 taza", "amount": 1, "unit": "taza", "p": 1.1, "f": 0.5, "c": 21, "lac": false, "b": 1, "uMin": 1, "uMax": 1, "nuevo": true, "whole": true},
+    {"name":"Guineo maduro","portion":"1 guineo","amount":1,"unit":"u","p":1.3,"f":0.4,"c":27,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Manzana","portion":"1 manzana","amount":1,"unit":"u","p":0.5,"f":0.3,"c":25,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Lechosa","portion":"1 taza de lechosa","amount":1,"unit":"taza","p":0.7,"f":0.4,"c":15,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Piña","portion":"1 taza de piña","amount":1,"unit":"taza","p":0.9,"f":0.2,"c":22,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Mango","portion":"1 taza de mango","amount":1,"unit":"taza","p":1.4,"f":0.6,"c":25,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Naranja","portion":"1 naranja","amount":1,"unit":"u","p":1.2,"f":0.2,"c":15.4,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Fresas","portion":"1 taza de fresas","amount":1,"unit":"taza","p":1,"f":0.5,"c":12,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Melón","portion":"1 taza de melón","amount":1,"unit":"taza","p":1.3,"f":0.3,"c":13,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
+    {"name":"Uvas","portion":"1 taza de uvas","amount":1,"unit":"taza","p":1.1,"f":0.2,"c":27,"lac":false,"b":1,"uMin":1,"uMax":1,"whole":true},
   ],
 };
 
 // Tamaño de porción: es un gen más. Cada comida decide "qué alimento" y "cuánto".
 const PORTIONS = [0.5, 1, 1.5, 2];
+const PORTIONS_ALTAS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4];   // solo con metas muy altas (ver escalaPorciones)
+// Con metas muy altas, las porciones normales no alcanzan a sumar tanta comida en un día:
+// la proteína y la base pueden crecer hasta un 60 %. Por debajo de 2,600 calorías nada cambia.
+const escalaPorciones = kcal => kcal > 2600 ? Math.min(1.6, kcal / 2600) : 1;
+const POOLS_QUE_CRECEN = ['Desayuno', 'DesayunoBase', 'ComidaPrincipal', 'Guarnición'];
 // Pequeño costo por alejarse de la porción normal (agrandarla o achicarla): el algoritmo
 // solo la cambia cuando le ayuda a acercarse a tu meta, no "porque sí".
 const PORTION_COST = 8;
@@ -1608,67 +1648,126 @@ const PORTION_COST = 8;
 const H = (q) => ({ n: 'Huevo', pl: 'Huevos', q, u: 'u' });
 const CL = (q) => ({ n: 'Clara de huevo', pl: 'Claras de huevo', q, u: 'u' });
 const RECETAS = {
-  'Avena cocida': [{ n: 'Avena en hojuelas', q: 40, u: 'g' }],
-  'Avena con yogur griego y fruta': [{ n: 'Avena en hojuelas', q: 40, u: 'g' }, { n: 'Yogur griego', q: 150, u: 'g' }, { n: 'Fruta (banana o fresas)', q: 80, u: 'g' }],
-  'Pan integral con huevo': [{ n: 'Pan integral', q: 2, u: 'rebanada' }, H(1)],
-  'Tostadas con aguacate y huevo': [{ n: 'Pan integral', q: 2, u: 'rebanada' }, { n: 'Aguacate', pl: 'Aguacates', q: 0.25, u: 'u' }, H(1)],
-  'Huevos revueltos (2 huevos + 2 claras)': [H(2), CL(2)],
-  'Tortilla de claras con espinaca': [CL(4), H(1), { n: 'Espinaca', q: 50, u: 'g' }],
-  'Panqueques de avena y claras': [{ n: 'Avena en hojuelas', q: 40, u: 'g' }, CL(3)],
-  'Yogur griego con granola': [{ n: 'Yogur griego', q: 170, u: 'g' }, { n: 'Granola', q: 30, u: 'g' }],
-  'Sándwich de jamón de pavo y queso': [{ n: 'Pan integral', q: 2, u: 'rebanada' }, { n: 'Jamón de pavo', q: 50, u: 'g' }, { n: 'Queso', q: 1, u: 'lonja' }],
-  'Smoothie de yogur griego y fruta': [{ n: 'Yogur griego', q: 150, u: 'g' }, { n: 'Fruta (banana o fresas)', q: 100, u: 'g' }],
-  'Batido de proteína whey': [{ n: 'Proteína whey', q: 1, u: 'medida' }],
-  'Café negro': [{ n: 'Café molido', q: 10, u: 'g' }],
-  'Café con leche': [{ n: 'Café molido', q: 5, u: 'g' }, { n: 'Leche descremada', q: 125, u: 'ml' }],
-  'Chocolate caliente': [{ n: 'Leche descremada', q: 250, u: 'ml' }, { n: 'Cacao en polvo', q: 2, u: 'cda' }, { n: 'Azúcar', q: 3, u: 'cdita' }],
-  'Café con azúcar': [{ n: 'Café molido', q: 10, u: 'g' }, { n: 'Azúcar', q: 2, u: 'cdita' }],
-  'Café con leche vegetal': [{ n: 'Café molido', q: 5, u: 'g' }, { n: 'Leche de soya', q: 125, u: 'ml' }],
-  'Batido de proteína vegetal': [{ n: 'Proteína vegetal', q: 1, u: 'medida' }],
-  'Huevo duro': [H(1)],
-  'Huevo': [H(1)],
-  'Lonjas de jamón de pavo': [{ n: 'Jamón de pavo', q: 60, u: 'g' }],
-  'Claras de huevo': [CL(3)],
-  'Hummus con zanahoria': [{ n: 'Hummus', q: 60, u: 'g' }, { n: 'Zanahoria', pl: 'Zanahorias', q: 1, u: 'u' }],
-  'Pan integral con mantequilla de maní': [{ n: 'Pan integral', q: 1, u: 'rebanada' }, { n: 'Mantequilla de maní', q: 1, u: 'cda' }],
-  'Manzana con mantequilla de maní': [{ n: 'Manzana', pl: 'Manzanas', q: 1, u: 'u' }, { n: 'Mantequilla de maní', q: 1, u: 'cda' }],
-  'Yogur griego con miel': [{ n: 'Yogur griego', q: 170, u: 'g' }, { n: 'Miel', q: 1, u: 'cdita' }],
-  'Queso cottage con fruta': [{ n: 'Queso cottage', q: 120, u: 'g' }, { n: 'Fruta (banana o fresas)', q: 80, u: 'g' }],
-  'Sopa de lentejas': [{ n: 'Lentejas secas', q: 60, u: 'g' }, { n: 'Vegetales para sopa (zanahoria, cebolla, pimiento)', q: 100, u: 'g' }],
-  'Sopa de pollo con vegetales': [{ n: 'Pechuga de pollo', q: 60, u: 'g' }, { n: 'Papa', q: 100, u: 'g' }, { n: 'Vegetales para sopa (zanahoria, cebolla, pimiento)', q: 150, u: 'g' }],
-  'Tortilla de vegetales (2 huevos)': [H(2), { n: 'Vegetales mixtos', q: 80, u: 'g' }, { n: 'Aceite', q: 1, u: 'cdita' }],
-  'Ensalada de pollo': [{ n: 'Pechuga de pollo', q: 60, u: 'g' }, { n: 'Vegetales de ensalada', q: 120, u: 'g' }, { n: 'Aderezo ligero', q: 1, u: 'cda' }],
-  'Ensalada de atún': [{ n: 'Atún en lata (en agua)', q: 80, u: 'g' }, { n: 'Vegetales de ensalada', q: 110, u: 'g' }, { n: 'Mayonesa light', q: 1, u: 'cda' }],
-  'Salteado de res con vegetales': [{ n: 'Bistec de res (corte magro)', q: 80, u: 'g' }, { n: 'Vegetales mixtos', q: 150, u: 'g' }, { n: 'Aceite', q: 1, u: 'cdita' }],
-  'Chili de frijoles con carne': [{ n: 'Frijoles cocidos', q: 120, u: 'g' }, { n: 'Carne molida de res magra', q: 60, u: 'g' }, { n: 'Salsa de tomate', q: 70, u: 'g' }],
-  'Crema de calabaza con queso': [{ n: 'Calabaza (auyama)', q: 250, u: 'g' }, { n: 'Queso fresco', q: 20, u: 'g' }],
-  'Vegetales salteados': [{ n: 'Vegetales mixtos', q: 150, u: 'g' }, { n: 'Aceite', q: 1, u: 'cdita' }],
-  'Espinacas salteadas': [{ n: 'Espinaca', q: 300, u: 'g' }, { n: 'Aceite', q: 1, u: 'cdita' }],
-  'Champiñones salteados': [{ n: 'Champiñones', q: 200, u: 'g' }, { n: 'Aceite', q: 1, u: 'cdita' }],
-  // Alimentos simples que se compran distinto a como se comen (por unidad, o crudos)
-  'Banana (guineo)': [{ n: 'Banana', pl: 'Bananas', q: 1, u: 'u' }],
-  'Manzana': [{ n: 'Manzana', pl: 'Manzanas', q: 1, u: 'u' }],
-  'Naranja': [{ n: 'Naranja', pl: 'Naranjas', q: 1, u: 'u' }],
-  'Pera': [{ n: 'Pera', pl: 'Peras', q: 1, u: 'u' }],
-  'Kiwi': [{ n: 'Kiwi', pl: 'Kiwis', q: 2, u: 'u' }],
-  'Durazno (melocotón)': [{ n: 'Durazno', pl: 'Duraznos', q: 1, u: 'u' }],
-  'Papa hervida': [{ n: 'Papa', pl: 'Papas', q: 1, u: 'u' }],
-  'Batata (camote) hervida': [{ n: 'Batata (camote)', pl: 'Batatas (camotes)', q: 1, u: 'u' }],
-  'Aguacate': [{ n: 'Aguacate', pl: 'Aguacates', q: 0.5, u: 'u' }],
-  'Arroz blanco': [{ n: 'Arroz blanco (crudo)', q: 55, u: 'g' }],
-  'Arroz integral': [{ n: 'Arroz integral (crudo)', q: 60, u: 'g' }],
-  'Pasta cocida': [{ n: 'Pasta (cruda)', q: 55, u: 'g' }],
-  'Quinoa cocida': [{ n: 'Quinoa (cruda)', q: 55, u: 'g' }],
-  'Frijoles cocidos (habichuelas)': [{ n: 'Frijoles cocidos', q: 130, u: 'g' }],
-  'Pan integral': [{ n: 'Pan integral', q: 2, u: 'rebanada' }],
-  'Ensalada verde (lechuga, tomate, pepino)': [{ n: 'Lechuga', q: 50, u: 'g' }, { n: 'Tomate', q: 60, u: 'g' }, { n: 'Pepino', q: 40, u: 'g' }],
+  "Ensalada de frutas": [{"n": "Mango", "q": 0.5, "u": "taza"}, {"n": "Lechosa", "q": 0.5, "u": "taza"}, {"n": "Piña", "q": 0.5, "u": "taza"}],
+  "Yogur griego con mango": [{"n": "Yogur griego", "q": 1, "u": "taza"}, {"n": "Mango", "q": 1, "u": "taza"}],
+  "Yogur griego con piña": [{"n": "Yogur griego", "q": 1, "u": "taza"}, {"n": "Piña", "q": 1, "u": "taza"}],
+  "Yogur natural con lechosa": [{"n": "Yogur natural", "q": 1, "u": "taza"}, {"n": "Lechosa", "q": 1, "u": "taza"}],
+  "Guineo con mantequilla de maní": [{"n": "Guineo maduro", "pl": "Guineos maduros", "q": 1, "u": "u"}, {"n": "Mantequilla de maní", "q": 1, "u": "cda"}],
+  "Fresas con chocolate oscuro": [{"n": "Fresas", "q": 1, "u": "taza"}, {"n": "Chocolate oscuro", "q": 1, "u": "porcion"}],
+  "Gelatina con fresas": [{"n": "Gelatina", "q": 1, "u": "porcion"}, {"n": "Fresas", "q": 1, "u": "taza"}],
+  "Helado de vainilla": [{"n": "Helado de vainilla", "q": 1, "u": "porcion"}],
+  "Flan": [{"n": "Flan", "q": 1, "u": "porcion"}],
+  "Dulce de leche": [{"n": "Dulce de leche", "q": 1, "u": "porcion"}],
+  "Dulce de coco": [{"n": "Dulce de coco", "q": 1, "u": "porcion"}],
+  "Bizcocho": [{"n": "Bizcocho", "q": 1, "u": "porcion"}],
+  "Tres leches": [{"n": "Tres leches", "q": 1, "u": "porcion"}],
+  "Habichuelas con dulce": [{"n": "Habichuelas con dulce", "q": 1, "u": "porcion"}],
+  "Arroz con leche": [{"n": "Arroz con leche", "q": 1, "u": "porcion"}],
+  "Majarete": [{"n": "Majarete", "q": 1, "u": "porcion"}],
+  "Pudín de chocolate": [{"n": "Pudín de chocolate", "q": 1, "u": "porcion"}],
+  "Gelatina": [{"n": "Gelatina", "q": 1, "u": "porcion"}],
+  "Chocolate oscuro": [{"n": "Chocolate oscuro", "q": 1, "u": "porcion"}],
+  "Galletas de chocolate": [{"n": "Galletas de chocolate", "q": 1, "u": "porcion"}],
+  "Yogur griego con fruta": [{"n": "Yogur griego", "q": 1, "u": "taza"}, {"n": "Fresas", "q": 1, "u": "taza"}],
+  "Manzana con mantequilla de maní": [{"n": "Manzana", "pl": "Manzanas", "q": 1, "u": "u"}, {"n": "Mantequilla de maní", "q": 1, "u": "cda"}],
+  "Salmón al horno": [{"n":"Salmón","q":100,"u":"g"}],
+  "Tilapia a la plancha": [{"n":"Tilapia","q":100,"u":"g"}],
+  "Muslo de pollo al horno": [{"n":"Muslo de pollo","q":100,"u":"g"}],
+  "Lomo de cerdo al horno": [{"n":"Lomo de cerdo","q":100,"u":"g"}],
+  "Edamame": [{"n":"Edamame","q":1,"u":"taza"}],
+  "Claras revueltas": [{"n":"Clara de huevo","pl":"Claras de huevo","q":4,"u":"u"}],
+  "Quinoa cocida": [{"n":"Quinoa","q":1,"u":"taza"}],
+  "Maíz dulce": [{"n":"Maíz dulce","q":1,"u":"taza"}],
+  "Pera": [{"n":"Pera","pl":"Peras","q":1,"u":"u"}],
+  "Kiwi": [{"n":"Kiwi","pl":"Kiwis","q":2,"u":"u"}],
+  "Sandía": [{"n":"Sandía","q":2,"u":"taza"}],
+  "Arándanos": [{"n":"Arándanos","q":1,"u":"taza"}],
+  "Coliflor al vapor": [{"n":"Coliflor","q":1,"u":"taza"}],
+  "Calabacín al vapor": [{"n":"Calabacín","q":1,"u":"taza"}],
+  "Champiñones salteados": [{"n":"Champiñones","q":1,"u":"taza"}],
+  "Hummus con zanahoria": [{"n":"Hummus","q":60,"u":"g"},{"n":"Zanahoria","pl":"Zanahorias","q":1,"u":"u"}],
+  "Leche de soya": [{"n":"Leche de soya","q":1,"u":"vaso"}],
+  "Leche deslactosada": [{"n":"Leche deslactosada","q":1,"u":"vaso"}],
+  "Café negro": [{"n":"Café molido","q":10,"u":"g"}],
+  "Café con azúcar": [{"n":"Café molido","q":10,"u":"g"},{"n":"Azúcar","q":2,"u":"cdita"}],
+  "Café con leche": [{"n":"Café molido","q":5,"u":"g"},{"n":"Leche descremada","q":0.5,"u":"vaso"}],
+  "Chocolate caliente": [{"n":"Leche descremada","q":1,"u":"vaso"},{"n":"Cacao en polvo","q":2,"u":"cda"},{"n":"Azúcar","q":3,"u":"cdita"}],
+  "Huevos revueltos": [{"n":"Huevo","pl":"Huevos","q":2,"u":"u"}],
+  "Pechuga a la plancha": [{"n":"Pechuga de pollo","q":100,"u":"g"}],
+  "Carne molida guisada": [{"n":"Carne molida","q":100,"u":"g"}],
+  "Atún en agua": [{"n":"Atún en agua","q":1,"u":"lata"}],
+  "Habichuelas guisadas": [{"n":"Habichuelas","q":1,"u":"taza"}],
+  "Salami": [{"n":"Salami","q":4,"u":"lonja"}],
+  "Jamón de pavo": [{"n":"Jamón de pavo","q":4,"u":"lonja"}],
+  "Pescado horneado": [{"n":"Pescado blanco","q":100,"u":"g"}],
+  "Chuleta al horno": [{"n":"Chuleta de cerdo","q":100,"u":"g"}],
+  "Bistec de res": [{"n":"Carne de res","q":100,"u":"g"}],
+  "Camarones a la plancha": [{"n":"Camarones","q":100,"u":"g"}],
+  "Longaniza": [{"n":"Longaniza","q":100,"u":"g"}],
+  "Sardinas en lata": [{"n":"Sardinas en lata","q":1,"u":"lata"}],
+  "Gandules guisados": [{"n":"Gandules","q":1,"u":"taza"}],
+  "Lentejas guisadas": [{"n":"Lentejas","q":1,"u":"taza"}],
+  "Garbanzos guisados": [{"n":"Garbanzos","q":1,"u":"taza"}],
+  "Tofu a la plancha": [{"n":"Tofu","q":200,"u":"g"}],
+  "Queso de freír": [{"n":"Queso de freír","q":2,"u":"lonja"}],
+  "Queso blanco fresco": [{"n":"Queso blanco fresco","q":60,"u":"g"}],
+  "Yogur griego": [{"n":"Yogur griego","q":1,"u":"taza"}],
+  "Leche descremada": [{"n":"Leche descremada","q":1,"u":"vaso"}],
+  "Leche entera": [{"n":"Leche entera","q":1,"u":"vaso"}],
+  "Yogur natural": [{"n":"Yogur natural","q":1,"u":"taza"}],
+  "Queso amarillo": [{"n":"Queso amarillo","q":2,"u":"lonja"}],
+  "Queso cottage": [{"n":"Queso cottage","q":0.5,"u":"taza"}],
+  "Arroz blanco": [{"n":"Arroz","q":1,"u":"taza"}],
+  "Pan integral": [{"n":"Pan integral","q":2,"u":"rebanada"}],
+  "Pan de agua": [{"n":"Pan de agua","pl":"Panes de agua","q":1,"u":"u"}],
+  "Avena cocida": [{"n":"Avena","q":0.5,"u":"taza"}],
+  "Mangú": [{"n":"Plátano verde","pl":"Plátanos verdes","q":1,"u":"u"}],
+  "Yuca hervida": [{"n":"Yuca","q":100,"u":"g"}],
+  "Batata hervida": [{"n":"Batata","pl":"Batatas","q":1,"u":"u"}],
+  "Pasta cocida": [{"n":"Pasta","q":1,"u":"taza"}],
+  "Tortillas de trigo": [{"n":"Tortilla de trigo","pl":"Tortillas de trigo","q":2,"u":"u"}],
+  "Arroz integral": [{"n":"Arroz integral","q":1,"u":"taza"}],
+  "Pan de molde": [{"n":"Pan de molde","q":2,"u":"rebanada"}],
+  "Casabe": [{"n":"Casabe","q":1,"u":"torta"}],
+  "Guineítos hervidos": [{"n":"Guineo verde","pl":"Guineos verdes","q":2,"u":"u"}],
+  "Papa hervida": [{"n":"Papa","pl":"Papas","q":1,"u":"u"}],
+  "Ñame hervido": [{"n":"Ñame","q":100,"u":"g"}],
+  "Yautía hervida": [{"n":"Yautía","q":100,"u":"g"}],
+  "Granola": [{"n":"Granola","q":0.25,"u":"taza"}],
+  "Galletas de soda": [{"n":"Galleta de soda","pl":"Galletas de soda","q":4,"u":"u"}],
+  "Guineo maduro": [{"n":"Guineo maduro","pl":"Guineos maduros","q":1,"u":"u"}],
+  "Manzana": [{"n":"Manzana","pl":"Manzanas","q":1,"u":"u"}],
+  "Lechosa": [{"n":"Lechosa","q":1,"u":"taza"}],
+  "Piña": [{"n":"Piña","q":1,"u":"taza"}],
+  "Mango": [{"n":"Mango","q":1,"u":"taza"}],
+  "Naranja": [{"n":"Naranja","pl":"Naranjas","q":1,"u":"u"}],
+  "Fresas": [{"n":"Fresas","q":1,"u":"taza"}],
+  "Melón": [{"n":"Melón","q":1,"u":"taza"}],
+  "Uvas": [{"n":"Uvas","q":1,"u":"taza"}],
+  "Ensalada verde": [{"n":"Ensalada verde","q":2,"u":"taza"}],
+  "Brócoli al vapor": [{"n":"Brócoli","q":1,"u":"taza"}],
+  "Zanahoria": [{"n":"Zanahoria","pl":"Zanahorias","q":2,"u":"u"}],
+  "Aguacate": [{"n":"Aguacate","pl":"Aguacates","q":0.5,"u":"u"}],
+  "Tomate": [{"n":"Tomate","pl":"Tomates","q":2,"u":"u"}],
+  "Pepino": [{"n":"Pepino","q":1,"u":"taza"}],
+  "Repollo": [{"n":"Repollo","q":1,"u":"taza"}],
+  "Berenjena asada": [{"n":"Berenjena","q":1,"u":"taza"}],
+  "Vainitas al vapor": [{"n":"Vainitas","q":1,"u":"taza"}],
+  "Auyama hervida": [{"n":"Auyama","q":1,"u":"taza"}],
+  "Espinaca cocida": [{"n":"Espinaca","q":1,"u":"taza"}],
+  "Tayota hervida": [{"n":"Tayota","q":1,"u":"taza"}],
+  "Remolacha cocida": [{"n":"Remolacha","q":1,"u":"taza"}],
+  "Mantequilla de maní": [{"n":"Mantequilla de maní","q":2,"u":"cda"}],
+  "Maní": [{"n":"Maní","q":1,"u":"puñado"}],
+  "Almendras": [{"n":"Almendras","q":1,"u":"puñado"}],
+  "Batida de proteína": [{"n":"Proteína en polvo","q":1,"u":"medida"}],
 };
-const UNIT_WORDS = { cdita: ['cdita', 'cditas'], cda: ['cda', 'cdas'], rebanada: ['rebanada', 'rebanadas'], lonja: ['lonja', 'lonjas'], medida: ['medida', 'medidas'] };
+const UNIT_WORDS = { porcion: ['porción', 'porciones'], taza: ['taza', 'tazas'], lata: ['lata', 'latas'], vaso: ['vaso', 'vasos'], 'puñado': ['puñado', 'puñados'], torta: ['torta', 'tortas'], cdita: ['cdita', 'cditas'], cda: ['cda', 'cdas'], rebanada: ['rebanada', 'rebanadas'], lonja: ['lonja', 'lonjas'], medida: ['medida', 'medidas'] };
 
 // 1.5 → "1½", 0.5 → "½" (las unidades se redondean a medias)
 function frac(q) {
-  const h = Math.round(q * 2) / 2, w = Math.floor(h);
-  return h - w ? (w ? w + '½' : '½') : String(w);
+  const h = Math.round(q * 4) / 4, w = Math.floor(h), r = { 0.25: '¼', 0.5: '½', 0.75: '¾' }[h - w] || '';
+  return (w ? w : '') + r || '0';
 }
 function grams(q, u) {
   const v = Math.round(q / 5) * 5;
@@ -1693,7 +1792,8 @@ const DAYS = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Doming
 // Un gen = una parte del plato (qué alimento y cuánto).
 const MEALS = ['Desayuno', 'Almuerzo', 'Cena', 'Snack', 'Fruta', 'Postre'];
 const ALL_SLOTS = [
-  { key: "Desayuno", pool: "Desayuno", meal: "Desayuno", label: "Plato" },
+  { key: "Desayuno", pool: "Desayuno", meal: "Desayuno", label: "Proteína" },
+  { key: "DesayunoBase", pool: "DesayunoBase", meal: "Desayuno", label: "Base" },
   { key: "Bebida", pool: "Bebida", meal: "Desayuno", label: "Bebida" },
   { key: "Comida1", pool: "ComidaPrincipal", meal: "Almuerzo", label: "Proteína" },
   { key: "Guarnicion1", pool: "Guarnición", meal: "Almuerzo", label: "Guarnición" },
@@ -1723,7 +1823,7 @@ function applyMeals(save = true) {
     currentPlan = null; previousPlan = null; locks.clear(); pending.clear();
   }
   const hint = document.getElementById('mealsHint');
-  if (hint) hint.textContent = on.length ? `Cada día lleva ${SLOTS.length} cosas para comer.` : 'Elige al menos una comida.';
+  if (hint) hint.textContent = on.length ? '' : 'Elige al menos una comida.';
 }
 
 let calculatedNeeds = null;
@@ -1757,9 +1857,10 @@ function calcularNecesidades() {
   document.getElementById('step1Next').disabled = !filled;
   const hint = document.getElementById('step1Hint');
   hint.style.visibility = filled ? 'hidden' : 'visible';
-  hint.innerHTML = minor
+  const hintMsg = minor
     ? 'Para menores de 18 años estas fórmulas no aplican. <button type="button" class="link-btn" onclick="usarEjemplo()">Ver la demostración con la persona de ejemplo</button>'
     : issues.length ? `${LANG === 'en' ? 'Check' : 'Revisa'} ${issues.join(', ')}.` : 'Completa tus datos para seguir.';
+  if (hint.dataset.msg !== hintMsg) { hint.dataset.msg = hintMsg; hint.innerHTML = hintMsg; }   // solo si cambia: el lector de pantalla lo anuncia una vez
   if (!filled) {
     ['minProt', 'maxProt', 'minFat', 'maxFat', 'minCarb', 'maxCarb'].forEach(id => { document.getElementById(id).value = ''; });
     calculatedNeeds = null;
@@ -1876,8 +1977,7 @@ function loadFoodPrefs() {
 // Sube el máximo de porción de guarniciones, desayunos y frutas a 2× y vuelve a buscar.
 function ampliarPorciones() {
   document.querySelectorAll('.food-row').forEach(row => {
-    const g = row.querySelector('.foodCheck').dataset.group;
-    if (['Guarnición', 'Desayuno', 'Fruta'].includes(g)) row.querySelector('.maxMult').value = '2';
+    row.querySelector('.maxMult').value = '2';
   });
   saveFoodPrefs();
   dirty = true;
@@ -1899,36 +1999,54 @@ function resetFoodPrefs() {
   renderFoodLists();
 }
 
-const GROUP_LABELS = { Desayuno: 'Desayuno (plato)', Bebida: 'Bebida (desayuno)', ComidaPrincipal: 'Proteína (almuerzo y cena)', 'Guarnición': 'Guarnición (almuerzo y cena)', Vegetales: 'Vegetales (almuerzo y cena)' };
+const GROUP_LABELS = { Desayuno: 'Proteína (desayuno)', DesayunoBase: 'Base (desayuno): pan, mangú, víveres…', Bebida: 'Bebida (desayuno)', ComidaPrincipal: 'Proteína (almuerzo y cena)', 'Guarnición': 'Guarnición (almuerzo y cena)', Vegetales: 'Vegetales (almuerzo y cena)' };
 
+// PRUEBA: la lista se muestra como un súper resumido; cada producto aparece una sola vez.
+const CATEGORIAS = {
+  'Carnes y aves': ['Pechuga a la plancha', 'Muslo de pollo al horno', 'Bistec de res', 'Carne molida guisada', 'Chuleta al horno', 'Lomo de cerdo al horno', 'Longaniza', 'Salami', 'Jamón de pavo'],
+  'Pescados y mariscos': ['Salmón al horno', 'Tilapia a la plancha', 'Pescado horneado', 'Camarones a la plancha', 'Atún en agua', 'Sardinas en lata'],
+  'Huevos y lácteos': ['Huevos revueltos', 'Claras revueltas', 'Queso de freír', 'Queso blanco fresco', 'Queso amarillo', 'Queso cottage', 'Yogur griego', 'Yogur natural', 'Leche descremada', 'Leche entera', 'Leche deslactosada', 'Leche de soya'],
+  'Legumbres': ['Habichuelas guisadas', 'Gandules guisados', 'Lentejas guisadas', 'Garbanzos guisados', 'Tofu a la plancha', 'Edamame'],
+  'Víveres': ['Mangú', 'Yuca hervida', 'Batata hervida', 'Guineítos hervidos', 'Papa hervida', 'Ñame hervido', 'Yautía hervida'],
+  'Arroz, pan y pastas': ['Arroz blanco', 'Arroz integral', 'Quinoa cocida', 'Maíz dulce', 'Pasta cocida', 'Pan integral', 'Pan de agua', 'Pan de molde', 'Tortillas de trigo', 'Casabe', 'Avena cocida', 'Granola', 'Galletas de soda'],
+  'Vegetales': [],
+  'Frutas': [],
+  'Postres y dulces': FOODS.Postre.map(f => f.name),
+  'Café y chocolate': ['Café negro', 'Café con azúcar', 'Café con leche', 'Chocolate caliente'],
+  'Despensa': ['Mantequilla de maní', 'Maní', 'Almendras', 'Hummus con zanahoria', 'Batida de proteína'],
+};
+const foodByName = {};
+Object.values(FOODS).forEach(list => list.forEach(f => { foodByName[f.name] = f; }));
+CATEGORIAS['Vegetales'] = FOODS.Vegetales.map(f => f.name);
+CATEGORIAS['Frutas'] = FOODS.Fruta.map(f => f.name);
+// PRUEBA: cuánto puede servir el algoritmo de cada producto, como mínimo y como máximo.
+function rangoPorcion(food) {
+  const r = RECETAS[food.name];
+  if (!food.b || !r || r.length > 1 || food.unit === 'ml' || food.fijo) return LANG === 'en' ? enPorcion(food.portion) : food.portion;
+  const pt = r[0], lo = pt.q / food.b * food.uMin, hi = pt.q / food.b * food.uMax;
+  const num = pt.u === 'g' ? (v => String(v)) : frac;
+  const word = v => pt.u === 'g' ? 'g' : pt.u === 'u' ? (v > 1 ? (pt.pl || pt.n) : pt.n).toLowerCase() : UNIT_WORDS[pt.u] ? UNIT_WORDS[pt.u][v > 1 ? 1 : 0] : pt.u;
+  const t = lo === hi ? `${num(lo)} ${word(lo)}` : `De ${num(lo)} a ${num(hi)} ${word(hi)}`;
+  return LANG === 'en' ? enPorcion(t) : t;
+}
+// Las porciones en inglés, palabra por palabra (de lo más largo a lo más corto).
+const PORCION_EN = [[/^De (\S+) a /, '$1 to '], ['claras de huevo', 'egg whites'], ['claras', 'egg whites'], ['guineos verdes', 'green bananas'], ['guineo verde', 'green banana'], ['plátano verde', 'green plantain'], ['plátano', 'plantain'], ['yogur griego', 'Greek yogurt'], ['yogur natural', 'plain yogurt'], ['queso cottage', 'cottage cheese'], ['yogur', 'yogurt'], ['pan de agua', 'water bread'], ['tortillas de trigo', 'flour tortillas'], ['tortilla de trigo', 'flour tortilla'], ['galletas de soda', 'soda crackers'], ['flan pequeño', 'small flan'], ['pedazo pequeño', 'small piece'], ['pedacito', 'small piece'], ['vasito', 'small cup'], ['cuadritos', 'squares'], ['cucharadas', 'tbsp'], ['cucharada', 'tbsp'], ['cditas', 'tsp'], ['de azúcar', 'of sugar'], ['mitad café, mitad leche', 'half coffee, half milk'], ['leche, cacao y azúcar', 'milk, cocoa and sugar'], ['tazas', 'cups'], ['taza', 'cup'], ['vasos', 'glasses'], ['vaso', 'glass'], ['lonjas', 'slices'], ['lonja', 'slice'], ['rebanadas', 'slices'], ['rebanada', 'slice'], ['latas', 'cans'], ['lata', 'can'], ['huevos', 'eggs'], ['huevo', 'egg'], ['aguacate', 'avocado'], ['tomates', 'tomatoes'], ['tomate', 'tomato'], ['zanahorias', 'carrots'], ['zanahoria', 'carrot'], ['tortillas', 'tortillas'], ['batata', 'sweet potato'], ['papa', 'potato'], ['torta', 'round'], ['puñado', 'handful'], ['galletas', 'cookies'], ['guineo', 'banana'], ['manzana', 'apple'], ['pera', 'pear'], ['naranja', 'orange'], ['lechosa', 'papaya'], ['piña', 'pineapple'], ['fresas', 'strawberries'], ['melón', 'melon'], ['uvas', 'grapes'], ['gelatina', 'jello'], ['leche entera', 'whole milk'], ['leche', 'milk'], [/ de /g, ' of ']];
+function enPorcion(t) { PORCION_EN.forEach(([a, b]) => { t = typeof a === 'string' ? t.replace(new RegExp('\\b' + a + '\\b', 'g'), b) : t.replace(a, b); }); return t; }
 function renderFoodLists() {
   const container = document.getElementById('foodLists');
   const prefs = loadFoodPrefs();
   const off = new Set(prefs.off || []);
   let html = '';
-  const ORDER = ['Desayuno', 'Bebida', 'ComidaPrincipal', 'Guarnición', 'Vegetales', 'Snack', 'Fruta', 'Postre'];   // en el orden del día
-  Object.keys(FOODS).sort((a, b) => (ORDER.indexOf(a) + 1 || 99) - (ORDER.indexOf(b) + 1 || 99)).forEach(group => {
-    html += `<details class="group" data-group="${group}"><summary><span class="g-name">${GROUP_LABELS[group] || group}</span><span class="g-count"></span>` +
+  Object.entries(CATEGORIAS).forEach(([cat, names], i) => {
+    html += `<details class="group"${i === 0 ? ' open' : ''} data-group="${cat}"><summary><span class="g-name">${cat}</span><span class="g-count"></span>` +
       `<span class="g-actions"><button type="button" data-act="all">Todos</button><button type="button" data-act="none">Ninguno</button></span></summary>`;
-    FOODS[group].forEach((food, i) => {
-      // por defecto, una sola porción; las guarniciones (arroz, pasta, plátano, yuca…) hasta 2×,
-      // porque son las que dan la energía: con 1× a muchas personas activas no les alcanza.
-      // Lo que no tiene sentido partir (un huevo duro, una lata, un muffin) viene marcado en los datos
-      // y nunca se sirve partido: su menú solo ofrece porciones enteras (1 o 2).
-      const whole = !!food.whole;
-      let max = (prefs.maxMult && prefs.maxMult[food.name]) || (group === 'Guarnición' ? 2 : 1);
-      if (whole) max = Math.max(1, Math.floor(max));
-      const on = !off.has(food.name);
+    names.forEach(name => {
+      const food = foodByName[name], on = !off.has(name);
       html += `
-        <div class="food-row${on ? '' : ' off'}" data-name="${food.name}"${whole ? ' data-whole="1"' : ''}>
-          <label class="f-main"><input type="checkbox" ${on ? 'checked' : ''} data-group="${group}" data-idx="${i}" class="foodCheck">
-            <span class="f-name">${food.name}<small>${food.portion}</small></span></label>
-          <span class="chips"><span class="chip p">P ${food.p}</span><span class="chip f">G ${food.f}</span><span class="chip c">C ${food.c}</span>${food.lac ? '<span class="chip lac">Lactosa</span>' : ''}</span>
-          <span class="f-ctrl">
-            <select class="maxMult" title="Porción máxima" aria-label="Porción máxima de ${food.name}">
-              ${PORTIONS.filter(m => !whole || Number.isInteger(m)).map(m => `<option value="${m}"${m === max ? ' selected' : ''}>${frac(m)} ${m > 1 ? 'porciones' : 'porción'}</option>`).join('')}
-            </select>
-          </span>
+        <div class="food-row${on ? '' : ' off'}" data-name="${name}"${food.whole ? ' data-whole="1"' : ''}>
+          <label class="f-main"><input type="checkbox" ${on ? 'checked' : ''} data-name="${name}" class="foodCheck">
+            <span class="f-name">${name}<small>${rangoPorcion(food)}</small></span></label>
+          <input type="hidden" class="maxMult" value="2">
         </div>`;
     });
     html += '</details>';
@@ -1942,7 +2060,6 @@ function renderFoodLists() {
     saveFoodPrefs();
   }));
   updateFoodCounts();
-  filterFoods();
 }
 
 function updateFoodCounts() {
@@ -1953,31 +2070,17 @@ function updateFoodCounts() {
     total += cbs.length; on += n;
     g.querySelector('.g-count').textContent = `${n} de ${cbs.length}`;
   });
-  document.getElementById('foodCountSummary').textContent = `${on} de ${total} alimentos marcados`;
+  document.getElementById('foodCountSummary').textContent = `${on} de ${total} marcados`;
 }
 
-// Buscador: ignora mayúsculas y acentos, y abre las categorías con resultados.
-const norm = t => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-function filterFoods() {
-  const q = norm(document.getElementById('foodSearch').value.trim());
-  document.querySelectorAll('details.group').forEach(g => {
-    let hits = 0;
-    g.querySelectorAll('.food-row').forEach(row => {
-      const show = !q || norm(row.dataset.name).includes(q);
-      row.classList.toggle('hidden', !show);
-      if (show) hits++;
-    });
-    g.style.display = hits ? '' : 'none';
-    if (q) g.open = true;
-  });
-}
-
+const ANTOJO_COST = 12;   // cuánto cuesta un postre de antojo: salen unos 2 por semana
 function scoreFood(food, weights) {
   let total = 0;
   // Sin metas: el comportamiento original, premiar proteína y castigar grasa/carbohidratos por gramo.
   // Con metas: los macros se califican por día con dayCloseness, no por alimento.
   if (!weights.targets) total += food.p * weights.protein - food.f * weights.fat * 0.5 - food.c * weights.carb * 0.25;
   if (weights.avoidLactose && food.lac) total -= 8;
+  if (food.antojo) total -= ANTOJO_COST;   // los postres saludables van primero; los antojos se permiten, pero cuestan
   if (weights.bonus && food.p >= 20 && food.f <= 5) total += 10;
   return total;
 }
@@ -2157,7 +2260,7 @@ function polishWeek(chromo, selected, weights, limits, lockedDays) {
 }
 
 // Devuelve el puntaje separado por regla, para poder ver de dónde vienen los puntos.
-const LEGUME = /lenteja|frijol|garbanzo|habichuela|guisante/i;
+const LEGUME = /lenteja|frijol|garbanzo|habichuela|guisante|gandul/i;
 function fitnessParts(chromo, weights, limits) {
   const parts = { alimentos: 0, meta: 0, limites: 0, variedad: 0, lista: 0, estabilidad: 0 };
   const nameCounts = {}, bothMains = SLOTS.some(s => s.key === 'Comida1') && SLOTS.some(s => s.key === 'Comida2'), bothSides = SLOTS.some(s => s.key === 'Guarnicion1') && SLOTS.some(s => s.key === 'Guarnicion2');
@@ -2204,20 +2307,19 @@ function readInputs() {
 
   const selected = {};
   Object.keys(FOODS).forEach(g => { selected[g] = []; });
-  document.querySelectorAll('.foodCheck').forEach(cb => {
-    if (!cb.checked && !exampleMode) return;   // Ana usa siempre la lista completa, no la de quien mira
-    if (exampleMode && FOODS[cb.dataset.group][cb.dataset.idx].nuevo) return;   // …la de cuando se armó su ejemplo
-    // Filtro duro: lo desmarcado ni siquiera entra como opción del gen "alimento",
-    // y el gen "porción" de cada alimento solo puede tomar valores hasta su máximo.
-    // Lo que no se parte (data-whole) solo va en porciones enteras.
-    const rowEl = cb.closest('.food-row');
-    const whole = rowEl.dataset.whole === '1';
-    const max = exampleMode ? (cb.dataset.group === 'Guarnición' ? 2 : 1) : parseFloat(rowEl.querySelector('.maxMult').value);   // Ana: las porciones de fábrica
-    let allowed = PORTIONS.filter(m => m <= max && (!whole || Number.isInteger(m)));
-    if (allowed.length === 0) allowed = [1]; // por si acaso: lo que no se parte se sirve entero
-    const food = Object.assign({}, FOODS[cb.dataset.group][cb.dataset.idx], { allowed });
-    selected[cb.dataset.group].push(food);
-  });
+  // PRUEBA: una casilla por producto; ese producto entra en todas las partes del día donde tiene sentido.
+  const marked = new Set([...document.querySelectorAll('.foodCheck')].filter(cb => cb.checked).map(cb => cb.dataset.name));
+  Object.keys(FOODS).forEach(group => FOODS[group].forEach(base => {
+    if (!marked.has(base.name) && !exampleMode) return;
+    if (!exampleMode && base.lac && document.getElementById('avoidLactose').checked) return;   // lo imposible se quita de las opciones
+    const escala = !exampleMode && calculatedNeeds ? escalaPorciones(calculatedNeeds.targetCalories) : 1;
+    const crece = escala > 1 && POOLS_QUE_CRECEN.includes(group) && base.b >= 2 && !base.whole;
+    let allowed = (crece ? PORTIONS_ALTAS : PORTIONS).filter(m => !base.whole || Number.isInteger(m));
+    const tope = crece ? Math.ceil(base.uMax * escala) : base.uMax;
+    if (base.b) allowed = allowed.filter(m => Number.isInteger(m * base.b) && m * base.b >= base.uMin && m * base.b <= tope);
+    if (allowed.length === 0) allowed = [1];
+    selected[group].push(Object.assign({}, base, { allowed }));
+  }));
   if (!SLOTS.length) {
     warnEl.textContent = 'Elige al menos una comida en el paso 2 (Tu semana).';
     warnEl.style.display = 'block';
@@ -2289,12 +2391,15 @@ function readInputs() {
     if (limits[hi] !== null && least > limits[hi]) impossible.push(`lo mínimo de ${label} que suma un día es <strong>${least.toFixed(0)}g</strong> y tu máximo es ${limits[hi]}g`);
   });
   if (impossible.length) {
-    warnEl.innerHTML = `No se puede cumplir: ${impossible.join('; ')}. Con las porciones permitidas no alcanza.<br><button type="button" class="btn secondary warn-fix" onclick="ampliarPorciones()">Permitir porciones más grandes y volver a intentar</button>`;
+    const todos = marked.size === document.querySelectorAll('.foodCheck').length;
+    warnEl.innerHTML = todos
+      ? (LANG === 'en' ? 'We can\'t reach a goal this high, even with every food ticked. Try a lower calorie goal.' : 'No llegamos a una meta tan alta, aunque todos los alimentos estén marcados. Prueba con una meta de calorías más baja.')
+      : `No se puede cumplir: ${impossible.join('; ')}. Con los productos marcados no alcanza: marca más en «Tus alimentos».`;
     warnEl.style.display = 'block';
     return null;
   }
   if (tight.length) {
-    warnEl.innerHTML = `Ojo, se llega muy justo en: ${tight.join(', ')}. El plan va a repetir mucho los mismos alimentos.<br><button type="button" class="btn secondary warn-fix" onclick="ampliarPorciones()">Permitir porciones más grandes y volver a intentar</button>`;
+    warnEl.innerHTML = `Ojo, se llega muy justo en: ${tight.join(', ')}. El plan va a repetir mucho los mismos alimentos. Marca más en «Tus alimentos» si quieres más opciones.`;
     warnEl.style.display = 'block';
   }
 
@@ -2343,8 +2448,7 @@ function gaSearch(inp, onEval) {
   return r.value;
 }
 // La demostración de Ana usa siempre el mismo azar (una semilla fija): todos ven la misma historia.
-const ANA_SEED = 43, ANA_CMP_SEED = 7;   // 43: los 7 días dentro, sin repetir plato ni guarnición el mismo día y la más variada de 60 semillas
-// (el aguacate se repite más que lo demás: con 3 comidas es casi la única grasa que alcanza su mínimo de 55 g)
+const ANA_SEED = 51, ANA_CMP_SEED = 7;   // 51 (con los 113 alimentos y porciones mínimas): los 7 días dentro, sin repetir alimento el mismo día y nada más de 4 veces
 let unseedAna = null;
 function seedRandom(seed) {   // cambia Math.random por uno con semilla y devuelve cómo volver al original
   const orig = Math.random; let x = seed;
@@ -2485,6 +2589,7 @@ function avgPairSimilarity(plans) {
 
 let cmpRun = 0;   // cada comparación lleva su número: si sales de la demostración, la que corría se detiene
 async function runComparison() {
+  cmpPedida = true;
   const my = ++cmpRun;
   lastCmp = null;   // mientras corre, el resumen no muestra el azar de la comparación anterior
   if (lastRender && !running && document.getElementById('results').innerHTML) renderResults(...lastRender, true);
@@ -2532,7 +2637,7 @@ async function runComparison() {
   card.scrollIntoView({ behavior: 'smooth' });
 }
 // El resultado se arma aparte para poder volver a escribirlo si cambia el idioma.
-let lastCmp = null;
+let lastCmp = null, cmpPedida = false;   // cmpPedida: la persona pidió ver la comparación
 function renderCompare() {
   if (!lastCmp) return;
   const { inp, evals, marks, ga, az } = lastCmp, out = document.getElementById('compare');
@@ -2634,16 +2739,18 @@ function shortfallText(i, t, limits) {
   return en ? `${day} is ${bits.join(' and ')}.` : `El ${day} ${bits.join(' y ')}.`;
 }
 
-let shopText = '', shopList = [];
+let shopList = [];   // la lista de compras ya no va en la página: solo en el PDF
 matchMedia('(max-width: 640px)').addEventListener('change', e => { if (e.matches && openDays.size !== 1 && typeof lastRender !== 'undefined' && lastRender && !running) { openDays = new Set([openDays.size ? Math.min(...openDays) : 0]); renderResults(...lastRender, true); } });   // en el teléfono, un solo día a la vista
 const firstOpenDays = () => new Set(matchMedia('(max-width: 640px)').matches ? [0] : []);   // computadora: todos cerrados; teléfono: el lunes
 let openDays = firstOpenDays();
 // Cuánto servir de un gen: "1½ porciones", "2 huevos", "150 g"
 function geneAmount(g) {
+  if (g.food.fijo && !(RECETAS[g.food.name] && RECETAS[g.food.name].length > 1)) return LANG === 'en' ? enPorcion(g.food.portion) : g.food.portion;
   const rec = RECETAS[g.food.name];
   return rec && rec.length > 1
     ? `${frac(g.mult)} ${LANG === 'en' ? (g.mult > 1 ? 'servings' : 'serving') : (g.mult > 1 ? 'porciones' : 'porción')}`
-    : rec && (rec[0].u === 'u' || UNIT_WORDS[rec[0].u]) ? partText(rec[0], rec[0].q * g.mult)
+    : rec && UNIT_WORDS[rec[0].u] ? shopQty(rec[0], rec[0].q * g.mult)   // PRUEBA: «1 taza», «4 lonjas»: el producto ya está a la izquierda
+    : rec && rec[0].u === 'u' ? (rec[0].n === g.food.name || rec[0].pl === g.food.name ? frac(rec[0].q * g.mult) : partText(rec[0], rec[0].q * g.mult))   // «Aguacate ½», «Mangú 1 plátano verde»
     : `${Math.round(g.food.amount * g.mult)} ${g.food.unit.split(' ')[0]}`;
 }
 
@@ -2670,16 +2777,11 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
   if (stillOut > 0) {   // con calma y en concreto: qué día y cuántos gramos (el algoritmo se acerca mucho, pero no siempre llega exacto)
     const lines = totals.map((t, i) => violatesLimits(t, limits) ? shortfallText(i, t, limits) : null).filter(Boolean);
     noteHtml = `<div class="notice short-note" data-no-i18n><p>${lines.join(' ')} ${LANG === 'en' ? 'The algorithm gets very close, but it isn’t always exact.' : 'El algoritmo se acerca mucho, pero no siempre llega exacto.'}</p>` +
-      `<button type="button" class="btn secondary warn-fix" onclick="ampliarPorciones()">${LANG === 'en' ? 'Allow bigger portions and try again' : 'Permitir porciones más grandes y volver a intentar'}</button></div>`;
+      `<p class="hint">${LANG === 'en' ? 'Mark more products in «Your foods» and try again.' : 'Marca más productos en «Tus alimentos» y vuelve a intentar.'}</p></div>`;
   }
 
-  // 0) Primero la lección: la flor final, los tres pasos y el azar contra la evolución, en gramos.
+  // 0) Primero la lección: la flor final y los tres pasos.
   if (gaInfo) {
-    const fmtG = fmtGramos;
-    const nowGap = weekGap(chromo, limits);
-    const rndGap = lastCmp ? lastCmp.az.gap : null;   // el azar: el mismo número de la comparación (mientras corre, todavía sin número)
-    const top = Math.max(rndGap || 0, gaInfo.gaGap, nowGap, 1);
-    const bar = (label, v, cls) => `<div class="pday ${cls}"><span>${label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(1.5, v / top * 100)}%"></div></div><span class="val">${fmtG(v)}</span></div>`;
     recapHtml = `<section class="recap recap-top"><div class="recap-grid">` +
       `<div class="recap-flower"><svg viewBox="0 0 300 300" role="img" aria-label="La flor final de esta búsqueda">${gaInfo.bloom}</svg></div>` +
       `<div><h3 aria-level="2">Lo que acabas de ver</h3>` +
@@ -2687,15 +2789,12 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
       `El algoritmo probó solo <strong>${gaInfo.tried.toLocaleString('es-MX')}</strong>, copiando cómo mejora la naturaleza:</p>` +
       `<ol class="recap-steps"><li><strong>Elegir</strong> las semanas que mejor se ajustan</li><li><strong>Mezclar</strong> sus días para hacer semanas nuevas</li><li><strong>Algo nuevo</strong>: cambiar una comida de sorpresa</li></ol>` +
       `<p>Y repetirlo ${gaInfo.gens} veces. Eso es un algoritmo genético.</p></div></div>` +
-      `<p class="recap-q">¿Cuántos gramos se sale la semana de tus rangos? <span>(menos es mejor)</span></p>` +
-      `<div class="recap-bars">` + (rndGap === null ? `<div class="pday bad"><span>Al azar</span><div class="bar-track"></div><span class="val">…</span></div>` : bar('Al azar', rndGap, 'bad')) + bar('Evolución', gaInfo.gaGap, gaInfo.gaGap < GAP_EPS ? 'ok' : 'mid') + (gaInfo.gaGap < GAP_EPS && nowGap < GAP_EPS ? '' : bar('Con ajuste fino', nowGap, nowGap < GAP_EPS ? 'ok' : 'mid')) + `</div>` +
-      (rndGap === null ? `<p class="recap-note">Comparando con el azar…</p>` : `<p class="recap-note">Con los mismos ${gaInfo.tried.toLocaleString('es-MX')} intentos, elegir semanas al azar se queda a ${fmtG(rndGap)} de lo que necesitas; copiar a la naturaleza deja la semana a ${fmtG(gaInfo.gaGap)}.</p>`) +
       `</section>`;
   }
 
   // La semana de Ana, en corto: 7 días × 3 comidas, solo el nombre de cada plato
   if (exampleMode) {
-    const MEALS3 = [['Desayuno', ['Desayuno']], ['Almuerzo', ['Comida1', 'Guarnicion1', 'Vegetales1']], ['Cena', ['Comida2', 'Guarnicion2', 'Vegetales2']]];
+    const MEALS3 = [['Desayuno', ['Desayuno', 'DesayunoBase', 'Bebida']], ['Almuerzo', ['Comida1', 'Guarnicion1', 'Vegetales1']], ['Cena', ['Comida2', 'Guarnicion2', 'Vegetales2']]];
     // cada plato con su cantidad, y el total de cada día en kcal y gramos: así se ve de dónde salen las cuentas
     const tot = t => `<span class="aw-tot"><small>Total del día</small><b>${fmtK(kcal(t))} calorías</b><span>${Math.round(t.prot)} g proteína</span><span>${Math.round(t.fat)} g grasa</span><span>${Math.round(t.carb)} g carbohidratos</span></span>`;
     html += `<div class="ana-week"><div class="aw-row aw-head" aria-hidden="true"><span></span>${MEALS3.map(([m]) => `<span>${m}</span>`).join('')}<span>Total del día</span></div>` +
@@ -2720,13 +2819,13 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
   // 3) Una tarjeta por día, con ✕ (no lo quiero) y 📌 (fijar) en cada comida
   html += `<p class="hint how-to" style="margin:14px 0 8px;">Toca ${ICON_X} en lo que no quieras (tú eliges con qué reemplazarlo) y ${ICON_PIN} en lo que quieras conservar.</p>`;
   if (justCompleted && !pending.size) {   // una sola vez, al elegir la última
-    html += `<div class="pend-done notice ok" role="status" data-no-i18n>${MARK_OK} ${LANG === 'en' ? 'Done: your plan is complete. You can now download it and see the shopping list.' : 'Listo: tu plan quedó completo. Ya puedes descargarlo y ver la lista de compras.'}</div>`;
+    html += `<div class="pend-done notice ok" role="status" data-no-i18n>${MARK_OK} ${LANG === 'en' ? 'Done: your plan is complete. You can now download it.' : 'Listo: tu plan quedó completo. Ya puedes descargarlo.'}</div>`;
     justCompleted = false;
   }
   if (pending.size) {
     const en = LANG === 'en', n = pending.size, first = Math.min(...[...pending.keys()].map(k => +k.split('|')[0]));
     html += `<div class="pend-bar" role="status" data-no-i18n><b>${en ? `${n} ${n === 1 ? 'meal is' : 'meals are'} waiting for you to choose.` : `Te falta elegir ${n} ${n === 1 ? 'comida' : 'comidas'}.`}</b> ` +
-      `${en ? 'Pick a replacement in each highlighted meal to download your plan or see the shopping list.' : 'Elige un reemplazo en cada comida marcada para descargar tu plan o ver la lista de compras.'}` +
+      `${en ? 'Pick a replacement in each highlighted meal to download your plan.' : 'Elige un reemplazo en cada comida marcada para descargar tu plan.'}` +
       `<button type="button" class="linklike" data-act="gopend" data-day="${first}">${en ? 'Go to the first one' : 'Ir a la primera'} →</button></div>`;
   }
   if (locks.size) {
@@ -2761,7 +2860,7 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
       const recLine = rec && rec.length > 1 ? `<small>${rec.map(pt => partText(pt, pt.q * g.mult)).join(' + ')}</small>` : '';
       const amt = geneAmount(g);
       html += `<li class="${locked ? 'locked' : ''}${changed ? ' changed' : ''}"><span class="slot">${s.label === s.meal ? '' : s.label}</span><span class="food">${g.food.name}${recLine}</span>` +
-        `<span class="amt">${amt}${note && !(rec && (rec.length > 1 || rec[0].u === 'u' || UNIT_WORDS[rec[0].u])) ? `<em>${note}</em>` : ''}</span>` +
+        `<span class="amt">${amt}</span>` +
         `<span class="acts"><button class="ic${locked ? ' on' : ''}" data-act="lock" data-day="${i}" data-slot="${s.key}" title="${locked ? 'Soltar' : 'Fijar esta comida'}" aria-label="${locked ? 'Soltar' : 'Fijar'} ${g.food.name}">${ICON_PIN}</button>` +
         `<button class="ic" data-act="remove" data-day="${i}" data-slot="${s.key}" title="No quiero este alimento" aria-label="Quitar ${g.food.name}">${ICON_X}</button></span></li>`;
     });
@@ -2787,14 +2886,6 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
   const label = it => { const n = it.pt.u === 'u' && it.q > 1 && it.pt.pl ? it.pt.pl : it.pt.n; return LANG === 'en' ? ingEn(n) : n; };
   const shopItems = Object.values(shop).sort((a, b) => label(a).localeCompare(label(b), LANG));
   shopList = shopItems.map(it => [label(it), shopQty(it.pt, it.q)]);
-  shopText = tx('Lista de compras de la semana') + '\n' + shopItems.map(it => `- ${label(it)}: ${shopQty(it.pt, it.q)}`).join('\n');
-  if (pending.size) html += `<p class="pend-block">${LANG === 'en' ? 'The shopping list will appear once you choose the missing meals.' : 'La lista de compras aparece cuando elijas las comidas que faltan.'}</p>`;
-  else html += `<details class="more shop-box"><summary>Lista de compras (${shopItems.length} ingredientes) · copiar, descargar o imprimir</summary><section class="shop"><div class="shop-head"><h3 aria-level="2">Lista de compras (${shopItems.length} ingredientes)</h3>` +
-    `<span><button class="btn secondary" id="copyBtn" onclick="copyShopping()">Copiar lista</button> <button class="btn secondary" onclick="window.print()">Imprimir</button></span></div>` +
-    `<p class="hint" style="margin:6px 0 0;">Los platos están desglosados en sus ingredientes. Cantidades aproximadas.</p>` +
-    `<ul>${shopItems.map(it => `<li>${label(it)}<span>${shopQty(it.pt, it.q)}</span></li>`).join('')}</ul></section></details>`;
-
-
 
   document.getElementById('results').innerHTML = html;
   const pdfBtn = document.getElementById('pdfBtnMain');   // mientras falte elegir, el PDF se ve apagado y lleva al aviso
@@ -2802,27 +2893,32 @@ function renderResults(chromo, parts, history, limits, repaired, polishGain, noS
 
 }
 
-// Camino «con lo que tengo en casa»: guarda tu meta en este dispositivo y abre la otra página, que la lee sola.
-const EN_CASA_URL = 'en-casa/';
-function paintModo() {
-  const en = LANG === 'en';
-  document.getElementById('modo').innerHTML =
-    `<div class="modo-op on"><b>${en ? 'With ready-made dishes' : 'Con platos listos'}</b><span>${en ? 'Pick from a menu of dishes already combined. It is what you see below.' : 'Eliges de un menú de platos ya combinados. Es lo que ves abajo.'}</span></div>` +
-    `<a class="modo-op" href="${EN_CASA_URL}" onclick="return irEnCasa()"><b>${en ? 'With what I have at home →' : 'Con lo que tengo en casa →'}</b><span>${en ? 'Tick what is in your fridge and the algorithm combines only that. Your goal goes with you. (In Spanish for now.)' : 'Marcas lo que hay en tu nevera y el algoritmo combina solo eso. Tu meta va contigo.'}</span></a>`;
-}
-function irEnCasa() {
-  const n = calculatedNeeds; if (!n) { go(1); return false; }
-  guardarParaVolver();
+// Tu meta (y lo del paso 1 y 2, para poder volver) se guarda en este dispositivo; las otras páginas la leen solas.
+function guardarMeta() {
+  const n = calculatedNeeds; if (!n) return false;
+  guardarParaVolver(); guardarSemana();
   const g = (id, alt) => { const x = +document.getElementById(id).value; return Math.round(x > 0 ? x : alt); };
   try {
     localStorage.setItem('ds.metaDiaria', JSON.stringify({ v: 1, fecha: Date.now(), kcal: Math.round(n.targetCalories), prot: Math.round(n.proteinG),
       lang: LANG, fatMin: g('minFat', n.ranges.fat[0]), fatMax: g('maxFat', n.ranges.fat[1]), carbMin: g('minCarb', n.ranges.carb[0]), carbMax: g('maxCarb', n.ranges.carb[1]) }));
   } catch (e) {}
-  if (!exampleMode) track('3-va-a-en-casa');
-  return true;   // el enlace sigue su camino
+  return true;
 }
-paintModo();
-// Al irte a «en casa» se guarda todo lo del paso 1 y 2; al volver con ?paso2 la app te deja en el paso 2 como lo dejaste.
+// Tu semana también viaja: el presupuesto le pone precio tal cual.
+function guardarSemana() {
+  try {
+    const off = [...document.querySelectorAll('.foodCheck')].filter(cb => !cb.checked).map(cb => cb.dataset.name);
+    const comidas = [...new Set(SLOTS.map(s => s.meal))];
+    const inp = readInputs();
+    const out = { v: 2, fecha: Date.now(), sinLactosa: document.getElementById('avoidLactose').checked, comidas, off, dias: null, ok: null, limits: inp ? inp.limits : null };
+    if (currentPlan && !dirty && !pending.size) {   // solo semanas completas
+      out.dias = currentPlan.map(day => SLOTS.filter(s => day[s.key]).map(s => ({ k: s.key, name: day[s.key].food.name, n: Math.round(day[s.key].mult * (day[s.key].food.b || 1) * 100) / 100 })));
+      out.ok = inp ? 7 - daysOutside(currentPlan, inp.limits) : null;
+    }
+    localStorage.setItem('ds.semanaParte1', JSON.stringify(out));
+  } catch (e) {}
+}
+// Al irte al presupuesto se guarda todo lo del paso 1 y 2; al volver con ?paso2 la app te deja en el paso 2 como lo dejaste.
 const VOLVER_KEY = 'ds.volverPaso2';
 const VOLVER_FIELDS = ['calcWeight', 'calcHeightFt', 'calcHeightIn', 'calcAge', 'calcSex', 'calcActivity', 'calcGoal', 'calcProtPerKg', 'calcFatPct', 'calcCutFrom',
   'minProt', 'maxProt', 'minFat', 'maxFat', 'minCarb', 'maxCarb', 'avoidLactose', 'prefProtein', 'prefFat', 'prefCarb', 'prefShop'];
@@ -2830,7 +2926,7 @@ function guardarParaVolver() {
   try {
     const fields = {};
     VOLVER_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) fields[id] = el.type === 'checkbox' ? el.checked : el.value; });
-    const off = [...document.querySelectorAll('.foodCheck')].filter(cb => !cb.checked).map(cb => cb.dataset.group + '|' + cb.dataset.idx);
+    const off = [...document.querySelectorAll('.foodCheck')].filter(cb => !cb.checked).map(cb => cb.dataset.name);
     localStorage.setItem(VOLVER_KEY, JSON.stringify({ v: 1, fecha: Date.now(), fields, off }));
   } catch (e) {}
 }
@@ -2844,10 +2940,20 @@ function volverAlPaso2() {
   OWN_IDS.concat(['calcProtPerKg', 'calcFatPct', 'calcCutFrom']).forEach(put);
   recalc();   // calcula tu meta con tus datos
   VOLVER_FIELDS.forEach(put);   // y luego vuelven tus rangos y preferencias, por si los habías cambiado
-  d.off.forEach(k => { const [g, i] = k.split('|'); const cb = document.querySelector(`.foodCheck[data-group="${g}"][data-idx="${i}"]`); if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change', { bubbles: true })); } });
+  d.off.forEach(k => { const cb = document.querySelector(`.foodCheck[data-name="${CSS.escape(k)}"]`); if (cb && cb.checked) { cb.checked = false; cb.dispatchEvent(new Event('change', { bubbles: true })); } });
   if (!calculatedNeeds) return false;
   dirty = true; maxStep = 3;
   go(3);
+  return true;
+}
+
+
+// El último paso: tu presupuesto y tu lista de compras, en su propia página. Tu semana y tu meta van contigo.
+const PRESUPUESTO_URL = 'presupuesto/';
+document.getElementById('presuLink').href = PRESUPUESTO_URL;
+function irPresupuesto() {
+  if (!guardarMeta()) return true;
+  if (!exampleMode) track('7-va-a-presupuesto');
   return true;
 }
 
@@ -3036,14 +3142,16 @@ async function downloadPDF(btn = document.getElementById('pdfBtnMain')) {
   if (pending.size) { const b = document.querySelector('#results .pend-bar'); if (b) { b.scrollIntoView({ behavior: 'smooth', block: 'center' }); b.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.02)' }, { transform: 'scale(1)' }], 400); } return; }
   const label = btn.id === 'pdfBtnMain' ? 'Descargar tu plan (PDF)' : 'Descargar PDF'; // el texto original en español; la pantalla lo traduce
   btn.disabled = true; btn.textContent = 'Preparando…';
+  let cargado = false;
   try {
     await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
     await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js');
+    cargado = true;
     track('7-pdf-descargado');
     (await buildPDF()).save(`${LANG === 'en' ? 'weekly-plan' : 'plan-semanal'}-${new Date().toISOString().slice(0, 10)}.pdf`);
     btn.textContent = label;
   } catch (e) {
-    btn.textContent = 'Sin conexión: usa Imprimir';
+    btn.textContent = cargado ? 'No se pudo crear el PDF: intenta de nuevo' : 'Sin conexión: intenta de nuevo';
   } finally {
     btn.disabled = false;
   }
@@ -3051,7 +3159,8 @@ async function downloadPDF(btn = document.getElementById('pdfBtnMain')) {
 // ---- PDF con la marca Designing Spring ----
 // Letra de títulos (Gloock) y logo: se cargan solo al armar el PDF. Si no hay conexión, se usa Helvetica.
 // Base sobria (negro, grises, blanco) con un toque del dorado de la marca.
-const PDF_C = { ink: [24, 24, 24], muted: [112, 112, 112], soft: [150, 150, 150], line: [218, 218, 218], rowAlt: [246, 246, 245], card: [243, 243, 241], gold: [227, 167, 47], goldInk: [128, 84, 8] }; // goldInk: 6.6:1 sobre blanco (texto); gold solo en líneas decorativas
+// Tintas de imprenta (CMYK, de 0 a 1), las mismas del PDF del presupuesto: azul noche para la estructura, dorado en las líneas principales y verde en las comidas.
+const PDF_C = { ink: [0, 0, 0, 0.9], muted: [0, 0, 0, 0.6], soft: [0, 0, 0, 0.45], line: [0, 0, 0, 0.15], rowAlt: [0, 0, 0, 0.05], card: [0, 0, 0, 0.06], azul: [0.75, 0.55, 0, 0.75], dorado: [0.15, 0.45, 1, 0.05], verde: [0.7, 0.35, 1, 0.45], blanco: [0, 0, 0, 0] };
 let pdfAssets = null;
 async function loadPdfAssets() {
   if (pdfAssets) return pdfAssets;
@@ -3080,7 +3189,7 @@ function logoPNG() {
 }
 async function buildPDF() {
   const A = await loadPdfAssets();
-  const doc = new window.jspdf.jsPDF({ unit: 'pt', format: 'a4' });
+  const doc = new window.jspdf.jsPDF({ unit: 'pt', format: 'a4', compress: true });
   const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 36, BOTTOM = H - 50;
   let display = 'helvetica';
   if (A.font) { doc.addFileToVFS('Gloock.ttf', A.font); doc.addFont('Gloock.ttf', 'Gloock', 'normal'); display = 'Gloock'; }
@@ -3088,19 +3197,12 @@ async function buildPDF() {
   const body = (size, color = PDF_C.ink, style = 'normal') => { doc.setFont('helvetica', style); doc.setFontSize(size); doc.setTextColor(...color); };
   const loc = LANG === 'en' ? 'en-US' : 'es-MX', nf = v => Math.round(v).toLocaleString(loc);
 
-  // Marca de agua: una flor de puntos grises, con el ángulo de oro (137.5°) de la marca.
-  // Se dibuja una vez como imagen y va primero en cada página, debajo del contenido.
-  const WM = 520, wmImg = (() => {
-    const c = document.createElement('canvas'); c.width = c.height = 1400; const g = c.getContext('2d'), k = 1400 / WM;
-    g.fillStyle = 'rgb(222, 219, 211)';
-    const N = 620, R = WM / 2 - 6, golden = Math.PI * (3 - Math.sqrt(5));
-    for (let i = 1; i <= N; i++) {
-      const r = R * Math.sqrt(i / N), a = i * golden;
-      g.beginPath(); g.arc((WM / 2 + r * Math.cos(a)) * k, (WM / 2 + r * Math.sin(a)) * k, (0.5 + 1.4 * i / N) * k, 0, 2 * Math.PI); g.fill();
-    }
-    return c.toDataURL('image/png');
-  })();
-  const watermark = () => doc.addImage(wmImg, 'PNG', W * 0.86 - WM / 2, H * 0.84 - WM / 2, WM, WM, 'wm', 'FAST'); // flor en la esquina, sale del borde
+  // Marca de agua: la flor de puntos con el ángulo de oro (137.5°), dibujada con tinta y debajo del contenido.
+  const watermark = () => {
+    const WM = 520, N = 620, R = WM / 2 - 6, golden = Math.PI * (3 - Math.sqrt(5)), cx = W * 0.86, cy = H * 0.84;
+    doc.setFillColor(0, 0, 0, 0.1);
+    for (let i = 1; i <= N; i++) { const r = R * Math.sqrt(i / N), a = i * golden; doc.circle(cx + r * Math.cos(a), cy + r * Math.sin(a), 0.5 + 1.4 * i / N, 'F'); }
+  };
   const newPage = () => { doc.addPage(); watermark(); };
   watermark();
 
@@ -3117,18 +3219,18 @@ async function buildPDF() {
   body(8, PDF_C.muted); doc.text(tx('De la naturaleza al código'), tx0, 51);
   title(tx('Tu plan semanal de comidas'), M, 82, 22);
   body(8.5, PDF_C.muted); doc.text(`${tx('Armado con un algoritmo genético')} · ${dateTxt}`, M, 97);
-  doc.setDrawColor(...PDF_C.gold); doc.setLineWidth(1.2); doc.line(M, 108, W - M, 108);
+  doc.setDrawColor(...PDF_C.dorado); doc.setLineWidth(1.2); doc.line(M, 108, W - M, 108);
   // Cómo se armó: el experimento en tres números, a la derecha del encabezado
   if (gaInfo) {
     const fg = v => v < GAP_EPS ? '0 g' : `${nf(Math.round(v))} g`;
     const lim = lastRender ? lastRender[3] : null;
     const nowGap = weekGap(currentPlan, lim), okDays = 7 - daysOutside(currentPlan, lim);
     const stats = [[nf(gaInfo.tried), tx('semanas probadas')], [`${okDays} ${LANG === 'en' ? 'of' : 'de'} 7`, tx('días dentro de tus rangos')],
-      [fg(nowGap), `${tx('fuera de tus rangos')} (${tx('al azar')}: ${fg(gaInfo.rndGap)})`]];
+      [fg(nowGap), lastCmp ? `${tx('fuera de tus rangos')} (${tx('al azar')}: ${fg(lastCmp.az.gap)})` : tx('fuera de tus rangos')]];
     const sw = 86, sx = W - M - sw * 3 + 6;
     stats.forEach(([big, small], i) => {
       const x = sx + i * sw;
-      title(big, x, 40, 15, PDF_C.goldInk);
+      title(big, x, 40, 15, PDF_C.azul);
       body(7, PDF_C.muted); doc.text(small, x, 52, { maxWidth: sw - 10 });
     });
   }
@@ -3174,10 +3276,10 @@ async function buildPDF() {
         { content: `P ${t.prot.toFixed(0)} g · ${LANG === 'en' ? 'F' : 'G'} ${t.fat.toFixed(0)} g · C ${t.carb.toFixed(0)} g · ${Math.round(kcal(t))} ${LANG === 'en' ? 'calories' : 'calorías'}`, colSpan: 2,
           styles: { halign: 'right', fontSize: 7.5, textColor: PDF_C.muted, valign: 'bottom' } }]],
       body: rows,
-      headStyles: { fillColor: [255, 255, 255], textColor: PDF_C.ink, cellPadding: { top: 3, bottom: 3, left: 0, right: 0 }, lineColor: PDF_C.gold, lineWidth: { bottom: 1 } },
-      styles: { font: 'helvetica', fontSize: 7.6, cellPadding: cellPad, textColor: PDF_C.ink, valign: 'top', lineColor: PDF_C.line, lineWidth: { bottom: 0.4 }, fillColor: [255, 255, 255] },
+      headStyles: { fillColor: PDF_C.blanco, textColor: PDF_C.ink, cellPadding: { top: 3, bottom: 3, left: 0, right: 0 }, lineColor: PDF_C.azul, lineWidth: { bottom: 1 } },
+      styles: { font: 'helvetica', fontSize: 7.6, cellPadding: cellPad, textColor: PDF_C.ink, valign: 'top', lineColor: PDF_C.line, lineWidth: { bottom: 0.4 }, fillColor: PDF_C.blanco },
       alternateRowStyles: { fillColor: PDF_C.rowAlt },
-      columnStyles: { 0: { fontStyle: 'bold', textColor: PDF_C.goldInk, cellWidth: mealW, fontSize: 7.2 }, 1: { textColor: PDF_C.muted, cellWidth: partW, fontSize: 7.2 }, 3: { cellWidth: amountW, halign: 'right' } },
+      columnStyles: { 0: { fontStyle: 'bold', textColor: PDF_C.verde, cellWidth: mealW, fontSize: 7.2 }, 1: { textColor: PDF_C.muted, cellWidth: partW, fontSize: 7.2 }, 3: { cellWidth: amountW, halign: 'right' } },
     });
     y = doc.lastAutoTable.finalY + 7;
   });
@@ -3187,13 +3289,13 @@ async function buildPDF() {
   const listRows = Math.ceil(shopList.length / 3), listH = 30 + listRows * 14;
   if (y + listH > BOTTOM) { newPage(); y = 44; }
   title(tx('Lista de compras de la semana'), M, y + 12, 15);
-  body(7.5, PDF_C.muted); doc.text(tx('Los platos están desglosados en sus ingredientes. Cantidades aproximadas.'), W - M, y + 12, { align: 'right' });
-  doc.setDrawColor(...PDF_C.gold); doc.setLineWidth(1); doc.line(M, y + 19, W - M, y + 19);
+  body(7.5, PDF_C.muted); doc.text(tx('La lista va con los nombres del supermercado. Cantidades aproximadas.'), W - M, y + 12, { align: 'right' });
+  doc.setDrawColor(...PDF_C.dorado); doc.setLineWidth(1); doc.line(M, y + 19, W - M, y + 19);
   const lgap = 12, lw = (W - 2 * M - 2 * lgap) / 3;
   [0, 1, 2].forEach(c => doc.autoTable({
     startY: y + 24, margin: { left: M + c * (lw + lgap), right: 0, bottom: 58 }, tableWidth: lw, theme: 'plain',
     body: shopList.slice(c * listRows, (c + 1) * listRows),
-    styles: { fontSize: 8, cellPadding: { top: 2.6, bottom: 2.6, left: 5, right: 5 }, textColor: PDF_C.ink, lineColor: PDF_C.line, lineWidth: { bottom: 0.4 }, fillColor: [255, 255, 255] },
+    styles: { fontSize: 8, cellPadding: { top: 2.6, bottom: 2.6, left: 5, right: 5 }, textColor: PDF_C.ink, lineColor: PDF_C.line, lineWidth: { bottom: 0.4 }, fillColor: PDF_C.blanco },
     columnStyles: { 1: { halign: 'right', cellWidth: 58, textColor: PDF_C.muted } },
     alternateRowStyles: { fillColor: PDF_C.rowAlt },
   }));
@@ -3210,22 +3312,6 @@ async function buildPDF() {
     body(8, PDF_C.muted); doc.text(`${p} / ${n}`, W - M, H - 23, { align: 'right' });
   }
   return doc;
-}
-
-function copyShopping() {
-  const btn = document.getElementById('copyBtn');
-  track('7-lista-copiada');
-  const done = () => { btn.textContent = '¡Copiada!'; setTimeout(() => { btn.textContent = 'Copiar lista'; }, 1800); };
-  const fallback = () => {
-    const ta = document.createElement('textarea');
-    ta.value = shopText; document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); done(); } catch (e) {}
-    ta.remove();
-  };
-  try {
-    if (navigator.clipboard) navigator.clipboard.writeText(shopText).then(done, fallback);
-    else fallback();
-  } catch (e) { fallback(); }
 }
 
 // Botón principal: muestra "Generando…" mientras corre (si no, la página parece congelada).
@@ -3294,6 +3380,9 @@ async function rerun() {
   if (running) return;
   running = true; dirty = false;
   updateStepper();
+  // Comparar con el azar es opcional: cada semana nueva vuelve a ofrecer el botón.
+  cmpRun++; lastCmp = null; cmpPedida = false;
+  const cmpBtn = document.querySelector('.ga-versus > .btn'); if (cmpBtn) cmpBtn.hidden = false;
   let ok = false;
   try { ok = await runFull(); } finally {
     if (unseedAna) { unseedAna(); unseedAna = null; }   // si la corrida se cortó, el azar vuelve a ser el normal
@@ -3301,7 +3390,6 @@ async function rerun() {
     if (!ok) dirty = true;
     if (ok) { track(exampleMode ? '2-demo-vista' : '5-semana-armada'); }   // la comparación anterior ya no vale para esta semana
     updateStepper();
-    if (ok) runComparison();   // la prueba contra el azar corre sola, en la demostración y en tu semana
   }
 }
 
@@ -3555,7 +3643,7 @@ function drawDays(plan, limits, fresh, finalGap) {
   const after = finalGap === undefined ? ''
     : nowGap < GAP_EPS ? ''   // el resultado ya lo cuenta la línea de estado de arriba: no se repite aquí
       : `<p>La evolución dejó la semana a ${fmtGramos(finalGap)} y el ajuste fino la bajó a ${fmtGramos(nowGap)}. Todavía faltan ${fmtGramos(nowGap)}: con estos alimentos y porciones es muy difícil llegar.</p>` +
-        `<p><button type="button" class="link-btn" onclick="ampliarPorciones()">Permitir porciones más grandes y volver a intentar</button></p>`;
+        `<p>Marca más productos en «Tus alimentos» y vuelve a intentar.</p>`;
   document.getElementById('gaInRange').innerHTML = `<p>Barra llena y verde: el día está dentro de tus rangos de proteína, grasa y carbohidratos.</p>${after}`;
 }
 
@@ -3666,10 +3754,9 @@ async function runFull() {
   const polishGain = fitness(best, inp.weights, inp.limits) - beforePolish;
   previousPlan = null;
   currentPlan = best; pending.clear();
-  // Para el cierre: el azar con los mismos intentos (una prueba) y la flor final de esta búsqueda.
-  const rnd = randomSearch(inp, inp.popSize * inp.numGens);
+  // Para el cierre: la flor final de esta búsqueda.
   gaInfo = { tried: inp.popSize * inp.numGens, digits: Math.floor(spaceLog10(inp)) + 1, gens: inp.numGens,
-    rndGap: weekGap(rnd.best, inp.limits), gaGap: weekGap(afterGA, inp.limits),
+    gaGap: weekGap(afterGA, inp.limits),
     bloom: document.getElementById('gaPop').innerHTML };
   if (unseedAna) { unseedAna(); unseedAna = null; }
   lastRender = [best, fitnessParts(best, inp.weights, inp.limits), res.history, inp.limits, repaired, polishGain];
@@ -3713,7 +3800,7 @@ function optionCounts(withPortions) {
     if (!cb.checked) return;
     const max = parseFloat(row.querySelector('.maxMult').value), whole = row.dataset.whole === '1';
     const n = withPortions ? Math.max(1, PORTIONS.filter(m => m <= max && (!whole || Number.isInteger(m))).length) : 1;
-    SLOTS.filter(s => s.pool === cb.dataset.group).forEach(s => { counts[s.key] += n; });
+    SLOTS.filter(s => FOODS[s.pool].some(f => f.name === cb.dataset.name)).forEach(s => { counts[s.key] += n; });
   });
   return counts;
 }
@@ -3784,10 +3871,6 @@ function showChoose() {
 function elegirDemo() { track('1b-elige-demo'); document.body.classList.remove('in-choose', 'in-intro'); usarEjemplo(); }
 function elegirMisDatos() { track('1b-elige-mis-datos'); document.body.classList.remove('in-choose', 'in-intro'); usarMisDatos(); }
 
-// Al imprimir, la lista de compras se abre sola (plegada no saldría en papel).
-window.addEventListener('beforeprint', () => document.querySelectorAll('.shop-box').forEach(d => { d.dataset.wasOpen = d.open; d.open = true; }));
-window.addEventListener('afterprint', () => document.querySelectorAll('.shop-box').forEach(d => { d.open = d.dataset.wasOpen === 'true'; }));
-
 function init() {
   // Fuentes: también se abre y se cierra con un toque (celular) y se cierra al tocar fuera o con Esc.
   document.addEventListener('click', e => {
@@ -3805,12 +3888,11 @@ function init() {
       el.addEventListener('input', () => { if (exampleMode) { exampleMode = false; showExampleNotes(); } recalc(); });
       el.addEventListener('change', recalc);
     });
-  document.getElementById('foodSearch').addEventListener('input', filterFoods);
   // Cualquier cambio en los pasos 1–3 hace que la evolución se vuelva a correr al llegar al paso 4.
   ['step1', 'step3'].forEach(id => {
     const sc = document.getElementById(id);
     sc.addEventListener('change', () => { dirty = true; });
-    sc.addEventListener('input', e => { if (e.target.id !== 'foodSearch') dirty = true; });
+    sc.addEventListener('input', () => { dirty = true; });
   });
   document.getElementById('stepper').addEventListener('click', e => {
     const b = e.target.closest('button[data-go]');
@@ -3823,7 +3905,7 @@ function init() {
   // quien llega desde el sitio (?intro) ve siempre la introducción; se quita del enlace para que recargar no la repita
   const url = new URL(location.href), fromSite = url.searchParams.has('intro');
   if (fromSite) { url.searchParams.delete('intro'); try { history.replaceState(null, '', url); } catch (e) {} }
-  if (url.searchParams.has('paso2')) {   // vienes de «con lo que tengo en casa»
+  if (url.searchParams.has('paso2')) {   // vienes del presupuesto
     url.searchParams.delete('paso2'); try { history.replaceState(null, '', url); } catch (e) {}
     if (volverAlPaso2()) return;
   }
@@ -3837,8 +3919,100 @@ init();
 // El español es el texto original de la app. En inglés, cada frase de la pantalla se cambia
 // por su traducción completa (no palabra por palabra). Los números se conservan: en las
 // claves del diccionario cada número es "#". Si una frase no está traducida, se queda en español.
-const UNIT_WORDS_EN = { cdita: ['tsp', 'tsp'], cda: ['tbsp', 'tbsp'], rebanada: ['slice', 'slices'], lonja: ['slice', 'slices'], medida: ['scoop', 'scoops'] };
+const UNIT_WORDS_EN = { porcion: ['serving', 'servings'], taza: ['cup', 'cups'], lata: ['can', 'cans'], vaso: ['glass', 'glasses'], 'puñado': ['handful', 'handfuls'], torta: ['round', 'rounds'], cdita: ['tsp', 'tsp'], cda: ['tbsp', 'tbsp'], rebanada: ['slice', 'slices'], lonja: ['slice', 'slices'], medida: ['scoop', 'scoops'] };
 const FOOD_EN = {
+  "Claras revueltas": "Scrambled egg whites",
+  "Huevos revueltos": "Scrambled eggs",
+  "Atún en agua": "Tuna in water",
+  "Salami": "Salami",
+  "Sardinas en lata": "Canned sardines",
+  "Tofu a la plancha": "Grilled tofu",
+  "Queso de freír": "Frying cheese",
+  "Yogur natural": "Plain yogurt",
+  "Queso amarillo": "Yellow cheese",
+  "Batida de proteína": "Protein shake",
+  "Pan de agua": "Dominican water bread",
+  "Mangú": "Mangú (mashed green plantain)",
+  "Yuca hervida": "Boiled cassava",
+  "Batata hervida": "Boiled sweet potato",
+  "Tortillas de trigo": "Flour tortillas",
+  "Pan de molde": "Sliced bread",
+  "Casabe": "Casabe (cassava bread)",
+  "Guineítos hervidos": "Boiled green bananas",
+  "Ñame hervido": "Boiled yam",
+  "Yautía hervida": "Boiled yautía",
+  "Granola": "Granola",
+  "Leche entera": "Whole milk",
+  "Leche deslactosada": "Lactose-free milk",
+  "Salmón al horno": "Baked salmon",
+  "Tilapia a la plancha": "Grilled tilapia",
+  "Muslo de pollo al horno": "Baked chicken thigh",
+  "Lomo de cerdo al horno": "Baked pork loin",
+  "Pechuga a la plancha": "Grilled chicken breast",
+  "Carne molida guisada": "Stewed ground beef",
+  "Habichuelas guisadas": "Stewed beans",
+  "Pescado horneado": "Baked fish",
+  "Chuleta al horno": "Baked pork chop",
+  "Bistec de res": "Beef steak",
+  "Camarones a la plancha": "Grilled shrimp",
+  "Longaniza": "Longaniza sausage",
+  "Gandules guisados": "Stewed pigeon peas",
+  "Lentejas guisadas": "Stewed lentils",
+  "Garbanzos guisados": "Stewed chickpeas",
+  "Maíz dulce": "Sweet corn",
+  "Calabacín al vapor": "Steamed zucchini",
+  "Ensalada verde": "Green salad",
+  "Zanahoria": "Carrot",
+  "Tomate": "Tomato",
+  "Pepino": "Cucumber",
+  "Repollo": "Cabbage",
+  "Berenjena asada": "Roasted eggplant",
+  "Vainitas al vapor": "Steamed green beans",
+  "Auyama hervida": "Boiled squash",
+  "Espinaca cocida": "Cooked spinach",
+  "Tayota hervida": "Boiled chayote",
+  "Remolacha cocida": "Cooked beets",
+  "Galletas de soda": "Soda crackers",
+  "Mantequilla de maní": "Peanut butter",
+  "Maní": "Peanuts",
+  "Ensalada de frutas": "Fruit salad",
+  "Yogur griego con mango": "Greek yogurt with mango",
+  "Yogur griego con piña": "Greek yogurt with pineapple",
+  "Yogur natural con lechosa": "Plain yogurt with papaya",
+  "Guineo con mantequilla de maní": "Banana with peanut butter",
+  "Fresas con chocolate oscuro": "Strawberries with dark chocolate",
+  "Gelatina con fresas": "Jello with strawberries",
+  "Helado de vainilla": "Vanilla ice cream",
+  "Flan": "Flan",
+  "Dulce de leche": "Dulce de leche",
+  "Dulce de coco": "Coconut sweet",
+  "Bizcocho": "Cake",
+  "Tres leches": "Tres leches cake",
+  "Habichuelas con dulce": "Sweet cream of beans",
+  "Arroz con leche": "Rice pudding",
+  "Majarete": "Majarete (corn pudding)",
+  "Pudín de chocolate": "Chocolate pudding",
+  "Gelatina": "Jello",
+  "Chocolate oscuro": "Dark chocolate",
+  "Galletas de chocolate": "Chocolate cookies",
+  "Yogur griego con fruta": "Greek yogurt with fruit",
+  "Guineo maduro": "Ripe banana",
+  "Lechosa": "Papaya",
+  "Fresas": "Strawberries",
+  "Melón": "Melon",
+  "Uvas": "Grapes",
+  "Aguacate": "Avocado",
+  "Café con azúcar": "Coffee with sugar",
+  "Café con leche": "Coffee with milk",
+  "Chocolate caliente": "Hot chocolate",
+  "Leche de soya": "Soy milk",
+  "Edamame": "Edamame",
+  "Calabacín": "Zucchini",
+  "Brócoli al vapor": "Steamed broccoli",
+  "Quinoa cocida": "Cooked quinoa",
+  "Coliflor al vapor": "Steamed cauliflower",
+  "Lentejas": "Lentils",
+  "Avena cocida": "Cooked oatmeal",
   'Avena cocida': 'Cooked oatmeal', 'Avena con yogur griego y fruta': 'Oats with Greek yogurt and fruit', 'Pan integral con huevo': 'Whole-wheat toast with egg',
   'Tostadas con aguacate y huevo': 'Avocado toast with egg', 'Huevos revueltos (2 huevos + 2 claras)': 'Scrambled eggs (2 eggs + 2 whites)',
   'Tortilla de claras con espinaca': 'Egg-white omelet with spinach', 'Panqueques de avena y claras': 'Oat and egg-white pancakes', 'Yogur griego con granola': 'Greek yogurt with granola',
@@ -3864,6 +4038,7 @@ const FOOD_EN = {
   'Espinacas salteadas': 'Sautéed spinach', 'Champiñones salteados': 'Sautéed mushrooms', 'Remolacha': 'Beets', 'Vegetales salteados': 'Sautéed vegetables', 'Aguacate': 'Avocado',
 };
 const ING_EN = {
+  "Mango": "mango", "Lechosa": "papaya", "Piña": "pineapple", "Yogur natural": "plain yogurt", "Guineo maduro": "ripe banana", "Guineos maduros": "ripe bananas", "Fresas": "strawberries", "Chocolate oscuro": "dark chocolate", "Gelatina": "jello", "Helado de vainilla": "vanilla ice cream", "Flan": "flan", "Dulce de leche": "dulce de leche", "Dulce de coco": "coconut sweet", "Bizcocho": "cake", "Tres leches": "tres leches cake", "Habichuelas con dulce": "sweet cream of beans", "Arroz con leche": "rice pudding", "Majarete": "majarete", "Pudín de chocolate": "chocolate pudding", "Galletas de chocolate": "chocolate cookies", "Salmón": "salmon", "Tilapia": "tilapia", "Muslo de pollo": "chicken thigh", "Lomo de cerdo": "pork loin", "Edamame": "edamame", "Quinoa": "quinoa", "Maíz dulce": "sweet corn", "Sandía": "watermelon", "Arándanos": "blueberries", "Coliflor": "cauliflower", "Calabacín": "zucchini", "Leche deslactosada": "lactose-free milk", "Carne molida": "ground beef", "Atún en agua": "tuna in water", "Habichuelas": "beans", "Salami": "salami", "Pescado blanco": "white fish", "Chuleta de cerdo": "pork chop", "Carne de res": "beef", "Camarones": "shrimp", "Longaniza": "longaniza sausage", "Sardinas en lata": "canned sardines", "Gandules": "pigeon peas", "Lentejas": "lentils", "Garbanzos": "chickpeas", "Tofu": "tofu", "Queso de freír": "frying cheese", "Queso blanco fresco": "fresh white cheese", "Leche entera": "whole milk", "Queso amarillo": "yellow cheese", "Arroz": "rice", "Pan de agua": "water bread", "Panes de agua": "water breads", "Avena": "oats", "Plátano verde": "green plantain", "Plátanos verdes": "green plantains", "Yuca": "cassava", "Batata": "sweet potato", "Batatas": "sweet potatoes", "Pasta": "pasta", "Tortilla de trigo": "flour tortilla", "Tortillas de trigo": "flour tortillas", "Arroz integral": "brown rice", "Pan de molde": "sliced bread", "Casabe": "casabe", "Guineo verde": "green banana", "Guineos verdes": "green bananas", "Ñame": "yam", "Yautía": "yautía", "Galleta de soda": "soda cracker", "Galletas de soda": "soda crackers", "Melón": "melon", "Uvas": "grapes", "Ensalada verde": "green salad", "Brócoli": "broccoli", "Tomates": "tomatoes", "Repollo": "cabbage", "Berenjena": "eggplant", "Vainitas": "green beans", "Auyama": "squash", "Tayota": "chayote", "Remolacha": "beets", "Maní": "peanuts", "Almendras": "almonds", "Proteína en polvo": "protein powder",
   'Aceite': 'oil', 'Azúcar': 'sugar', 'Cacao en polvo': 'cocoa powder', 'Café molido': 'ground coffee', 'Leche descremada': 'skim milk', 'Leche de soya': 'soy milk', 'Aderezo ligero': 'light dressing', 'Aguacate': 'avocado', 'Aguacates': 'avocados', 'Arroz blanco (crudo)': 'white rice (uncooked)',
   'Arroz integral (crudo)': 'brown rice (uncooked)', 'Atún en lata (en agua)': 'canned tuna (in water)', 'Avena en hojuelas': 'rolled oats', 'Banana': 'banana', 'Bananas': 'bananas',
   'Batata (camote)': 'sweet potato', 'Batatas (camotes)': 'sweet potatoes', 'Bistec de res (corte magro)': 'beef steak (lean cut)', 'Calabaza (auyama)': 'squash (pumpkin)',
@@ -3889,6 +4064,7 @@ const I18N_NUM = /\d+(?:[.,]\d+)*/g;
 const I18N_DICT = {};
 function i18nAdd(obj) { for (const [es, en] of Object.entries(obj)) I18N_DICT[es.replace(/\s+/g, ' ').trim().replace(I18N_NUM, '#')] = en; }
 i18nAdd(FOOD_EN);
+i18nAdd({"Carnes y aves": "Meat and poultry", "Pescados y mariscos": "Fish and seafood", "Huevos y lácteos": "Eggs and dairy", "Legumbres": "Legumes", "Víveres": "Root vegetables", "Arroz, pan y pastas": "Rice, bread and pasta", "Postres y dulces": "Desserts and sweets", "Café y chocolate": "Coffee and chocolate", "Despensa": "Pantry"});
 // I18N_EN: frases de la pantalla (se llena abajo)
 i18nAdd({
   "Una semana que evoluciona · Designing Spring": "A week that evolves · Designing Spring",
@@ -4114,23 +4290,22 @@ i18nAdd({
   "Fruta": "Fruit",
   "Postre": "Dessert",
   "plato + bebida": "dish + drink",
+  "proteína + base + bebida": "protein + base + drink",
   "proteína + guarnición + vegetales": "protein + side + vegetables",
   "# partes por día para elegir.": "# parts to choose each day.",
   "Elige al menos una comida.": "Choose at least one meal.",
-  "Evitar lactosa cuando se pueda": "Avoid lactose when possible",
+  "Sin lactosa": "No lactose",
   "Prefiero…": "I prefer…",
   "No me importa": "I don't mind",
   "Más variedad": "More variety",
   "Lista de compras corta": "Short shopping list",
   "Equilibrio": "Balance",
   "Cada comida y su porción": "Each meal and its portion",
-  "Todos vienen marcados: puedes seguir así y quitar después lo que no quieras desde el plan con": "Everything comes checked: you can keep it that way and later remove what you don't want from the plan with",
+  "Todos vienen marcados: abre cada grupo y desmarca lo que no te guste. Con lo que quede se crea tu menú, con las porciones de cada uno. Si luego cambias de idea, también puedes quitarlo desde el plan con": "Everything comes ticked: open each group and untick what you don't like. Your menu is built from what is left, with the portion of each one. If you change your mind later, you can also remove it from the plan with",
   "Ver y ajustar la lista ·": "See and adjust the list ·",
   "Tus alimentos ·": "Your foods ·",
   "# de # alimentos marcados": "# of # foods checked",
   "# de # marcados": "# of # checked",
-  "Buscar alimento…": "Search for a food…",
-  "Buscar alimento": "Search for a food",
   "Restablecer": "Reset",
   "Todos": "All",
   "Ninguno": "None",
@@ -4150,7 +4325,7 @@ i18nAdd({
   "Nunca servir media porción": "Never serve half a portion",
   "¿Qué significan \"Máx\" y \"No partir\"?": "What do \"Max\" and \"Don't split\" mean?",
   "Cada porción que ves es la base. El plan puede servir media porción, #×, #× o #× de ella para acercarse a tu meta. <strong>Máx</strong> es lo más que puede servir de ese alimento: súbelo en lo que sí comerías en más cantidad (arroz, pollo…). <strong>No partir</strong> evita la media porción en lo que no tiene sentido partir (un huevo duro, una lata, un muffin).": "Each portion you see is the base. The plan can serve half a portion, #×, #× or #× of it to get closer to your goal. <strong>Max</strong> is the most it can serve of that food: raise it for things you would eat more of (rice, chicken…). <strong>Don't split</strong> avoids half portions of things it makes no sense to split (a hard-boiled egg, a can, a muffin).",
-  "<strong>¿De dónde salen estos alimentos?</strong> Es una lista de ejemplo con alimentos comunes en muchos países, armada para este experimento. Si un alimento tiene otro nombre en otros lugares, lo ponemos entre paréntesis. Los valores de proteína, grasa y carbohidratos son aproximados (tablas generales y recetas caseras típicas): sirven para mostrar cómo trabaja el algoritmo, no como guía de nutrición.": "<strong>Where do these foods come from?</strong> It's a sample list of foods common in many countries, put together for this experiment. The protein, fat and carb values are approximate (general tables and typical home recipes): they're here to show how the algorithm works, not as a nutrition guide.",
+  "<strong>¿De dónde salen estos alimentos?</strong> Son productos de los supermercados dominicanos, nombrados como se suelen comer. Los valores de proteína, grasa y carbohidratos son aproximados (tablas generales y recetas caseras típicas): sirven para mostrar cómo trabaja el algoritmo, no como guía de nutrición.": "<strong>Where do these foods come from?</strong> It's a sample list of foods common in many countries, put together for this experiment. The protein, fat and carb values are approximate (general tables and typical home recipes): they're here to show how the algorithm works, not as a nutrition guide.",
   "Siguiente: tu semana →": "Next: your week →",
   "Precisión en proteína": "Precision on protein",
   "Precisión en grasa": "Precision on fat",
@@ -4206,7 +4381,6 @@ i18nAdd({
   "¡Listo! Probamos # semanas: la evolución sola llegó a # g fuera de tus rangos.": "Done! We tried # weeks: evolution alone reached # g outside your ranges.",
   "¡Listo! Probamos # semanas: la evolución llegó a # g y el ajuste fino quitó el resto.": "Done! We tried # weeks: evolution reached # g and fine-tuning removed the rest.",
   "# medida (# g) + agua": "# scoop (# g) + water",
-  "Cada día lleva # cosas para comer.": "Each day has # things to eat.",
   "Un experimento interactivo · de # a # minutos": "An interactive experiment · # to # minutes",
   "Quitaste": "Removed",
   "Meta de Ana al día: # calorías · rangos de #–# g de proteína, #–# g de grasa y #–# g de carbohidratos. La meta son esos rangos; por eso las calorías pueden quedar un poco por debajo.": "Ana’s daily goal: # calories · ranges of #–# g protein, #–# g fat and #–# g carbs. The goal is those ranges, so calories may land a little lower.",
@@ -4237,7 +4411,7 @@ i18nAdd({
   "La semana de Ana, <em>lista</em>": "Ana’s week, <em>ready</em>",
   "La semana de Ana": "Ana’s week",
   "Así evoluciona la semana de Ana": "How Ana’s week evolves",
-  "Ana, # años: mira cómo evoluciona su semana y cómo le gana al azar.": "Ana, #: watch her week evolve and beat chance.",
+  "Ana, # años: mira cómo evoluciona su semana.": "Ana, #: watch her week evolve.",
   "Privacidad": "Privacy",
   "<strong>Lo que escribes no sale de tu dispositivo.</strong> Tu peso, tu edad y tu plan se calculan aquí mismo, en tu navegador, y no se envían a ningún lado.": "<strong>What you type never leaves your device.</strong> Your weight, your age and your plan are calculated right here, in your browser, and are not sent anywhere.",
   "<strong>Tu navegador recuerda algunas preferencias</strong> para la próxima vez: los alimentos y comidas que elegiste, el idioma, si prefieres día o noche y si ya viste la introducción. Se borran si limpias los datos de este sitio en tu navegador.": "<strong>Your browser remembers a few preferences</strong> for next time: the foods and meals you chose, the language, whether you prefer day or night, and whether you’ve seen the introduction. They’re erased if you clear this site’s data in your browser.",
@@ -4263,7 +4437,7 @@ i18nAdd({
   "Cada semilla es una semana que probamos; la flor crece vuelta a vuelta.": "Each seed is a week we tried; the flower grows round after round.",
   "Una línea que sube": "A line that rises",
   "a medida que la mejor semana se acerca a lo que Ana necesita.": "as the best week gets closer to what Ana needs.",
-  "Una comparación con el azar": "A comparison with chance",
+  "Si quieres, una comparación con el azar": "If you like, a comparison with chance",
   ", con la misma cantidad de intentos.": ", with the same number of attempts.",
   "Tarda unos # segundos. Al final verás la semana de Ana.": "It takes about # seconds. At the end you will see Ana’s week.",
   "Empezar la búsqueda →": "Start the search →",
@@ -4325,7 +4499,7 @@ i18nAdd({
   "Por dentro, el algoritmo le da un puntaje a cada semana: sube si se acerca a tu meta y baja si se pasa de tus rangos, repite mucho la misma comida o alarga la lista de compras. Gana la semana con más puntaje. Para contarte el resultado usamos solo los gramos.": "Inside, the algorithm gives each week a score: it goes up when the week gets close to your goal and down when it goes over your ranges, repeats the same meal a lot or makes the shopping list long. The week with the highest score wins. To tell you the result we only use grams.",
   "Desliza de lado para ver los # días →": "Swipe sideways to see all # days →",
   "Toca": "Tap",
-  "en lo que no quieras (se quita y el plan se ajusta) y": "on what you don't want (it's removed and the plan adjusts) and",
+  "en lo que no quieras (tú eliges con qué reemplazarlo) y": "on what you don't want (you choose what replaces it) and",
   "en lo que quieras conservar.": "on what you want to keep.",
   "Lunes": "Monday",
   "Martes": "Tuesday",
@@ -4364,16 +4538,18 @@ i18nAdd({
   "¡Copiada!": "Copied!",
   "Descargar PDF": "Download PDF",
   "Preparando…": "Preparing…",
-  "Sin conexión: usa Imprimir": "Offline: use Print",
+  "Sin conexión: intenta de nuevo": "Offline: try again",
+  "No se pudo crear el PDF: intenta de nuevo": "Couldn't create the PDF: try again",
   "Imprimir": "Print",
   "Lista de compras de la semana": "Shopping list for the week",
-  "Los platos están desglosados en sus ingredientes. Cantidades aproximadas.": "Dishes are broken down into their ingredients. Approximate amounts.",
+  "La lista va con los nombres del supermercado. Cantidades aproximadas.": "The list uses supermarket names. Approximate amounts.",
   "¿Qué te pareció?": "What did you think?",
   "Me encantaría leerte. ¿Podrías explicar con tus palabras qué hizo el algoritmo? ¿Algo te sorprendió o lo cambiarías? Cuéntamelo en los comentarios del artículo.": "I'd love to hear from you. Could you explain in your own words what the algorithm did? Did anything surprise you, or would you change something? Tell me in the article's comments.",
   "<a>Comentar en Designing Spring →</a>": "<a>Comment on Designing Spring →</a>",
   "Comentar en Designing Spring →": "Comment on Designing Spring →",
   "← Ver cómo evolucionó tu semana": "← See how your week evolved",
   "Generar otro plan": "Generate another plan",
+  "<a>Crear mi presupuesto y lista →</a>": "<a>My budget and list (in Spanish) →</a>",
   "poca proteína, poca grasa, pocos carbohidratos": "low protein, low fat, low carbs",
   "La semana de ejemplo": "The sample week",
   "Fuentes": "Sources",
@@ -4463,7 +4639,7 @@ i18nAdd({
   "#½ porciones": "#½ portions",
   "# porciones": "# portions",
   "¿Qué significan las porciones y \"No partir\"?": "What do the portions and \"Don't split\" mean?",
-  "Cada porción que ves es la base. Para acercarse a tu meta, el plan puede servir media porción, #, #½ o # porciones. La <strong>porción</strong> que eliges en cada alimento es lo más que puede servir de él: súbela en lo que sí comerías en más cantidad (arroz, pollo…). Lo que no tiene sentido partir (un huevo duro, una lata, un muffin) siempre se sirve entero.": "Each portion you see is the base. To get closer to your goal, the plan can serve half a portion, #, #½ or # portions. The <strong>portion</strong> you choose for each food is the most it can serve of it: raise it for things you would eat more of (rice, chicken…). Things it makes no sense to split (a hard-boiled egg, a can, a muffin) are always served whole.",
+  "Debajo de cada alimento ves cuánto se puede servir de él. El algoritmo elige la cantidad dentro de ese rango para acercarse a tu meta; tú solo decides qué alimentos quedan marcados. Lo que no tiene sentido partir (un vaso de leche, un flan) siempre se sirve entero. Si tu meta es muy alta, puede servir más proteína y más base de lo que indica el rango.": "Under each food you can see how much of it can be served. The algorithm picks the amount within that range to get closer to your goal; you only decide which foods stay ticked. What makes no sense to split (a glass of milk, a flan) is always served whole. If your goal is very high, it can serve more protein and more base than the range shows.",
   "el peso (entre # y # lb)": "the weight (between # and # lb)",
   "la estatura (entre # y # pies)": "the height (between # and # ft)",
   "las pulgadas (de # a #)": "the inches (from # to #)",
