@@ -4823,7 +4823,7 @@ function toggleLang() {
 }
 // ---------- Día y noche, como en el sitio ----------
 const SUN = '<circle r="5" fill="#e3a72f"/><g stroke="#e3a72f" stroke-width="2" stroke-linecap="round"><path d="M0-9v-2M0 9v2M-9 0h-2M9 0h2M-6.4-6.4l-1.4-1.4M6.4 6.4l1.4 1.4M-6.4 6.4l-1.4 1.4M6.4-6.4l1.4-1.4"/></g>';
-const MOON = '<path d="M4 -8 A9 9 0 1 0 8 5 A7 7 0 0 1 4 -8Z" fill="#c98a1c"/>';
+const MOON = '<path d="M4 -8 A9 9 0 1 0 8 5 A7 7 0 0 1 4 -8Z" fill="#16211c"/>';   // como en el jardín: la luna va del color del texto
 function paintSky() {
   const day = document.documentElement.dataset.theme === 'light', b = document.getElementById('skyBtn');
   b.querySelector('svg').innerHTML = day ? MOON : SUN;
