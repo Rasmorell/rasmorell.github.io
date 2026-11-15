@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0d1422">
+<meta name="theme-color" content="#0f1a16">
 <title>Designing Spring · El jardín de Ramona Santos</title>
 <meta name="description" content="Mi jardín de curiosidades: experimentos con algoritmos inspirados en la naturaleza e historias de ciencia ficción.">
 <link rel="canonical" href="https://rasmorell.github.io/">
@@ -26,22 +26,22 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap">
 <style>
   :root {
-    --bg: #0d1422; --ink: #f4efe4; --muted: #bdb4a0; --soft: #a39a86;
-    --line: rgba(244, 239, 228, .16); --card: rgba(13, 20, 34, .78); --bar: #0d1422;
-    --gold: #e3a72f; --gold-text: #e3a72f; --on-gold: #1d2230;
-    --btn-gold: #e3a72f; --btn-gold-edge: #e3a72f; --btn-line: rgba(244, 239, 228, .22); --mutar-edge: #e3a72f;
-    --card-line: var(--line); --shadow: none; --alt: #142036; --bar-line: var(--line);
-    --leaf: #9cc65a; --pink: #dc87a3;
+    --bg: #0f1a16; --ink: #f4efe4; --muted: #bdb4a0; --soft: #a39a86;
+    --line: rgba(244, 239, 228, .16); --card: rgba(15, 26, 22, .78); --bar: #0f1a16;
+    --gold: #e3a72f; --gold-text: #e8849b; --on-gold: #16211c;
+    --btn-gold: #e3a72f; --btn-gold-edge: #e3a72f; --btn-line: rgba(244, 239, 228, .22); --mutar-edge: #e8849b;
+    --card-line: var(--line); --shadow: none; --alt: #16261f; --bar-line: var(--line);
+    --leaf: #9cc65a; --pink: #e8849b;
   }
   :root[data-theme="day"] {
-    /* niebla azul: el día es la misma noche a la luz de la mañana (antes crema #f4efe4); los textos secundarios salen del mismo azul */
-    --bg: #eef0f3; --ink: #1d2230; --muted: #4a5160; --soft: #586070;
-    --line: rgba(29, 34, 48, .14); --card: rgba(250, 251, 252, .95); --bar: #eef0f3;
-    /* de día: tarjetas un poco más claras que el papel, con borde y sombra suave; secciones alternas en salvia */
-    --card-line: rgba(29, 34, 48, .16); --shadow: 0 1px 2px rgba(29, 34, 48, .05), 0 10px 28px rgba(29, 34, 48, .07); --alt: #e1e6ee; --bar-line: rgba(29, 34, 48, .24);
-    --gold-text: #7a4f00; --leaf: #4f7a2a; --pink: #c9668b;
+    /* día: el mismo verde bosque de la noche, aclarado (14 nov 2026; antes niebla azul); los textos secundarios salen del mismo verde */
+    --bg: #e0e9e6; --ink: #16211c; --muted: #4a5650; --soft: #525e57;
+    --line: rgba(22, 33, 28, .14); --card: rgba(224, 233, 230, .95); --bar: #e0e9e6;
+    /* de día: tarjetas un poco más claras que el papel, con borde y sombra suave; sin franjas: --alt queda para las tarjetas */
+    --card-line: rgba(22, 33, 28, .16); --shadow: 0 1px 2px rgba(22, 33, 28, .05), 0 10px 28px rgba(22, 33, 28, .07); --alt: #c6d3ca; --bar-line: rgba(22, 33, 28, .24);
+    --gold-text: #a3364f; --leaf: #4f7a2a; --pink: #a3364f;
     /* de día el dorado claro se pierde en el papel: botones con el dorado del logo sobre claro y bordes más marcados */
-    --btn-gold: #c98a1c; --btn-gold-edge: #a87414; --btn-line: rgba(29, 34, 48, .32); --mutar-edge: #b07a16;
+    --btn-gold: #c98a1c; --btn-gold-edge: #a87414; --btn-line: rgba(22, 33, 28, .32); --mutar-edge: #a3364f;
   }
   * { box-sizing: border-box; }
   :root { color-scheme: dark; scrollbar-color: var(--soft) var(--bg); }
@@ -133,7 +133,7 @@
   /* Entre secciones: una ráfaga de hojas cruza, sus semillas suben a la liana de la barra y aparece el contenido */
   #gust { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 15; pointer-events: none; }
   .fx section.part > * { transition: opacity .9s cubic-bezier(.22, 1, .36, 1), filter .9s, transform 1.1s cubic-bezier(.22, 1, .36, 1); }
-  .fx section.part:not(.arrived) > * { opacity: 0; filter: blur(6px); transform: translateY(18px); }
+  .fx section.part:not(.arrived) > * { opacity: 0; transform: translateY(18px); }
   .fx section.part.arrived > *:nth-child(2) { transition-delay: .12s; } .fx section.part.arrived > *:nth-child(3) { transition-delay: .24s; } .fx section.part.arrived > *:nth-child(n+4) { transition-delay: .36s; }
   section.part p { color: var(--muted); margin: 0; }
 
@@ -170,9 +170,9 @@
   .flip { position: relative; display: block; height: 100%; transition: transform .7s cubic-bezier(.3, .7, .2, 1); transform-style: preserve-3d; }
   .face { border-radius: 18px; border: 1px solid var(--card-line); box-shadow: var(--shadow); backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
   .front { display: flex; flex-direction: column; height: 100%; padding: 22px 20px 20px; background: var(--card); }
-  .back { position: absolute; inset: 0; transform: rotateY(180deg); background: #0d1422; border-color: var(--gold); }
+  .back { position: absolute; inset: 0; transform: rotateY(180deg); background: #0f1a16; border-color: var(--gold); }
   .back img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .back-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 18px 16px; display: flex; flex-direction: column; gap: 2px; color: #f4efe4; background: linear-gradient(transparent, rgba(13, 20, 34, .88)); font-size: 13.5px; }
+  .back-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 18px 16px; display: flex; flex-direction: column; gap: 2px; color: #f4efe4; background: linear-gradient(transparent, rgba(15, 26, 22, .88)); font-size: 13.5px; }
   .back-cap b { font: 400 21px/1.15 Gloock, Georgia, serif; }
   @media (hover: hover) { .chapter:hover .flip, .chapter:focus-visible .flip { transform: rotateY(180deg); } }
   @media (prefers-reduced-motion: reduce) {   /* sin giro: la portada aparece con un fundido */
@@ -229,15 +229,15 @@
   .jardin-final + footer.foot { border-top-color: transparent; }
   @media (max-width: 760px) { .jardin-final { height: 170px; } }
   footer.foot { max-width: 1240px; margin: 0 auto; padding: 28px 24px 40px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--soft); font-size: 14px; }
-  footer.foot a { color: var(--muted); display: inline-block; padding: 6px 0; }
-  footer.foot .foot-priv { font: inherit; color: var(--muted); background: none; border: 0; padding: 6px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  footer.foot a { color: var(--muted); display: inline-block; padding: 12px 0; }
+  footer.foot .foot-priv { font: inherit; color: var(--muted); background: none; border: 0; padding: 12px 0; min-height: 44px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
   dialog.note .note-p { color: var(--muted); font-size: 15.5px; line-height: 1.5; margin: 12px 0 0; }
   dialog.note .note-p b { color: var(--ink); font-weight: 600; }
   .foot-links { display: flex; gap: 20px; flex-wrap: wrap; }
 
   /* Notas de campo: tarjetas con la inspiración natural de cada sección */
-  dialog.note { width: min(560px, calc(100vw - 32px)); max-height: calc(100svh - 48px); padding: 28px 28px 24px; border: 1px solid var(--card-line); border-radius: 20px; background: var(--bg); color: var(--ink); box-shadow: 0 20px 60px rgba(13, 20, 34, .35); }
-  dialog.note::backdrop { background: rgba(13, 20, 34, .55); backdrop-filter: blur(3px); }
+  dialog.note { width: min(560px, calc(100vw - 32px)); max-height: calc(100svh - 48px); padding: 28px 28px 24px; border: 1px solid var(--card-line); border-radius: 20px; background: var(--bg); color: var(--ink); box-shadow: 0 20px 60px rgba(15, 26, 22, .35); }
+  dialog.note::backdrop { background: rgba(15, 26, 22, .55); backdrop-filter: blur(3px); }
   dialog.note h3:focus { outline: none; }
   dialog.note h3 { font: 400 30px/1.1 Gloock, Georgia, serif; margin: 0; }
   dialog.note .note-lede { color: var(--muted); margin: 10px 0 0; }
@@ -272,9 +272,9 @@
   @media (max-width: 1080px) { .chapters { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 1120px) {   /* barra compacta: cuando el menú ya no cabe en una línea, se despliega bajo la barra */
     .menu-btn { display: grid; }
-    .nav { display: none; align-items: stretch; position: absolute; left: 0; right: 0; top: 100%; margin: 0; padding: 8px 16px 16px; flex-direction: column; gap: 0; background: var(--bar); border-bottom: 1px solid var(--bar-line); box-shadow: 0 16px 30px rgba(13, 20, 34, .18); }
+    .nav { display: none; align-items: stretch; position: absolute; left: 0; right: 0; top: 100%; margin: 0; padding: 8px 16px 16px; flex-direction: column; gap: 0; background: var(--bar); border-bottom: 1px solid var(--bar-line); box-shadow: 0 16px 30px rgba(15, 26, 22, .18); }
     .nav.open { display: flex; }
-    .nav-veil { position: fixed; inset: 0; z-index: 15; background: rgba(13, 20, 34, .45); backdrop-filter: blur(2px); }
+    .nav-veil { position: fixed; inset: 0; z-index: 15; background: rgba(15, 26, 22, .45); backdrop-filter: blur(2px); }
     .nav a { padding: 14px 4px; font-size: 17px; color: var(--ink); border-top: 1px solid var(--line); }
     .nav a:first-child { border-top: 0; }
     .nav a[aria-current="true"]::before { left: auto; right: 8px; bottom: auto; top: 50%; margin: -3px 0 0; }
@@ -324,6 +324,31 @@
   @media (max-width: 520px) { .ficha { right: 16px; } }
   .lang-btn, #skyBtn, .menu-btn { flex: none; }
   @media (max-width: 360px) { .bar-in { gap: 10px; } .brand { font-size: 16px; } }  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .pieza { transition: none; } }
+  :root[data-theme="day"] .hero { background: #e0e9e6; }   /* vista previa: la portada un paso más verde que el resto */
+
+  /* vista previa · curvas de nivel: la onda y tres líneas finas que la siguen, como un mapa de la colina */
+  body { overflow-x: clip; }
+  section.part.alt { position: relative; clip-path: inset(1px -100vmax 1px); }
+  /* fundido sutil: la franja nace del color de la página junto a las curvas y llega a su verde poco a poco */
+  section.part.alt { background: none; box-shadow: none; border-image: linear-gradient(var(--alt), var(--alt)) fill 0 / / 0 100vmax; }
+  section.part.alt::before, section.part.alt::after { content: ""; position: absolute; left: 50%; width: 100vw; transform: translateX(-50%); height: 70px; background: var(--bg);
+    -webkit-mask: var(--cf) 0 0 / 100% 70px no-repeat; mask: var(--cf) 0 0 / 100% 70px no-repeat; pointer-events: none; }
+  section.part.alt::before { top: -3px; }
+  /* las curvas de nivel, en el color de las líneas finas del sitio: se ven sobre el fundido sin marcar un corte */
+  section.part.alt::after { top: -3px; bottom: auto; height: 70px; background: var(--line); opacity: .45; -webkit-mask: var(--cl) 0 0 / 100% 70px no-repeat; mask: var(--cl) 0 0 / 100% 70px no-repeat; }
+  section.part.alt::before, section.part.alt::after { display: none; }   /* borde recto: sin curva ni líneas */
+  section.part.alt { border-image: none; background: none; box-shadow: none; }   /* sin franja: una sola hoja continua */
+  .pieza, .front { background: var(--alt); }   /* la tarjeta toma el verde que antes tenía la franja */
+  :root[data-theme="day"] .pieza, :root[data-theme="day"] .front { background: #d0dcd7; }   /* de día, la tarjeta se separa del fondo */
+  #experimentos, #publicaciones, #quien { position: relative; }
+  .hojarasca { position: absolute; width: 96px; height: 40px; pointer-events: none; }   /* las hojas que se acumulan junto al título */
+  :root:not([data-theme="day"]) #skyBtn { color: var(--gold); }   /* el sol (que lleva al día) va en dorado */
+  :root:not([data-theme="day"]) .pieza, :root:not([data-theme="day"]) .front { background: #1b2e25; }   /* de noche, la tarjeta un paso más clara que el bosque */
+  .pieza { border-color: rgba(227, 167, 47, .42); }   /* solo la tarjeta del experimento lleva un borde dorado fino */
+  :root[data-theme="day"] .pieza { border-color: rgba(168, 116, 20, .45); }
+  /* el rosa queda para los detalles: la invitación «Soy Ramona…» lo conserva (es el detalle que debe destacar); la luna de día va en tinta; el punto de las etiquetas toma su mismo color */
+  :root[data-theme="day"] #skyBtn { color: var(--ink); }
+  .cultivo .kicker::before { background: currentColor; }
 </style>
 </head>
 <body>
@@ -463,7 +488,6 @@
         <p class="sub-intro">Si quieres enterarte cuando algo nuevo brote, mis escritos llegan por Designing Spring.</p>   <!-- antes era la sección de cierre -->
         <div class="links">
           <a class="btn gold sub-cta js-sub" href="https://designingspring.substack.com/subscribe" target="_blank" rel="noopener">Suscribirme a Designing Spring<span class="sr-only"> (se abre Substack)</span></a>
-          <a class="btn" href="https://www.linkedin.com/in/ramonasantosmorel/" target="_blank" rel="noopener">Mi trabajo, en LinkedIn<span class="sr-only"> (se abre en otra pestaña)</span></a>
         </div>
       </div>
     </div>
@@ -552,18 +576,19 @@ function applyLang() {
   lb.textContent = en ? 'ES' : 'EN'; lb.lang = en ? 'es' : 'en'; lb.setAttribute('aria-label', en ? 'ES, leer en español' : 'EN, read in English');
   if (window.LAST_SEED) fillFicha(LAST_SEED);
   if (window.LAST_SEED) applyTheme(document.documentElement.dataset.theme);   // solo cuando el jardín ya existe (cambio de idioma con la página abierta)
+  if (window.placePiles) placePiles();   // la figura junto al título sigue a la palabra traducida
 }
 
 // ---------- Colores y formas de la marca ----------
 const GOLDEN = Math.PI * (3 - Math.sqrt(5));   // 137,5°
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 function rng(seed) { let s = seed >>> 0 || 1; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; }
-const NIGHT = { bg: '#0d1422', gold: '#e3a72f',
+const NIGHT = { bg: '#0f1a16', gold: '#e3a72f',
   stem: ['#7baa43', '#87b44b', '#95c055'],
   dp2: ['#e9b949','#e0a440','#d88f37','#cf7a2e','#c6732c','#b46429','#a35626'], dp4: ['#f6c5d5','#f2b9cd','#e9a3bb','#dc87a3','#d06e91','#c4577f'],
   fol: ['#2c5419', '#365f1e', '#3e6722', '#4f7a2a', '#5b8a31', '#6a9c38', '#9cc65a', '#d4e89a'],
   bloom: ['#f8f3e6', '#f4e9c8', '#f0dda6', '#ecd084', '#e8c262', '#e3b448', '#e3a72f', '#d4952a'] };
-const DAY = { bg: '#eef0f3', gold: '#b47a12',
+const DAY = { bg: '#e0e9e6', gold: '#b47a12',
   stem: ['#4f7a2a', '#5d8a32', '#6b963b'],
   dp2: ['#d9a334','#cf8f30','#c47b2b','#b86826','#ab5c23','#9a4f20','#88431c'], dp4: ['#eaa0b8','#e28fab','#d77a9b','#c9668b','#bb537b','#a8436b'],
   fol: ['#1f4012', '#2c5419', '#365f1e', '#3e6722', '#4f7a2a', '#5f8a36', '#77a141', '#8bb54c'],
@@ -787,7 +812,7 @@ function paint(g, W, H, s, u) {
     const dayK = PAL === DAY;   // de día: sépalos más cortos y piezas más grandes, para que la flor se lea entera
     if (dayK) {   // de día: un halo suave del color del papel detrás de la flor, como una luz entre las hojas
       const h = g.createRadialGradient(f.x, f.y, f.R * 0.2, f.x, f.y, f.R * 1.25);
-      h.addColorStop(0, `rgba(238,240,243,${0.92 * Math.min(1, b * 2)})`); h.addColorStop(0.7, `rgba(238,240,243,${0.75 * Math.min(1, b * 2)})`); h.addColorStop(1, 'rgba(238,240,243,0)');
+      h.addColorStop(0, `rgba(224, 233, 230,${0.92 * Math.min(1, b * 2)})`); h.addColorStop(0.7, `rgba(224, 233, 230,${0.75 * Math.min(1, b * 2)})`); h.addColorStop(1, 'rgba(224, 233, 230,0)');
       g.fillStyle = h; g.beginPath(); g.arc(f.x, f.y, f.R * 1.25, 0, 7); g.fill();
     }
     for (let k = 0; k < 3; k++) leaf(g, f.x, f.y, f.sep + k * 2.094, f.R * (dayK ? 0.7 : 0.9) * Math.min(1, b * 1.6), PAL.fol[3 + k], 0.6);
@@ -797,7 +822,22 @@ function paint(g, W, H, s, u) {
 }
 
 // ---------- El jardín de la portada ----------
+// Curva de nivel única: sale del número de jardín, así cada jardín tiene su propio borde (y cada sección uno distinto)
+function curvaJardin(seed) {
+  document.querySelectorAll('section.part.alt').forEach((sec, k) => {
+    const r = rng(seed * 7 + k * 131 + 3), W = 1000;
+    const ondas = [1, .45, .22].map((a, i) => ({ f: (i + 1) * (0.8 + r() * 0.9), p: r() * 6.283, a: a * (0.7 + r() * 0.6) }));
+    const tot = ondas.reduce((m, o) => m + o.a, 0);
+    const y = (x, off, amp) => 22 + off + amp * ondas.reduce((m, o) => m + o.a * Math.sin(o.f * 6.283 * x / W + o.p), 0) / tot;
+    const linea = (off, amp) => { let d = ''; for (let x = 0; x <= W; x += 10) d += (x ? ' L' : 'M') + x + ' ' + y(x, off, amp).toFixed(1); return d; };
+    const svg = b => 'url("data:image/svg+xml,' + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 " + W + " 70' preserveAspectRatio='none'>" + b + "</svg>") + '")';
+    const trazo = (d, op) => "<path d='" + d + "' fill='none' stroke='black' stroke-width='1.1' stroke-opacity='" + op + "' vector-effect='non-scaling-stroke'/>";
+    sec.style.setProperty('--cf', svg("<path d='M0 0 L" + linea(0, 12).slice(1) + " L" + W + " 0Z'/>"));
+    sec.style.setProperty('--cl', svg(trazo(linea(0, 12), 1) + trazo(linea(10, 9), .7)));
+  });
+}
 function fillFicha(seed) {
+  curvaJardin(seed);
   window.LAST_SEED = seed; if (window.gardenEnd) gardenEnd.reseed(seed);
   const n = String(seed).padStart(5, '0');
   document.getElementById('fNum').textContent = LANG === 'en' ? `Garden No. ${n}` : `Jardín n.º ${n}`;
@@ -866,7 +906,7 @@ const skyBtn = document.getElementById('skyBtn');
 const SUN = '<circle r="5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M0-9v-2M0 9v2M-9 0h-2M9 0h2M-6.4-6.4l-1.4-1.4M6.4 6.4l1.4 1.4M-6.4 6.4l-1.4 1.4M6.4-6.4l1.4-1.4"/></g>';
 const MOON = '<path d="M4 -8 A9 9 0 1 0 8 5 A7 7 0 0 1 4 -8Z" fill="currentColor"/>';
 function applyTheme(t) {
-  document.querySelector('meta[name="theme-color"]').content = t === 'day' ? '#eef0f3' : '#0d1422';
+  document.querySelector('meta[name="theme-color"]').content = t === 'day' ? '#e0e9e6' : '#0f1a16';
   document.documentElement.dataset.theme = t; PAL = t === 'day' ? DAY : NIGHT;
   const day = t === 'day'; skyBtn.setAttribute('aria-label', tr(day ? 'Cambiar a modo noche' : 'Cambiar a modo día')); skyBtn.querySelector('span').textContent = tr(day ? 'Noche' : 'Día'); skyBtn.querySelector('svg').innerHTML = day ? MOON : SUN;
   garden.draw(); gardenEnd.draw(); bloom.draw(); paintChapters(); road.draw(); if (window.redrawBarVine) redrawBarVine();
@@ -1122,15 +1162,45 @@ let saved = null; try { saved = localStorage.getItem('ds.theme'); } catch (e) {}
 const qs = new URLSearchParams(location.search);
 document.documentElement.dataset.theme = qs.get('dia') ? 'day' : saved === 'day' ? 'day' : 'night';
 PAL = document.documentElement.dataset.theme === 'day' ? DAY : NIGHT;
-(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { garden.start(); applyTheme(document.documentElement.dataset.theme); });
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { garden.start(); applyTheme(document.documentElement.dataset.theme); if (window.placePiles) placePiles(); });
 // ---------- Entre secciones: una ráfaga de hojas cruza la pantalla y sus semillas suben a alimentar la liana de la barra ----------
 (() => {
   const SECS = { experimentos: 'bloom', publicaciones: 'dp4', quien: 'dp2' };
   const pal = k => PAL[k], SEEDS = 13;
   const items = Object.keys(SECS).map(id => { const sec = document.getElementById(id); return sec && sec.querySelector('h2') ? { sec, h2: sec.querySelector('h2'), kind: SECS[id] } : null; }).filter(Boolean);
-  if (reduced) return;
+  // Hojarasca: algunas hojas de la ráfaga pierden el viento y se acumulan al lado del título, sin formar ninguna figura.
+  // El montón crece a medida que se baja: pocas hojas en Experimentos, más en Publicaciones, el más grande en Sobre mí.
+  const GROW = { experimentos: [4, 3, 70, 34], publicaciones: [10, 7, 108, 40], quien: [20, 14, 150, 48] };   // [hojas, hojas en el celular, ancho, alto]
+  items.forEach((it, idx) => {
+    const c = document.createElement('canvas'); c.className = 'hojarasca'; c.setAttribute('aria-hidden', 'true');
+    it.sec.insertBefore(c, it.sec.firstChild);
+    it.pile = { c, g: c.getContext('2d'), rest: [], pend: [], r: rng((window.LAST_SEED || 1) * 3 + idx * 57 + 11), w: 96, h: 40, nh: 7 };
+  });
+  const placePiles = () => { const ph = innerWidth < 760; items.forEach(it => {
+    const P = it.pile, dpr = Math.min(2, devicePixelRatio || 1), G = GROW[it.sec.id] || GROW.publicaciones;
+    P.nh = ph ? G[1] : G[0]; P.w = Math.round(G[2] * (ph ? 0.8 : 1)); P.h = Math.round(G[3] * (ph ? 0.85 : 1));
+    // el montón va justo después de la última palabra del título, apoyado en la línea de las letras
+    const rg = document.createRange(); rg.selectNodeContents(it.h2); const rs = rg.getClientRects(), last = rs[rs.length - 1], sr = it.sec.getBoundingClientRect();
+    let left = last.right - sr.left + 6; const maxL = it.sec.clientWidth - P.w - 8; if (left > maxL) left = maxL;
+    P.c.style.width = P.w + 'px'; P.c.style.height = P.h + 'px';
+    P.c.style.left = left + 'px'; P.c.style.top = (last.top + last.height * 0.84 - P.h - sr.top) + 'px';
+    P.c.width = P.w * dpr; P.c.height = P.h * dpr; P.g.setTransform(dpr, 0, 0, dpr, 0, 0); drawPile(it);
+  }); };
+  // cada hoja cae cerca del centro del montón, casi acostada, y si ya hay hojas debajo queda un poquito más arriba
+  const spot = it => { const P = it.pile, r = P.r;
+    const x = 10 + (r() + r()) / 2 * (P.w - 20), near = P.rest.concat(P.pend).filter(h => Math.abs(h.x - x) < 12).length;
+    const h = { x, y: Math.max(8, P.h - 4 - near * 2.2 - r() * 2), a: (r() < 0.5 ? 0 : Math.PI) + (r() - 0.5) * 0.9, len: 14 + r() * 8, col: 2 + Math.floor(r() * 6), wide: 0.65 + r() * 0.3 };
+    P.pend.push(h); return h; };
+  const drops = (it, firstTime) => { const out = []; if (firstTime) for (let k = 0; k < it.pile.nh; k++) out.push(spot(it)); return out; };
+  const land = (it, h) => { const P = it.pile; P.pend = P.pend.filter(x => x !== h); P.rest.push(h); };
+  const drawItem = (g, x, y, a, h) => leaf(g, x - Math.cos(a) * h.len / 2, y - Math.sin(a) * h.len / 2, a, h.len, PAL.fol[h.col], h.wide);
+  function drawPile(it) { const P = it.pile; P.g.clearRect(0, 0, P.w, P.h); P.rest.forEach(h => drawItem(P.g, h.x, h.y, h.a, h)); }
+  const settle = it => { drops(it, true).forEach(h => land(it, h)); drawPile(it); };
+  window.placePiles = placePiles; placePiles(); addEventListener('resize', placePiles);
+  new MutationObserver(() => setTimeout(() => items.forEach(drawPile), 0)).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });   // al cambiar día/noche, las hojas toman los verdes del modo nuevo
+  if (reduced) { items.forEach(it => settle(it)); return; }   // sin animaciones: las figuras ya están formadas
   // lo que ya se ve al abrir no se esconde; lo que quedó arriba (al volver a mitad de página) tampoco tiene ráfaga
-  items.forEach(it => { const t = it.h2.getBoundingClientRect().top; if (t < innerHeight) it.sec.classList.add('arrived'); if (t < 0) it.started = true; });
+  items.forEach(it => { const t = it.h2.getBoundingClientRect().top; if (t < innerHeight) it.sec.classList.add('arrived'); if (t < 0) { it.started = true; settle(it); } });
   let moved = false; const y0 = scrollY;   // la ráfaga solo pasa cuando quien lee empieza a bajar, nunca sola al abrir
   document.documentElement.classList.add('fx');
 
@@ -1138,16 +1208,19 @@ PAL = document.documentElement.dataset.theme === 'day' ? DAY : NIGHT;
   const g = cv.getContext('2d'), vine = document.getElementById('barVine'); let W = 0, H = 0, raf = 0; const live = [];
   const fit = () => { const dpr = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); };
   let lastW = innerWidth;
-  fit(); addEventListener('resize', () => { if (innerWidth !== lastW) { lastW = innerWidth; live.forEach(L => L.it.sec.classList.add('arrived')); live.length = 0; } fit(); });   // si cambia el ancho a medio vuelo, la ráfaga termina y no se estira; la barra del celular (solo alto) no la corta
+  fit(); addEventListener('resize', () => { if (innerWidth !== lastW) { lastW = innerWidth; live.forEach(L => { L.it.sec.classList.add('arrived'); L.fall.forEach(h => { if (!h.done) { h.done = true; land(L.it, h.to); } }); drawPile(L.it); }); live.length = 0; } fit(); });   // si cambia el ancho a medio vuelo, la ráfaga termina y no se estira; la barra del celular (solo alto) no la corta
   const ease = k => 1 - Math.pow(1 - Math.max(0, Math.min(1, k)), 3), smooth = k => { k = Math.max(0, Math.min(1, k)); return k * k * (3 - 2 * k); };
   // la punta de la liana de la barra: avanza con lo que llevas leído
   const tip = () => { const r = vine.getBoundingClientRect(), max = document.documentElement.scrollHeight - innerHeight, x = r.left + (max > 0 ? Math.min(1, scrollY / max) : 0) * r.width; return [x, r.top + 7 + 2.2 * Math.sin(x / 46)]; };
 
   function start(it) {
+    const full = true;   // la ráfaga completa pasa en cada sección (Ramona la prefiere así)
     const r = rng(it.kind.length * 97 + Math.floor(performance.now())), n = W < 760 ? 40 : 72;
     const leaves = Array.from({ length: n }, () => ({ x0: -60 - r() * W * 0.45, x1: W + 80 + r() * W * 0.3, dy: (r() + r() + r() - 1.5) * (W < 760 ? 60 : 90), d: r() * 0.25, size: 16 + r() * 22, col: 2 + Math.floor(r() * 6), spin: (r() - 0.5) * 9, ph: r() * 6, wide: 0.7 + r() * 0.5 }));
-    const seeds = Array.from({ length: SEEDS }, (_, i) => ({ x0: -40 - r() * W * 0.3, dy: (r() - 0.5) * 70, d: 0.15 + (i / SEEDS) * 0.3 + r() * 0.05, s: 2.4 + r() * 2, sp: (r() - 0.5) * 30 }));
-    live.push({ it, t0: performance.now(), leaves, seeds, shown: false });
+    if (!full && window.sproutBarVine) setTimeout(() => sproutBarVine(tip()[0]), 900);   // la liana de la barra igual brota al llegar
+    const seeds = Array.from({ length: full ? SEEDS : 0 }, (_, i) => ({ x0: -40 - r() * W * 0.3, dy: (r() - 0.5) * 70, d: 0.15 + (i / SEEDS) * 0.3 + r() * 0.05, s: 2.4 + r() * 2, sp: (r() - 0.5) * 30 }));
+    const dr = drops(it, true), nF = dr.length, fall = dr.map((to, i) => ({ x0: -40 - r() * W * 0.15, dy: (r() - 0.5) * 60, d: 0.05 + i * (0.3 / nF), mid: 0.25 + r() * 0.5, spin: (r() - 0.5) * 8, to }));
+    live.push({ it, t0: performance.now(), leaves, seeds, fall, shown: false, full });
     if (!raf) raf = requestAnimationFrame(frame);
   }
   function frame(now) {
@@ -1155,11 +1228,21 @@ PAL = document.documentElement.dataset.theme === 'day' ? DAY : NIGHT;
     const [vx, vy] = tip();
     for (let j = live.length - 1; j >= 0; j--) {
       const L = live[j], t = (now - L.t0) / 1700, band = L.it.h2.getBoundingClientRect().top + 20;   // la ráfaga pasa a la altura del título
-      if (!L.shown && t > 0.3) { L.shown = true; L.it.sec.classList.add('arrived'); }
+      if (!L.shown && t > (L.full ? 0.3 : 0.05)) { L.shown = true; L.it.sec.classList.add('arrived'); }
       L.leaves.forEach(l => {
         const k = (t - l.d) / 0.7; if (k <= 0 || k >= 1) return;
         const e = ease(k), x = l.x0 + (l.x1 - l.x0) * e, y = band + l.dy + Math.sin(k * 6 + l.ph) * 18;
         g.globalAlpha = Math.min(1, k * 5, (1 - k) * 4); leaf(g, x, y, l.ph + k * l.spin, l.size, PAL.fol[l.col], l.wide);
+      });
+      const pr = L.it.pile.c.getBoundingClientRect();
+      L.fall.forEach(h => {
+        if (h.done) return; const k = (t - h.d) / 0.9; if (k <= 0) return;
+        if (k >= 1) { h.done = true; land(L.it, h.to); drawPile(L.it); return; }
+        const fly = ease(Math.min(1, k / 0.4)), xm = h.x0 + (W * h.mid - h.x0) * fly, ym = band + h.dy + Math.sin(k * 6 + h.to.ph) * 14;   // primero viaja con la ráfaga
+        const m = smooth((k - 0.35) / 0.65), tx = pr.left + h.to.x, ty = pr.top + h.to.y;   // luego pierde el viento y cae meciéndose hasta su lugar
+        const x = xm + (tx - xm) * m + Math.sin(m * Math.PI * 3) * 22 * (1 - m), y = ym + (ty - ym) * m;
+        const a = (h.to.ph + k * h.spin) * (1 - m) + h.to.a * m;
+        g.globalAlpha = Math.min(1, k * 6); drawItem(g, x, y, a, h.to);
       });
       const P = pal(L.it.kind);
       L.seeds.forEach((s, i) => {
@@ -1169,7 +1252,7 @@ PAL = document.documentElement.dataset.theme === 'day' ? DAY : NIGHT;
         const m = smooth((k - 0.3) / 0.7), x = x0 + (vx + s.sp - x0) * m, y = y0 + (vy - y0) * m - Math.sin(m * Math.PI) * 60;   // se desprenden y suben en arco hasta la punta de la liana
         g.globalAlpha = Math.min(1, k * 6, (1 - k) * 8); g.beginPath(); g.arc(x, y, s.s * (1 - 0.5 * m), 0, 7); g.fillStyle = P[i % P.length]; g.fill();
       });
-      if (t >= 1.2) live.splice(j, 1);
+      if (t >= 1.25) { L.fall.forEach(h => { if (!h.done) { h.done = true; land(L.it, h.to); } }); drawPile(L.it); live.splice(j, 1); }
     }
     g.globalAlpha = 1;
     if (live.length) raf = requestAnimationFrame(frame);
