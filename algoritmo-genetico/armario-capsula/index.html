@@ -269,6 +269,8 @@ input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
   :root[data-dir="to-night"]::view-transition-new(root) { animation: wipe-right 1.75s cubic-bezier(.77, 0, .175, 1) both; }
   @keyframes wipe-left { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
   @keyframes wipe-right { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+.a-vestido{color:var(--gold-ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;display:inline-block;padding:10px 0}
+.a-vestido:hover{text-decoration-thickness:2px}
 </style>
 </head>
 <body>
@@ -336,7 +338,7 @@ es:{
   sw_body:'Usar las sugerencias para mi tipo de cuerpo', sw_tone:'Usar mi paleta de color',
   build:'Armar mi cápsula',
   e_h:'Se arma tu cápsula', e_lead:'El algoritmo empieza con 60 cápsulas al azar. En cada generación se quedan las mejores, se mezclan entre sí y algunas prendas cambian por sorpresa.',
-  gen:'Generación {g} de {G}', covers:'Conjuntos pedidos que ya cubre', score:'Puntaje de la mejor cápsula (sube cuando combina mejor y te favorece más)',
+  gen:'Generación {g} de {G}', azarProbando:'Ahora el azar prueba {n} armarios al tuntún, para compararlos con la evolución…', covers:'Conjuntos pedidos que ya cubre', score:'Puntaje de la mejor cápsula (sube cuando combina mejor y te favorece más)',
   kept:'Se queda', dropped:'Se descarta',
   vs_h:'¿Y si hubiéramos elegido al azar?', vs_p:'Probamos {n} cápsulas al azar, los mismos intentos que hizo el algoritmo, y nos quedamos con la mejor.',
   ga:'Evolución', rnd:'Azar', of:'de',
@@ -403,7 +405,7 @@ en:{
   sw_body:'Use the suggestions for my body type', sw_tone:'Use my color palette',
   build:'Build my capsule',
   e_h:'Your capsule evolves', e_lead:'The algorithm starts with 60 random capsules. Each generation, the best ones stay, mix with each other, and a few pieces change by surprise.',
-  gen:'Generation {g} of {G}', covers:'Requested outfits covered', score:'Best capsule score (goes up as it matches better and suits you more)',
+  gen:'Generation {g} of {G}', azarProbando:'Now chance tries {n} random wardrobes, to compare them with evolution…', covers:'Requested outfits covered', score:'Best capsule score (goes up as it matches better and suits you more)',
   kept:'Kept', dropped:'Dropped',
   vs_h:'What if we had chosen at random?', vs_p:'We tried {n} random capsules, the same number of tries the algorithm made, and kept the best one.',
   ga:'Evolution', rnd:'Random', of:'of',
@@ -1094,7 +1096,9 @@ function p4(){
 function evolucionar(P){
   const yo = ++runId;
   const R = rng(semilla), op = P.op, azar = () => op.map(o => o[Math.floor(R() * o.length)]);
-  let pob = Array.from({ length: N }, () => { const c = azar(); return { c, o: c.map(() => 0), e: evaluar(c, P) }; });
+  // un armario que ya se calificó no se vuelve a calcular (con 30 prendas son miles de pruebas; 15 nov 2026)
+  const memo = new Map(), ev = c => { const k = c.join(','); let e = memo.get(k); if (!e){ e = evaluar(c, P); memo.set(k, e); } return e; };
+  let pob = Array.from({ length: N }, () => { const c = azar(); return { c, o: c.map(() => 0), e: ev(c) }; });
   const f0 = pob.reduce((s, x) => s + x.e.fit, 0) / N;
   const svg = document.getElementById('flower'); let k = 0, g = 1, mejor = null;
   const lento = !matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1123,18 +1127,25 @@ function evolucionar(P){
       for (let i = 0; i < p1.c.length; i++){ const de = R() < 0.5 ? p1 : p2; h.push(de.c[i]); o.push(de.o[i]); }
       // mutación: si la prenda cambia de verdad, anotamos en qué generación llegó
       for (let i = 0; i < h.length; i++) if (R() < 0.1){ const v = op[i][Math.floor(R() * op[i].length)]; if (v !== h[i]){ h[i] = v; o[i] = g + 1; } }
-      nueva.push({ c: h, o, e: evaluar(h, P) });
+      nueva.push({ c: h, o, e: ev(h) });
     }
     pob = nueva; g++; semillas();
   }
   semillas();
+  // el azar prueba tantos armarios como la evolución; se hace en pedacitos para que la página nunca se congele
   const terminar = () => {
-    const Ra = rng(semilla + 1000); let mejorAz = null;
-    for (let i = 0; i < INTENTOS; i++){ const cc = op.map(o => o[Math.floor(Ra() * o.length)]), e = evaluar(cc, P); if (!mejorAz || e.fit > mejorAz.e.fit) mejorAz = { c: cc, e }; }
-    corrida = { fin: true, mejor, azar: mejorAz, svg: svg.innerHTML };
-    mostrarFin(P);
+    const Ra = rng(semilla + 1000); let mejorAz = null, i = 0;
+    const box = document.getElementById('vsBox'); if (box) box.innerHTML = `<p class="hint" role="status" style="margin:18px 0 0">${t('azarProbando', { n: INTENTOS.toLocaleString(LANG) })}</p>`;
+    (function trozo(){
+      if (paso !== 4 || yo !== runId) return;
+      const t0 = performance.now();
+      for (; i < INTENTOS && performance.now() - t0 < 30; i++){ const cc = op.map(o => o[Math.floor(Ra() * o.length)]), e = evaluar(cc, P); if (!mejorAz || e.fit > mejorAz.e.fit) mejorAz = { c: cc, e }; }
+      if (i < INTENTOS) return setTimeout(trozo, 0);
+      corrida = { fin: true, mejor, azar: mejorAz, svg: svg.innerHTML };
+      mostrarFin(P);
+    })();
   };
-  if (!lento){ while (g < GENS) paso1(); terminar(); return; }
+  if (!lento){ (function trozo(){ if (paso !== 4 || yo !== runId) return; const t0 = performance.now(); while (g < GENS && performance.now() - t0 < 30) paso1(); if (g < GENS) setTimeout(trozo, 0); else terminar(); })(); return; }
   (function bucle(){ if (paso !== 4 || yo !== runId) return; paso1(); if (g < GENS) requestAnimationFrame(bucle); else terminar(); })();
 }
 function mezcla(q){
@@ -1239,7 +1250,7 @@ function p5(){
   }
   h += `</div><p class="panel" style="margin-top:0">${t(capas.length > 1 ? 'layers' : 'layer', { x: capas.map(c => esc(bajo(nom(c))) + ' ' + col(c.color)).join(', '), n: conCapa })}</p>
   ${seccionReusar()}
-  <p class="hint" style="margin:22px 0 0">${t('aVestido')} <a href="../vestido-mutante/${LANG === 'en' ? '?lang=en' : ''}">${t('aVestidoBtn')} <span aria-hidden="true">→</span></a></p>
+  <p class="hint" style="margin:22px 0 0">${t('aVestido')} <a class="a-vestido" href="../vestido-mutante/${LANG === 'en' ? '?lang=en' : ''}">${t('aVestidoBtn')} <span aria-hidden="true">→</span></a></p>
   <div class="nav"><button class="btn" type="button" onclick="ir(7)">${t('change')}</button><span class="pills"><button class="btn" type="button" id="againBtn">${t('again')}</button><a class="btn gold" style="text-decoration:none;display:inline-flex;align-items:center" href="https://designingspring.substack.com/" target="_blank" rel="noopener">${t('comment')}</a></span></div></section>`
     ;
   app.innerHTML = h;
