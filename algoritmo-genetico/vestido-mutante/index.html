@@ -292,6 +292,25 @@ input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
 <p class="foot" id="foot"></p>
 </div>
 <script>
+// ---- Contador de uso (GoatCounter): anónimo, sin cookies. El mismo de la semana de comidas (15 nov 2026) ----
+// Solo cuenta visitas y pasos ("alguien llegó al final"). Nunca envía medidas, colores ni nada que la persona elige o escribe.
+const GOATCOUNTER_CODE = 'designingspring';
+if (GOATCOUNTER_CODE && !/^(localhost|127\.|\[::1\])/.test(location.hostname) && location.protocol !== 'file:') {
+  const gc = document.createElement('script');
+  gc.async = true; gc.src = 'https://gc.zgo.at/count.js';
+  gc.dataset.goatcounter = `https://${GOATCOUNTER_CODE}.goatcounter.com/count`;
+  document.head.appendChild(gc);
+}
+const trackedOnce = new Set();
+// Cuenta una acción una sola vez por visita (para ver cuántas personas llegan a cada paso).
+function track(name) {
+  if (!GOATCOUNTER_CODE || trackedOnce.has(name)) return;
+  trackedOnce.add(name);
+  const send = () => window.goatcounter && window.goatcounter.count && window.goatcounter.count({ path: name, title: name, event: true });
+  if (window.goatcounter && window.goatcounter.count) send(); else setTimeout(send, 1500);
+}
+</script>
+<script>
 'use strict';
 /* =================== textos =================== */
 const S = {
@@ -360,7 +379,7 @@ es:{
   toneAdj:{cálido:'cálida',frío:'fría'}, palBase:'Paleta de tu cápsula: base {b}. ', palAcentos:'Acentos: {a}.', y:' y ', fam:{rojizo:'rojizos',amarillo:'amarillos',verde:'verdes',marrón:'marrones',azul:'azules',rosa:'rosas',morado:'morados'}, palSinAcentos:'Sin colores de acento: todo neutro.',
   sinHuerfanas:'Ninguna prenda queda huérfana: cada una aparece en tus conjuntos.', huerfanas:'{n} prenda(s) casi no se usan: {x}.', metalCon:{dorado:'herraje dorado',plateado:'herraje plateado'}, metalBusca:{dorado:'dorado',plateado:'plateado'},
   metalNote:'Metal {m}: favorece tu piel {t}', unMetal:'Todo tu metal es {m}: combina entre sí', metalAdj:{dorado:'dorado',plateado:'plateado'},
-  foot:'Experimento de <a href="https://designingspring.substack.com/">Designing Spring</a> con un algoritmo genético. Catálogo y tallas son de muestra y aproximados: sirven para probar la idea, no para comprar.'
+  foot:'Experimento de <a href="https://designingspring.substack.com/">Designing Spring</a> con un algoritmo genético. Catálogo y tallas son de muestra y aproximados: sirven para probar la idea, no para comprar. Contamos visitas de forma anónima, sin cookies, con GoatCounter: solo cuántas personas llegan y hasta qué paso. Nunca lo que eliges.'
 },
 en:{
   title:'The <em>mutant</em> dress',
@@ -427,7 +446,7 @@ en:{
   toneAdj:{cálido:'warm',frío:'cool'}, palBase:'Your capsule palette: {b} base. ', palAcentos:'Accents: {a}.', y:' and ', fam:{rojizo:'reds',amarillo:'yellows',verde:'greens',marrón:'browns',azul:'blues',rosa:'pinks',morado:'purples'}, palSinAcentos:'No accent colors: all neutral.',
   sinHuerfanas:'No orphan pieces: every one shows up in your outfits.', huerfanas:'{n} piece(s) barely get used: {x}.', metalCon:{dorado:'gold hardware',plateado:'silver hardware'}, metalBusca:{dorado:'gold',plateado:'silver'},
   metalNote:'{m} metal: flatters your {t} skin', unMetal:'All your metal is {m}: it all matches', metalAdj:{dorado:'gold',plateado:'silver'},
-  foot:'A <a href="https://designingspring.substack.com/">Designing Spring</a> experiment with a genetic algorithm. Catalog and sizes are samples and approximate: they test the idea, not a shopping list.'
+  foot:'A <a href="https://designingspring.substack.com/">Designing Spring</a> experiment with a genetic algorithm. Catalog and sizes are samples and approximate: they test the idea, not a shopping list. We count visits anonymously, without cookies, with GoatCounter: only how many people arrive and how far they get. Never what you choose.'
 }};
 let LANG = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'es';
 const t = (k, v) => { let s = k.split('.').reduce((o, p) => o && o[p], S[LANG]); if (s == null) s = k; if (v) for (const x in v) s = String(s).replace('{' + x + '}', v[x]); return s; };
@@ -893,7 +912,7 @@ function marco(){
   if (window.paintVine) paintVine(n);
   document.getElementById('steplabel').textContent = paso in t('bonusSteps') ? t('bonus', { s: t('bonusSteps')[paso] }) : t('stepOf', { n, s: t('steps')[n - 1] });
 }
-function render(){ marco(); [p1, p2, p3, null, null, p6, null][paso - 1](); }
+function render(){ marco(); track({ 1: 'vestido-1-medidas', 2: 'vestido-2-subtono', 3: 'vestido-3-estilo', 6: 'vestido-4-rondas' }[paso] || 'vestido-paso-' + paso); [p1, p2, p3, null, null, p6, null][paso - 1](); }
 var autoT = 0;
 function anunciar(x){ const a = document.getElementById('anuncio'); if (!a) return; a.textContent = ''; setTimeout(() => { a.textContent = x; }, 40); }
 function ir(n){ if (autoT){ clearTimeout(autoT); autoT = 0; if (M) M.auto = false; } introN = null; paso = n; render(); window.scrollTo({ top: Math.max(0, document.getElementById('app').offsetTop - 70), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
@@ -1595,7 +1614,7 @@ function seccionConciencia(g){
   const L = CONCIENCIA[LANG === 'en' ? 'en' : 'es'], c = LANG === 'en' ? COLOR[g.color][2] : g.color;
   return `<div class="conciencia"><h3 style="margin:30px 0 4px">${L.h}</h3><p class="hint" style="margin:0 0 14px">${L.lead}</p>
   <ol class="capsulas">${L.pasos(c).map(([t1, t2], i) => `<li><span class="cap-n" aria-hidden="true">${i + 1}</span><b>${t1}</b><span>${t2}</span></li>`).join('')}</ol>
-  <a class="buscar" href="../armario-capsula/${LANG === 'en' ? '?lang=en' : ''}">${L.btn} <span aria-hidden="true">→</span></a></div>`;
+  <a class="buscar" onclick="track('vestido-va-al-armario')" href="../armario-capsula/${LANG === 'en' ? '?lang=en' : ''}">${L.btn} <span aria-hidden="true">→</span></a></div>`;
 }
 const valor = (k, v) => k === 'color' ? col(v) : k === 'color2' ? (v === 'ninguno' ? t('sinColor2') : col(v)) : t('mut_v')[k][v];
 function textoMut(v){
@@ -1685,6 +1704,7 @@ function autoPaso(){
   autoT = setTimeout(() => { autoT = 0; if (paso !== 6 || !M) return; if (ultima){ M.auto = false; M.final = orden[0]; ir(6); } else { siguienteRonda(); autoPaso(); } }, 1700);
 }
 function finMutante(){
+  track('vestido-final');
   // se guarda solo lo que se dibuja (el vestido, sus padres y abuelos); antes se guardaba toda la familia repetida y con muchas mutaciones el navegador se colgaba (15 nov 2026)
   const corto = (x, n) => ({ id: x.id, g: x.g, origen: x.origen, mut: x.mut, ronda: x.ronda, cat: x.cat, padres: n ? (x.padres || []).map(p => corto(p, n - 1)) : [] });
   try { localStorage.setItem(FINAL_KEY, JSON.stringify(corto(M.final, 2))); } catch (e) {}
@@ -1778,7 +1798,7 @@ function verIntro(n){
      <p>${L.s3_p}</p><p><b style="font-weight:400">${L.s3_cta}</b></p>` ];
   app.innerHTML = `<section class="card intro" aria-live="polite">${esc_[n]}
     ${n ? `<div class="intro-nav"><button class="btn" type="button" data-intro="${n - 1}">${L.back}</button><span class="intro-dots" aria-hidden="true">${[0, 1, 2, 3].map(i => `<i class="${i === n ? 'on' : ''}"></i>`).join('')}</span><button class="btn gold" type="button" data-intro="${n < 3 ? n + 1 : 'fin'}">${n < 3 ? L.next : L.start}</button></div>` : ''}</section>`;
-  app.querySelectorAll('[data-intro]').forEach(b => b.onclick = () => { const v = b.dataset.intro; if (v === 'fin'){ try { localStorage.setItem(INTRO_VISTA, '1'); } catch (e) {} ir(1); } else { verIntro(+v); window.scrollTo({ top: 0 }); } });
+  app.querySelectorAll('[data-intro]').forEach(b => b.onclick = () => { const v = b.dataset.intro; if (v === 'fin'){ track('vestido-intro-terminada'); try { localStorage.setItem(INTRO_VISTA, '1'); } catch (e) {} ir(1); } else { verIntro(+v); window.scrollTo({ top: 0 }); } });
   const h = app.querySelector('h2'); if (h && n){ h.tabIndex = -1; h.focus({ preventScroll: true }); }
 }
 document.getElementById('introBtn').onclick = () => { verIntro(0); window.scrollTo({ top: 0 }); };
