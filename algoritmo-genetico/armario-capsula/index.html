@@ -292,6 +292,25 @@ input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
 <p class="foot" id="foot"></p>
 </div>
 <script>
+// ---- Contador de uso (GoatCounter): anónimo, sin cookies. El mismo de la semana de comidas (15 nov 2026) ----
+// Solo cuenta visitas y pasos ("alguien llegó al final"). Nunca envía medidas, colores ni nada que la persona elige o escribe.
+const GOATCOUNTER_CODE = 'designingspring';
+if (GOATCOUNTER_CODE && !/^(localhost|127\.|\[::1\])/.test(location.hostname) && location.protocol !== 'file:') {
+  const gc = document.createElement('script');
+  gc.async = true; gc.src = 'https://gc.zgo.at/count.js';
+  gc.dataset.goatcounter = `https://${GOATCOUNTER_CODE}.goatcounter.com/count`;
+  document.head.appendChild(gc);
+}
+const trackedOnce = new Set();
+// Cuenta una acción una sola vez por visita (para ver cuántas personas llegan a cada paso).
+function track(name) {
+  if (!GOATCOUNTER_CODE || trackedOnce.has(name)) return;
+  trackedOnce.add(name);
+  const send = () => window.goatcounter && window.goatcounter.count && window.goatcounter.count({ path: name, title: name, event: true });
+  if (window.goatcounter && window.goatcounter.count) send(); else setTimeout(send, 1500);
+}
+</script>
+<script>
 'use strict';
 /* =================== textos =================== */
 const S = {
@@ -360,7 +379,7 @@ es:{
   toneAdj:{cálido:'cálida',frío:'fría'}, palBase:'Paleta de tu cápsula: base {b}. ', palAcentos:'Acentos: {a}.', y:' y ', fam:{rojizo:'rojizos',amarillo:'amarillos',verde:'verdes',marrón:'marrones',azul:'azules',rosa:'rosas',morado:'morados'}, palSinAcentos:'Sin colores de acento: todo neutro.',
   sinHuerfanas:'Ninguna prenda queda huérfana: cada una aparece en tus conjuntos.', huerfanas:'{n} prenda(s) casi no se usan: {x}.', metalCon:{dorado:'herraje dorado',plateado:'herraje plateado'}, metalBusca:{dorado:'dorado',plateado:'plateado'},
   metalNote:'Metal {m}: favorece tu piel {t}', unMetal:'Todo tu metal es {m}: combina entre sí', metalAdj:{dorado:'dorado',plateado:'plateado'},
-  foot:'Experimento de <a href="https://designingspring.substack.com/">Designing Spring</a> con un algoritmo genético. Catálogo y tallas son de muestra y aproximados: sirven para probar la idea, no para comprar.'
+  foot:'Experimento de <a href="https://designingspring.substack.com/">Designing Spring</a> con un algoritmo genético. Catálogo y tallas son de muestra y aproximados: sirven para probar la idea, no para comprar. Contamos visitas de forma anónima, sin cookies, con GoatCounter: solo cuántas personas llegan y hasta qué paso. Nunca lo que eliges.'
 },
 en:{
   title:'Your <em>capsule</em> wardrobe',
@@ -427,7 +446,7 @@ en:{
   toneAdj:{cálido:'warm',frío:'cool'}, palBase:'Your capsule palette: {b} base. ', palAcentos:'Accents: {a}.', y:' and ', fam:{rojizo:'reds',amarillo:'yellows',verde:'greens',marrón:'browns',azul:'blues',rosa:'pinks',morado:'purples'}, palSinAcentos:'No accent colors: all neutral.',
   sinHuerfanas:'No orphan pieces: every one shows up in your outfits.', huerfanas:'{n} piece(s) barely get used: {x}.', metalCon:{dorado:'gold hardware',plateado:'silver hardware'}, metalBusca:{dorado:'gold',plateado:'silver'},
   metalNote:'{m} metal: flatters your {t} skin', unMetal:'All your metal is {m}: it all matches', metalAdj:{dorado:'gold',plateado:'silver'},
-  foot:'A <a href="https://designingspring.substack.com/">Designing Spring</a> experiment with a genetic algorithm. Catalog and sizes are samples and approximate: they test the idea, not a shopping list.'
+  foot:'A <a href="https://designingspring.substack.com/">Designing Spring</a> experiment with a genetic algorithm. Catalog and sizes are samples and approximate: they test the idea, not a shopping list. We count visits anonymously, without cookies, with GoatCounter: only how many people arrive and how far they get. Never what you choose.'
 }};
 let LANG = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'es';
 const t = (k, v) => { let s = k.split('.').reduce((o, p) => o && o[p], S[LANG]); if (s == null) s = k; if (v) for (const x in v) s = String(s).replace('{' + x + '}', v[x]); return s; };
@@ -701,7 +720,7 @@ const DEF = { medidas:{busto:'',cintura:'',cadera:''}, tipo:null, subtono:null, 
 let st = JSON.parse(JSON.stringify(DEF));
 try { const g = JSON.parse(localStorage.getItem('ds.armario') || 'null'); if (g) st = Object.assign(st, g); st.ocasiones = Object.assign({ e: 0 }, st.ocasiones); if (!Array.isArray(st.estilo)) st.estilo = []; st.nunca = (st.nunca || []).filter(k => k !== 'vestidos'); } catch (e) {}
 try { if (!localStorage.getItem('ds.armario')){ const v = JSON.parse(localStorage.getItem('ds.vestido') || 'null');   // lo que ya contaste en el vestido mutante
-  if (v){ for (const k of ['medidas','tipo','subtono','q1','q2','estilo','nunca','usarCuerpo','usarPaleta']) if (v[k] !== undefined) st[k] = JSON.parse(JSON.stringify(v[k])); var deVestido = true; } } } catch (e) {}
+  if (v){ for (const k of ['medidas','tipo','subtono','q1','q2','estilo','nunca','usarCuerpo','usarPaleta']) if (v[k] !== undefined) st[k] = JSON.parse(JSON.stringify(v[k])); var deVestido = true; track('armario-viene-del-vestido'); } } } catch (e) {}
 const bajo = x => x.toLowerCase().replace(/\bv\b/g, 'V');
 const guardar = () => { try { localStorage.setItem('ds.armario', JSON.stringify(st)); } catch (e) {} };
 let paso = 1, corrida = null, semilla = 1, runId = 0;
@@ -990,7 +1009,7 @@ function marco(){
   if (window.paintVine) paintVine(n);
   document.getElementById('steplabel').textContent = t('stepOf', { n, s: t('steps')[n - 1] });
 }
-function render(){ marco(); [p1, p2, p3, p4, p5, null, p7][paso - 1](); }
+function render(){ marco(); track({ 1: 'armario-1-medidas', 2: 'armario-2-subtono', 3: 'armario-3-estilo', 7: 'armario-4-dias', 4: 'armario-5-evolucion', 5: 'armario-6-resultado' }[paso] || 'armario-paso-' + paso); [p1, p2, p3, p4, p5, null, p7][paso - 1](); }
 function ir(n){ introN = null; paso = n; render(); window.scrollTo({ top: Math.max(0, document.getElementById('app').offsetTop - 70), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
 const nav = (backTo, nextLabel, nextFn) => `<div class="nav">${backTo ? `<button class="btn" type="button" onclick="ir(${backTo})">${t('back')}</button>` : '<span></span>'}${nextLabel ? `<button class="btn gold" type="button" id="nextBtn">${nextLabel}</button>` : ''}</div>`;
 
@@ -1154,6 +1173,7 @@ function mezcla(q){
   return 'rgb(' + pa.map((v, i) => Math.round(v + (pb[i] - v) * q)).join(',') + ')';
 }
 function mostrarFin(P){
+  track('armario-final');
   const { mejor, azar } = corrida;
   document.getElementById('flower').innerHTML = corrida.svg;
   document.getElementById('genOut').textContent = t('gen', { g: GENS, G: GENS });
@@ -1250,7 +1270,7 @@ function p5(){
   }
   h += `</div><p class="panel" style="margin-top:0">${t(capas.length > 1 ? 'layers' : 'layer', { x: capas.map(c => esc(bajo(nom(c))) + ' ' + col(c.color)).join(', '), n: conCapa })}</p>
   ${seccionReusar()}
-  <p class="hint" style="margin:22px 0 0">${t('aVestido')} <a class="a-vestido" href="../vestido-mutante/${LANG === 'en' ? '?lang=en' : ''}">${t('aVestidoBtn')} <span aria-hidden="true">→</span></a></p>
+  <p class="hint" style="margin:22px 0 0">${t('aVestido')} <a class="a-vestido" onclick="track('armario-va-al-vestido')" href="../vestido-mutante/${LANG === 'en' ? '?lang=en' : ''}">${t('aVestidoBtn')} <span aria-hidden="true">→</span></a></p>
   <div class="nav"><button class="btn" type="button" onclick="ir(7)">${t('change')}</button><span class="pills"><button class="btn" type="button" id="againBtn">${t('again')}</button><a class="btn gold" style="text-decoration:none;display:inline-flex;align-items:center" href="https://designingspring.substack.com/" target="_blank" rel="noopener">${t('comment')}</a></span></div></section>`
     ;
   app.innerHTML = h;
@@ -1327,7 +1347,7 @@ function verIntro(n){
      <p>${L.s3_p}</p><p>${L.s3_cta}</p>` ];
   app.innerHTML = `<section class="card intro" aria-live="polite">${esc_[n]}
     ${n ? `<div class="intro-nav"><button class="btn" type="button" data-intro="${n - 1}">${L.back}</button><span class="intro-dots" aria-hidden="true">${[0, 1, 2, 3].map(i => `<i class="${i === n ? 'on' : ''}"></i>`).join('')}</span><button class="btn gold" type="button" data-intro="${n < 3 ? n + 1 : 'fin'}">${n < 3 ? L.next : L.start}</button></div>` : ''}</section>`;
-  app.querySelectorAll('[data-intro]').forEach(b => b.onclick = () => { const v = b.dataset.intro; if (v === 'fin'){ try { localStorage.setItem(INTRO_VISTA, '1'); } catch (e) {} ir(1); } else { verIntro(+v); window.scrollTo({ top: 0 }); } });
+  app.querySelectorAll('[data-intro]').forEach(b => b.onclick = () => { const v = b.dataset.intro; if (v === 'fin'){ track('armario-intro-terminada'); try { localStorage.setItem(INTRO_VISTA, '1'); } catch (e) {} ir(1); } else { verIntro(+v); window.scrollTo({ top: 0 }); } });
   const h = app.querySelector('h2'); if (h && n){ h.tabIndex = -1; h.focus({ preventScroll: true }); }
 }
 document.getElementById('introBtn').onclick = () => { verIntro(0); window.scrollTo({ top: 0 }); };
