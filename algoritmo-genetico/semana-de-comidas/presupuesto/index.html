@@ -15,11 +15,11 @@
   /* Mundo visual "Cabeza de girasol": el marco es la noche de Designing Spring;
      la columna de lectura es papel; el color queda para la flor y los datos. */
   :root {
-    --frame: #0d1422; --frame-line: #26324c; --frame-text: #f4efe4; --frame-muted: #bdb4a0;
+    --frame: #0f1a16; --frame-line: #2a4136; --frame-text: #f4efe4; --frame-muted: #bdb4a0;
     --gold: #e3a72f; --gold-dim: #8a6a2a; --seed-low: #7a6f5c; --seed-ring: #8a7f6c;
-    --bg: #0d1422; --card: #f4efe4; --border: #d9cfba; --soft: #ebe3d2;
-    --text: #1d2230; --muted: #574f41; --faint: #6b6353;
-    --accent: #1d2230; --accent-hover: #2f3750; --accent-soft: #e6dcc6;
+    --bg: #0f1a16; --card: #f4efe4; --border: #d9cfba; --soft: #ebe3d2;
+    --text: #16211c; --muted: #574f41; --faint: #6b6353;
+    --accent: #16211c; --accent-hover: #2c3d34; --accent-soft: #e6dcc6;
     --leaf: #4f7a2a; --leaf-ink: #3d621d; --leaf-soft: #e1e8cf;
     --salvia: #e4ebdc;
     --gold-ink: #7a4f00; --gold-soft: #f3e2b8;
@@ -28,16 +28,16 @@
     --fat: #7d5410; --fat-soft: #f1e3c4;
     --carb: #3d621d; --carb-soft: #e1e8cf;
     --on-accent: #f4efe4; --input-bg: #fbf8f1; --input-border: #c4b89e; --btn-hover: #e4dac5;
-    --chip-neutral: #e4dccb; --shadow: rgba(13,20,34,.12); --shadow-strong: rgba(13,20,34,.22);
+    --chip-neutral: #e4dccb; --shadow: rgba(15,26,22,.12); --shadow-strong: rgba(15,26,22,.22);
     --axis: #c4b89e; --dot-drop: #8a7f6c; --line-best: #e3a72f;
     color-scheme: light dark;
   }
   /* Modo oscuro: el marco no cambia; la columna pasa de papel a tinta */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --card: #161e2e; --border: #2c3851; --soft: #1e2839;
+      --card: #1b2e25; --border: #2f463a; --soft: #21352b;
       --text: #ece5d4; --muted: #b8ae99; --faint: #a39a86;
-      --accent: #f4efe4; --accent-hover: #ffffff; --accent-soft: #222c40;
+      --accent: #f4efe4; --accent-hover: #ffffff; --accent-soft: #233a2f;
       --leaf: #8fbf5a; --leaf-ink: #a5cf73; --leaf-soft: #1f2d22;
     --salvia: #1f2b24;
       --salvia: #1f2b24;
@@ -46,15 +46,15 @@
       --prot: #8fb6e2; --prot-soft: #1f2c3b;
       --fat: #e0b464; --fat-soft: #362c18;
       --carb: #a5cf73; --carb-soft: #243121;
-      --on-accent: #0d1422; --input-bg: #111827; --input-border: #3a4763; --btn-hover: #26324a;
-      --chip-neutral: #26324a; --shadow: rgba(0,0,0,.4); --shadow-strong: rgba(0,0,0,.5);
-      --axis: #3a4763; --dot-drop: #6b6457;
+      --on-accent: #0f1a16; --input-bg: #12201a; --input-border: #3c5649; --btn-hover: #2a4036;
+      --chip-neutral: #2a4036; --shadow: rgba(0,0,0,.4); --shadow-strong: rgba(0,0,0,.5);
+      --axis: #3c5649; --dot-drop: #6b6457;
     }
   }
   :root[data-theme="dark"] {
-    --card: #161e2e; --border: #2c3851; --soft: #1e2839;
+    --card: #1b2e25; --border: #2f463a; --soft: #21352b;
     --text: #ece5d4; --muted: #b8ae99; --faint: #a39a86;
-    --accent: #f4efe4; --accent-hover: #ffffff; --accent-soft: #222c40;
+    --accent: #f4efe4; --accent-hover: #ffffff; --accent-soft: #233a2f;
     --leaf: #8fbf5a; --leaf-ink: #a5cf73; --leaf-soft: #1f2d22;
     --salvia: #1f2b24;
     --gold-ink: #e8b85a; --gold-soft: #3a2f17;
@@ -62,9 +62,9 @@
     --prot: #8fb6e2; --prot-soft: #1f2c3b;
     --fat: #e0b464; --fat-soft: #362c18;
     --carb: #a5cf73; --carb-soft: #243121;
-    --on-accent: #0d1422; --input-bg: #111827; --input-border: #3a4763; --btn-hover: #26324a;
-    --chip-neutral: #26324a; --shadow: rgba(0,0,0,.4); --shadow-strong: rgba(0,0,0,.5);
-    --axis: #3a4763; --dot-drop: #6b6457;
+    --on-accent: #0f1a16; --input-bg: #12201a; --input-border: #3c5649; --btn-hover: #2a4036;
+    --chip-neutral: #2a4036; --shadow: rgba(0,0,0,.4); --shadow-strong: rgba(0,0,0,.5);
+    --axis: #3c5649; --dot-drop: #6b6457;
   }
 
   * { box-sizing: border-box; }
@@ -425,8 +425,8 @@
   @media print {
     :root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
       --card: #ffffff; --border: #d9cfba; --soft: #f4efe4;
-      --text: #1d2230; --muted: #574f41; --faint: #6b6353;
-      --accent: #1d2230; --accent-hover: #2f3750; --accent-soft: #e6dcc6;
+      --text: #16211c; --muted: #574f41; --faint: #6b6353;
+      --accent: #16211c; --accent-hover: #2c3d34; --accent-soft: #e6dcc6;
       --leaf: #4f7a2a; --leaf-ink: #3d621d; --leaf-soft: #e1e8cf;
       --gold-ink: #7a4f00; --gold-soft: #f3e2b8;
       --warn: #9c3c19; --warn-soft: #f6e1d6;
@@ -614,7 +614,7 @@
   /* ===== Cabeza de girasol ===== */
   html { background: var(--frame); }
   body { font-family: Literata, Georgia, "Times New Roman", serif; background: var(--frame); color: var(--frame-text); max-width: 860px; padding: 0 16px 36px; }
-  ::selection { background: var(--gold); color: #0d1422; }
+  ::selection { background: var(--gold); color: #0f1a16; }
   :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   [tabindex="-1"]:focus { outline: none; }   /* los títulos reciben el foco para el lector de pantalla, sin dibujar un recuadro */
   .mast { display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap; padding: 16px 2px; margin-bottom: 30px; border-bottom: 1px solid var(--frame-line); font-size: 14px; color: var(--frame-muted); }
@@ -630,7 +630,7 @@
   .step-head h2 { font-size: 26px; }
   .res-head h2 { font-size: 26px; }
   .scene h2 { font-size: 26px; line-height: 1.18; text-wrap: balance; }
-  .step-num { background: var(--gold); color: #0d1422; font-weight: 700; }
+  .step-num { background: var(--gold); color: #0f1a16; font-weight: 700; }
   .stepper { margin-bottom: 22px; }
   .stepper button { border-top-color: var(--frame-line); color: var(--frame-muted); }
   .stepper .n { font-size: 12.5px; }
@@ -667,7 +667,7 @@
   .dots i.on { background: var(--gold); }
   .tile.p { border-color: var(--prot); } .tile.f { border-color: var(--fat); } .tile.c { border-color: var(--carb); }
   .ga-steps li { background: var(--soft); color: var(--text); }
-  .ga-steps li.on { background: var(--gold); color: #0d1422; }
+  .ga-steps li.on { background: var(--gold); color: #0f1a16; }
   .ga-progress { background: var(--soft); }
   #gaBar { background: var(--gold); }
   .pday.ok .bar-fill { background: var(--leaf); } .pday .bar-range { background: var(--leaf); opacity: .22; }
@@ -741,7 +741,7 @@
   /* Íconos dibujados en vez de emoji, con área de toque de verdad */
   .ic { width: 34px; height: 34px; display: inline-grid; place-items: center; padding: 0; opacity: .9; color: var(--text); border-radius: 999px; }
   .ic:hover, .ic:focus-visible { opacity: 1; background: var(--soft); }
-  .ic.on { opacity: 1; background: var(--gold); color: #0d1422; }
+  .ic.on { opacity: 1; background: var(--gold); color: #0f1a16; }
   .how-to svg, .session-bar svg { vertical-align: -3px; }
   /* Escena 3, más liviana: tarjetas de dos líneas y lo extra plegado */
   .steps3 { margin: 4px auto 26px !important; }
@@ -824,11 +824,11 @@
   .day.open .day-tog svg { transform: rotate(180deg); }
   .day:not(.open) .meals, .day:not(.open) .day-foot { display: none; }
   .days-all { display: block; margin: 0 0 8px auto; font-size: 13.5px; }
-  .undo-toast { position: fixed; left: 0; right: 0; bottom: 20px; margin: 0 auto; width: fit-content; z-index: 30; display: flex; align-items: center; gap: 14px; max-width: calc(100% - 32px); padding: 10px 10px 10px 18px; border-radius: 999px; background: var(--text); color: var(--card); font-size: 14.5px; box-shadow: 0 10px 28px rgba(13, 20, 34, .25); }
+  .undo-toast { position: fixed; left: 0; right: 0; bottom: 20px; margin: 0 auto; width: fit-content; z-index: 30; display: flex; align-items: center; gap: 14px; max-width: calc(100% - 32px); padding: 10px 10px 10px 18px; border-radius: 999px; background: var(--text); color: var(--card); font-size: 14.5px; box-shadow: 0 10px 28px rgba(15, 26, 22, .25); }
   .undo-toast[hidden] { display: none; }
   .undo-toast button:focus-visible { outline-color: var(--btn-gold); outline-offset: 3px; }
   @media (max-width: 640px) { .undo-toast { width: auto; left: 16px; right: 16px; justify-content: space-between; border-radius: 18px; } }
-  .undo-toast button { min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--btn-gold); color: #1d2230; font: 600 14px Literata, Georgia, serif; cursor: pointer; }
+  .undo-toast button { min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--btn-gold); color: #16211c; font: 600 14px Literata, Georgia, serif; cursor: pointer; }
   /* Día / noche: la misma cortina del sitio, que se recoge hacia un lado (o vuelve a cubrir) */
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
   :root[data-dir="to-day"]::view-transition-new(root) { animation: wipe-left 1.75s cubic-bezier(.77, 0, .175, 1) both; }
@@ -875,7 +875,7 @@
     /* un día a la vez: los días se eligen arriba; el resto no se muestra */
     #results .day-pick { display: flex; gap: 4px; margin: 0 0 10px; }
     .day-pick button { flex: 1 1 0; min-width: 0; padding: 0; min-height: 44px; border-radius: 999px; border: 1px solid var(--input-border); background: none; color: var(--text); font: 600 13.5px Literata, Georgia, serif; }
-    .day-pick button[aria-pressed="true"] { background: var(--btn-gold); border-color: transparent; color: #1d2230; }
+    .day-pick button[aria-pressed="true"] { background: var(--btn-gold); border-color: transparent; color: #16211c; }
     .day:not(.open) { display: none; }
     .day-tog { display: none; }
     .day-head { cursor: default; }
@@ -897,7 +897,7 @@
   /* Celular: encabezado compacto después del paso 1, navegación de la intro siempre a la vista, aviso más corto */
   @media (max-width: 640px) {
     .top-head h1 { font-size: 26px; margin-bottom: 14px; }
-    #intro .intro-nav { position: sticky; bottom: 0; z-index: 5; box-shadow: 0 -10px 18px -12px rgba(13,20,34,.35); }
+    #intro .intro-nav { position: sticky; bottom: 0; z-index: 5; box-shadow: 0 -10px 18px -12px rgba(15,26,22,.35); }
     #intro:has(.scene.cover.on) .intro-nav { position: static; box-shadow: none; } /* la portada ya tiene su botón "Descúbrelo" */
     #step1 .exp-note { font-size: 13.5px; padding: 10px 12px; margin-bottom: 18px; }
     .subtitle { font-size: 15px; margin-bottom: 20px; }
@@ -944,8 +944,8 @@
   /* privacidad: un enlace en el pie y una ventana corta */
   .privacy-link { padding: 12px 2px; margin: -12px 0; font-size: inherit; color: inherit; }
   .footer-note.credit .privacy-link { font-size: inherit; padding: 12px 0; }
-  dialog.privacy { width: min(34em, calc(100% - 32px)); border: 0; border-radius: 22px; padding: 26px 24px 18px; background: var(--card); color: var(--text); box-shadow: 0 18px 40px rgba(13, 20, 34, .28); }
-  dialog.privacy::backdrop { background: rgba(13, 20, 34, .5); }
+  dialog.privacy { width: min(34em, calc(100% - 32px)); border: 0; border-radius: 22px; padding: 26px 24px 18px; background: var(--card); color: var(--text); box-shadow: 0 18px 40px rgba(15, 26, 22, .28); }
+  dialog.privacy::backdrop { background: rgba(15, 26, 22, .5); }
   dialog.privacy h2 { font: 400 26px/1.1 Gloock, Georgia, serif; margin: 0 0 12px; }
   dialog.privacy p { font-size: 15px; line-height: 1.55; margin: 0 0 12px; color: var(--muted); }
   dialog.privacy p strong { color: var(--text); }
@@ -982,7 +982,7 @@
   .steps3 i { display: block; font-style: normal; font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-bottom: 2px; }
   @media (max-width: 640px) { .steps3 > div { padding: 16px 16px 14px !important; } .steps3 .seeds { width: 70px; height: 16px; } .steps3 b { font-size: 21px !important; } }
   /* El paso de mirar a hacer: dorado de la marca, el único botón de este color */
-  .btn.primary.go { background: var(--gold); color: #0d1422; border-color: transparent; }
+  .btn.primary.go { background: var(--gold); color: #0f1a16; border-color: transparent; }
   .btn.primary.go:hover { background: var(--gold); filter: brightness(1.08); }
   /* Un título por paso: el título grande de arriba manda; el de la tarjeta se quita para no repetir */
   body:not([data-step="1"]) .subtitle { display: none; }
@@ -995,30 +995,30 @@
     input:not([type=checkbox]):not([type=radio]), select, textarea, .f-ctrl select { font-size: 16px !important; }
     .f-ctrl select { min-width: 0; }
   }
-  @media print { .day .meals, .day .day-foot { display: revert !important; } .day-tog { display: none !important; } .mast, .sample, .talk { display: none !important; } body { color: #1d2230; } .card { background: var(--card); } }
+  @media print { .day .meals, .day .day-foot { display: revert !important; } .day-tog { display: none !important; } .mast, .sample, .talk { display: none !important; } body { color: #16211c; } .card { background: var(--card); } }
 
   /* ===== Marca del sitio (2026-10-22): de día niebla azul en vez de crema; dorado para la acción principal;
      las flores siguen en una ventana de noche porque se dibujan para fondo oscuro ===== */
-  :root { --night: #0d1422; --btn-gold: #e3a72f; --title-gold: #e3a72f; }
-  :root[data-theme="dark"] { --input-border: #6b7894; --frame: #0d1422; --frame-line: #26324c; --frame-text: #f4efe4; --frame-muted: #bdb4a0; --bg: #0d1422; --btn-gold: #e3a72f; }
+  :root { --night: #0f1a16; --btn-gold: #e3a72f; --title-gold: #e3a72f; }
+  :root[data-theme="dark"] { --input-border: #6b8a7c; --frame: #0f1a16; --frame-line: #2a4136; --frame-text: #f4efe4; --frame-muted: #bdb4a0; --bg: #0f1a16; --btn-gold: #e3a72f; }
   :root[data-theme="light"] {
-    --frame: #eef0f3; --frame-line: rgba(29, 34, 48, .16); --frame-text: #1d2230; --frame-muted: #4a5160; --bg: #eef0f3;
-    --card: #fafbfc; --border: #d5dae2; --soft: #e1e6ee; --muted: #4a5160; --faint: #586070;
-    --accent-soft: #dde3ec; --input-bg: #ffffff; --input-border: #848c9a; --btn-hover: #e1e6ee; --chip-neutral: #e1e6ee; --axis: #b6bfcc;
+    --frame: #e0e9e6; --frame-line: rgba(22, 33, 28, .16); --frame-text: #16211c; --frame-muted: #4a5650; --bg: #e0e9e6;
+    --card: #f2f6f4; --border: #c5d3cd; --soft: #d0dcd7; --muted: #4a5650; --faint: #525e57;
+    --accent-soft: #d3dfda; --input-bg: #ffffff; --input-border: #7f8f88; --btn-hover: #d0dcd7; --chip-neutral: #d0dcd7; --axis: #afc0b8;
     --btn-gold: #c98a1c; --title-gold: #7a4f00; color-scheme: light;
   }
   :root[data-theme="light"] :focus-visible { outline-color: #7a4f00; }   /* de día el dorado claro no se ve: foco en dorado tinta */
-  :root[data-theme="light"] .card:not(#intro) { box-shadow: 0 1px 2px rgba(29, 34, 48, .05), 0 10px 28px rgba(29, 34, 48, .07); border: 1px solid rgba(29, 34, 48, .1); }
+  :root[data-theme="light"] .card:not(#intro) { box-shadow: 0 1px 2px rgba(22, 33, 28, .05), 0 10px 28px rgba(22, 33, 28, .07); border: 1px solid rgba(22, 33, 28, .1); }
   /* la flor sigue el modo, como en el sitio: de noche sobre la noche, de día sobre niebla */
-  :root { --flower-bg: #0d1422; --seed-low: #7a6f5c; --seed-hi: #e3a72f; --seed-ring: #8a7f6c; --best-ring: #f4efe4; --chart-axis: #26324c; --gold-dim: #8a6a2a; }
-  :root[data-theme="light"] { --flower-bg: #e1e6ee; --seed-low: #a3a9b5; --seed-hi: #c98a1c; --seed-ring: #8c94a2; --best-ring: #1d2230; --chart-axis: rgba(29, 34, 48, .22); --gold-dim: #b88a3a; }
+  :root { --flower-bg: #0f1a16; --seed-low: #7a6f5c; --seed-hi: #e3a72f; --seed-ring: #8a7f6c; --best-ring: #f4efe4; --chart-axis: #2a4136; --gold-dim: #8a6a2a; }
+  :root[data-theme="light"] { --flower-bg: #d0dcd7; --seed-low: #a0aea8; --seed-hi: #c98a1c; --seed-ring: #889790; --best-ring: #16211c; --chart-axis: rgba(22, 33, 28, .22); --gold-dim: #b88a3a; }
   .ga-pop, .recap-flower { background: var(--flower-bg); }   /* la portada de la intro no lleva recuadro: la flor crece directo sobre el fondo */
   :root[data-theme="light"] :is(.ga-pop, .recap-flower, #intro .bloom) { --gold: #c98a1c; }
   .bloom-keys b { color: var(--title-gold); }
   .sd-drop { stroke: var(--seed-ring); } .sd-best { stroke: var(--best-ring); }
   .ln-axis { stroke: var(--chart-axis); } .ln-goal { stroke: var(--gold-dim); } .ln-best { stroke: var(--seed-hi); } .ln-now { fill: var(--best-ring); }
   .top-head h1 em, .cover-title em, .cover-lede em { color: var(--title-gold); }   /* dorado de noche; de día, el dorado tinta del sitio */
-  .btn.primary, .btn.primary.go { background: var(--btn-gold); color: #1d2230; border-color: transparent; }
+  .btn.primary, .btn.primary.go { background: var(--btn-gold); color: #16211c; border-color: transparent; }
   .btn.primary:hover, .btn.primary.go:hover { background: var(--btn-gold); filter: brightness(1.07); }
   /* encabezado como el del sitio: idioma y día/noche como íconos pequeños, sin pastilla */
   .mast .lang-btn, .mast .sky-btn { position: relative; display: inline-grid; place-items: center; width: 36px; height: 36px; padding: 0; border-color: transparent; font-size: 12.5px; letter-spacing: .04em; font-weight: 600; }
@@ -1060,7 +1060,7 @@
   .ec-chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .ec-chip { font: inherit; font-size: 14.5px; padding: 8px 14px; min-height: 40px; border-radius: 999px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text); cursor: pointer; transition: background .15s, border-color .15s; }
   .ec-chip:hover { border-color: var(--gold); }
-  .ec-chip[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: #0d1422; }
+  .ec-chip[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: #0f1a16; }
   .ec-chip[aria-pressed="true"]::before { content: "✓ "; }
   /* Paso 3: la flor y los 7 días, lado a lado en pantallas anchas */
   .ec-evo { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 22px; align-items: start; margin-top: 4px; }
