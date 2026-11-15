@@ -271,6 +271,15 @@ input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
   @keyframes wipe-right { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
 .a-vestido{color:var(--gold-ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;display:inline-block;padding:10px 0}
 .a-vestido:hover{text-decoration-thickness:2px}
+.priv-btn{background:none;border:0;padding:6px 0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.priv-btn:hover{color:var(--ink)}
+dialog.priv{max-width:min(34em,calc(100vw - 32px));border:1px solid var(--card-line);border-radius:18px;background:var(--card);color:var(--ink);padding:22px 22px 18px}
+dialog.priv::backdrop{background:rgba(0,0,0,.55)}
+.priv h3{margin:0 0 12px;font:400 24px/1.15 Gloock,Georgia,serif}
+.priv p{margin:0 0 10px;font-size:15px;line-height:1.5;color:var(--ink-muted)}
+.priv p b{color:var(--ink);font-weight:600}
+.priv .btn{margin-top:8px}
+@media (max-width:640px){.nav .pills{flex-direction:column-reverse;width:100%}}   /* en el teléfono el botón dorado va primero (15 nov 2026) */
 </style>
 </head>
 <body>
@@ -290,6 +299,7 @@ input[type=range]{width:100%;accent-color:var(--gold);min-height:44px}
 <div class="steps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <main id="app"></main>
 <p class="foot" id="foot"></p>
+<dialog class="priv" id="priv" aria-labelledby="privH"></dialog>
 </div>
 <script>
 // ---- Contador de uso (GoatCounter): anónimo, sin cookies. El mismo de la semana de comidas (15 nov 2026) ----
@@ -379,7 +389,9 @@ es:{
   toneAdj:{cálido:'cálida',frío:'fría'}, palBase:'Paleta de tu cápsula: base {b}. ', palAcentos:'Acentos: {a}.', y:' y ', fam:{rojizo:'rojizos',amarillo:'amarillos',verde:'verdes',marrón:'marrones',azul:'azules',rosa:'rosas',morado:'morados'}, palSinAcentos:'Sin colores de acento: todo neutro.',
   sinHuerfanas:'Ninguna prenda queda huérfana: cada una aparece en tus conjuntos.', huerfanas:'{n} prenda(s) casi no se usan: {x}.', metalCon:{dorado:'herraje dorado',plateado:'herraje plateado'}, metalBusca:{dorado:'dorado',plateado:'plateado'},
   metalNote:'Metal {m}: favorece tu piel {t}', unMetal:'Todo tu metal es {m}: combina entre sí', metalAdj:{dorado:'dorado',plateado:'plateado'},
-  foot:'Experimento de <a href="https://designingspring.substack.com/">Designing Spring</a> con un algoritmo genético. Catálogo y tallas son de muestra y aproximados: sirven para probar la idea, no para comprar. Contamos visitas de forma anónima, sin cookies, con GoatCounter: solo cuántas personas llegan y hasta qué paso. Nunca lo que eliges.'
+  foot:'Experimento de <a href="https://designingspring.substack.com/">Designing Spring</a> con un algoritmo genético · <button class="priv-btn" type="button" data-priv>Privacidad</button>',
+  privH:'Privacidad', privCerrar:'Cerrar',
+  priv:['<b>Lo que respondes no sale de tu dispositivo.</b> Tus medidas, tu subtono y lo que eliges se quedan en este navegador; no se envían a ningún lado.','<b>Tu navegador recuerda</b> tus respuestas, el idioma y si prefieres día o noche, para la próxima vez. Se borran si limpias los datos de este sitio.','<b>Contamos visitas de forma anónima,</b> sin cookies, con GoatCounter: solo cuántas personas llegan y hasta qué paso. Nunca lo que eliges.','Las letras se cargan desde Google Fonts, como en casi cualquier página.','<b>Catálogo y tallas son de muestra</b> y aproximados: sirven para probar la idea, no para comprar.']
 },
 en:{
   title:'Your <em>capsule</em> wardrobe',
@@ -446,7 +458,9 @@ en:{
   toneAdj:{cálido:'warm',frío:'cool'}, palBase:'Your capsule palette: {b} base. ', palAcentos:'Accents: {a}.', y:' and ', fam:{rojizo:'reds',amarillo:'yellows',verde:'greens',marrón:'browns',azul:'blues',rosa:'pinks',morado:'purples'}, palSinAcentos:'No accent colors: all neutral.',
   sinHuerfanas:'No orphan pieces: every one shows up in your outfits.', huerfanas:'{n} piece(s) barely get used: {x}.', metalCon:{dorado:'gold hardware',plateado:'silver hardware'}, metalBusca:{dorado:'gold',plateado:'silver'},
   metalNote:'{m} metal: flatters your {t} skin', unMetal:'All your metal is {m}: it all matches', metalAdj:{dorado:'gold',plateado:'silver'},
-  foot:'A <a href="https://designingspring.substack.com/">Designing Spring</a> experiment with a genetic algorithm. Catalog and sizes are samples and approximate: they test the idea, not a shopping list. We count visits anonymously, without cookies, with GoatCounter: only how many people arrive and how far they get. Never what you choose.'
+  foot:'A <a href="https://designingspring.substack.com/">Designing Spring</a> experiment with a genetic algorithm · <button class="priv-btn" type="button" data-priv>Privacy</button>',
+  privH:'Privacy', privCerrar:'Close',
+  priv:['<b>What you answer never leaves your device.</b> Your measurements, undertone and choices stay in this browser; they are not sent anywhere.','<b>Your browser remembers</b> your answers, the language and whether you prefer day or night, for next time. They are erased if you clear this site’s data.','<b>We count visits anonymously,</b> without cookies, with GoatCounter: only how many people arrive and how far they get. Never what you choose.','The fonts load from Google Fonts, as on almost any page.','<b>Catalog and sizes are samples</b> and approximate: they test the idea, not a shopping list.']
 }};
 let LANG = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'es';
 const t = (k, v) => { let s = k.split('.').reduce((o, p) => o && o[p], S[LANG]); if (s == null) s = k; if (v) for (const x in v) s = String(s).replace('{' + x + '}', v[x]); return s; };
@@ -1362,6 +1376,16 @@ document.getElementById('skyBtn').onclick = () => {
   const vt = document.startViewTransition(cambiar); vt.ready.catch(() => {}); vt.finished.catch(() => {});
 };
 { let vista = false; try { vista = localStorage.getItem(INTRO_VISTA) === '1'; } catch (e) {} if (!vista || new URLSearchParams(location.search).has('intro')) verIntro(0); else render(); }
+
+// Privacidad: el pie solo dice de quién es el experimento; lo demás vive en esta ventana (15 nov 2026)
+document.addEventListener('click', e => {
+  if (!e.target.closest('[data-priv]')) return;
+  const d = document.getElementById('priv');
+  d.innerHTML = `<h3 id="privH">${t('privH')}</h3>${t('priv').map(x => `<p>${x}</p>`).join('')}<button class="btn" type="button" data-cerrar>${t('privCerrar')}</button>`;
+  d.querySelector('[data-cerrar]').onclick = () => d.close();
+  d.showModal(); d.querySelector('[data-cerrar]').focus(); track('armario-privacidad');
+});
+document.getElementById('priv').addEventListener('click', e => { if (e.target.id === 'priv') e.target.close(); });   // tocar fuera la cierra
 </script>
 </body>
 </html>
