@@ -1685,7 +1685,9 @@ function autoPaso(){
   autoT = setTimeout(() => { autoT = 0; if (paso !== 6 || !M) return; if (ultima){ M.auto = false; M.final = orden[0]; ir(6); } else { siguienteRonda(); autoPaso(); } }, 1700);
 }
 function finMutante(){
-  try { localStorage.setItem(FINAL_KEY, JSON.stringify(M.final)); } catch (e) {}
+  // se guarda solo lo que se dibuja (el vestido, sus padres y abuelos); antes se guardaba toda la familia repetida y con muchas mutaciones el navegador se colgaba (15 nov 2026)
+  const corto = (x, n) => ({ id: x.id, g: x.g, origen: x.origen, mut: x.mut, ronda: x.ronda, cat: x.cat, padres: n ? (x.padres || []).map(p => corto(p, n - 1)) : [] });
+  try { localStorage.setItem(FINAL_KEY, JSON.stringify(corto(M.final, 2))); } catch (e) {}
   const v = M.final, g = v.g, P = M.P;
   const origen = k => { const o = v.origen[k]; return o.cat ? t('mut_deCat', { x: esc(minus(nom(MODELOS_NOMBRE(o.cat)))) }) : `<span class="mutado">✦ ${t('mut_deMut', { r: o.mut })}</span>`; };
   const nMut = GK.filter(k => v.origen[k].mut).length;
