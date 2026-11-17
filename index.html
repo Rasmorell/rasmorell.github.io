@@ -412,6 +412,12 @@
   .algo.en-curso .algo-tipo { font: 400 22px/1.15 Gloock, Georgia, serif; color: var(--ink); }
   .algo.en-curso .algo-tipo { border-left: 2px solid var(--soft); padding-left: 12px; }   /* una raya separa el nombre de su tema, para que no se lea como una oración */
   @media (max-width: 640px) { .algo.en-curso .algo-tipo { font-size: 19px; border-left: 0; padding-left: 0; flex-basis: 100%; } }   /* en el teléfono va en su propia línea; no necesita raya */
+  /* Compartir (17 nov 2026): botón secundario, con borde; el dorado sigue siendo para «Probarlo» */
+  .compartir-fila { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 0; }
+  .btn-compartir { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--btn-line); background: transparent; color: var(--ink); font: 600 15px Literata, Georgia, serif; cursor: pointer; }
+  .btn-compartir:hover, .btn-compartir:focus-visible { border-color: var(--gold); }
+  .c-ok { color: var(--leaf); font-size: 14px; font-weight: 600; }
+  .who .links { align-items: center; }
 </style>
 </head>
 <body>
@@ -580,6 +586,7 @@
         <p class="sub-intro">Si quieres enterarte cuando algo nuevo brote, mis escritos llegan por Designing Spring.</p>   <!-- antes era la sección de cierre -->
         <div class="links">
           <a class="btn gold sub-cta js-sub" href="https://designingspring.substack.com/subscribe" target="_blank" rel="noopener">Suscribirme a Designing Spring<span class="sr-only"> (se abre Substack)</span></a>
+          <button class="btn-compartir" type="button" onclick="compartir(this, LANG === 'en' ? 'Ramona Santos’s garden: experiments and stories with nature-inspired algorithms.' : 'El jardín de Ramona Santos: experimentos e historias con algoritmos inspirados en la naturaleza.', 'https://rasmorell.github.io/' + (LANG === 'en' ? '?lang=en' : ''), 'jardin-comparte')"><svg class="c-ico" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span data-en="Share this garden">Compartir este jardín</span></button><span class="c-ok" role="status" aria-live="polite"></span>
         </div>
       </div>
     </div>
@@ -1441,6 +1448,25 @@ PAL = document.documentElement.dataset.theme === 'day' ? DAY : NIGHT;
   new MutationObserver(() => { if (!running && (clock || still)) paint(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   addEventListener('resize', () => { if (!running && (clock || still)) paint(); }, { passive: true });
 })();
+</script>
+<script>
+const _contado = new Set();
+function track(name) { if (_contado.has(name) || !window.goatcounter || !window.goatcounter.count) return; _contado.add(name); window.goatcounter.count({ path: name, title: name, event: true }); }
+// ---- Compartir (17 nov 2026): en el teléfono abre el menú de compartir del propio teléfono; si no hay, copia el enlace.
+// Sin botones de redes sociales: no cargan rastreadores de otras empresas. El contador solo anota que alguien compartió.
+async function compartir(btn, texto, url, ev) {
+  if (typeof track === 'function') track(ev);
+  const en = (typeof LANG !== 'undefined' && LANG === 'en');
+  if (navigator.share) { try { await navigator.share({ title: document.title, text: texto, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+  let ok = false;
+  try { await navigator.clipboard.writeText(url); ok = true; } catch (e) {
+    const ta = document.createElement('textarea'); ta.value = url; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select(); try { ok = document.execCommand('copy'); } catch (_) {} ta.remove();
+  }
+  const s = btn.parentElement.querySelector('.c-ok'); if (!s) return;
+  s.textContent = ok ? (en ? '✓ Link copied' : '✓ Enlace copiado') : url;
+  clearTimeout(s._t); s._t = setTimeout(() => { s.textContent = ''; }, 3500);
+}
 </script>
 </body>
 </html>

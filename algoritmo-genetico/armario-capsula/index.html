@@ -280,6 +280,9 @@ dialog.priv::backdrop{background:rgba(0,0,0,.55)}
 .priv p b{color:var(--ink);font-weight:600}
 .priv .btn{margin-top:8px}
 @media (max-width:640px){.nav .pills{flex-direction:column-reverse;width:100%}}   /* en el teléfono el botón dorado va primero (15 nov 2026) */
+.compartir-fila{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0 0}
+.btn.compartir{display:inline-flex;align-items:center;gap:8px}
+.c-ok{color:var(--leaf);font-size:14px;font-weight:600}
 </style>
 </head>
 <body>
@@ -1248,6 +1251,7 @@ function p5(){
   const nMut = ps.filter(p => origen.get(p.id)).length;
   let h = `<section class="card"><h2>${t('r_h')}</h2><p class="lead">${t('r_lead', { n: P.tam })}</p>
   <div class="total"><div><span>${t('outfits')}</span><b class="big">${nConj}</b></div><div><span>${t('covers')}</span><b class="big">${e.cubiertos}/${e.pedidos}</b></div></div>
+  <div class="compartir-fila"><button class="btn compartir" type="button" id="aComparte" data-n="${nConj}" data-t="${P.tam}"><svg class="c-ico" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>${LANG === 'en' ? 'Share this experiment' : 'Compartir este experimento'}</button><span class="c-ok" role="status" aria-live="polite"></span></div>
   ${''}
   <div class="panel resumen">
     <p>${pal.base ? t('palBase', { b: col(pal.base) }) : ''}${acentos.length ? t('palAcentos', { a: acentos.join(t('y')) }) : t('palSinAcentos')}${P.estilo.length ? t('palEstilo', { e: P.estilo.map(e => t('estiloN')[e]).join(t('y')) }) : ''}</p>
@@ -1292,6 +1296,7 @@ function p5(){
     const ul = d.querySelector('.looks'); if (d.open && !ul.dataset.ok){ ul.innerHTML = ocultos[ul.dataset.o].map(([x, n]) => atuendo(x, n, comunes[ul.dataset.o])).join(''); ul.dataset.ok = 1; }
   }));
   document.getElementById('againBtn').onclick = () => { corrida = null; semilla++; ir(4); };
+  document.getElementById('aComparte').onclick = e => { const b = e.currentTarget, n = b.dataset.n, m = b.dataset.t; compartir(b, LANG === 'en' ? `A genetic algorithm put together ${n} outfits for me from just ${m} pieces. Build your capsule wardrobe:` : `Un algoritmo genético me armó ${n} conjuntos con solo ${m} prendas. Arma tu armario cápsula:`, 'https://rasmorell.github.io/algoritmo-genetico/armario-capsula/' + (LANG === 'en' ? '?lang=en' : ''), 'armario-comparte'); };
   const masB = document.getElementById('masBtn'); if (masB) masB.onclick = () => { st.tam = P.tam + 10; guardar(); corrida = null; ir(4); };
 }
 
@@ -1386,6 +1391,23 @@ document.addEventListener('click', e => {
   d.showModal(); d.querySelector('[data-cerrar]').focus(); track('armario-privacidad');
 });
 document.getElementById('priv').addEventListener('click', e => { if (e.target.id === 'priv') e.target.close(); });   // tocar fuera la cierra
+</script>
+<script>
+// ---- Compartir (17 nov 2026): en el teléfono abre el menú de compartir del propio teléfono; si no hay, copia el enlace.
+// Sin botones de redes sociales: no cargan rastreadores de otras empresas. El contador solo anota que alguien compartió.
+async function compartir(btn, texto, url, ev) {
+  if (typeof track === 'function') track(ev);
+  const en = (typeof LANG !== 'undefined' && LANG === 'en');
+  if (navigator.share) { try { await navigator.share({ title: document.title, text: texto, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+  let ok = false;
+  try { await navigator.clipboard.writeText(url); ok = true; } catch (e) {
+    const ta = document.createElement('textarea'); ta.value = url; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select(); try { ok = document.execCommand('copy'); } catch (_) {} ta.remove();
+  }
+  const s = btn.parentElement.querySelector('.c-ok'); if (!s) return;
+  s.textContent = ok ? (en ? '✓ Link copied' : '✓ Enlace copiado') : url;
+  clearTimeout(s._t); s._t = setTimeout(() => { s.textContent = ''; }, 3500);
+}
 </script>
 </body>
 </html>

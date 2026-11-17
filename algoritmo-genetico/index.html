@@ -136,6 +136,11 @@
     .probar { width: 100%; justify-content: center; }
   }
   @media (prefers-reduced-motion: reduce) { .exp { transition: none; } }
+  /* Compartir (17 nov 2026): botón secundario, con borde; el dorado sigue siendo para «Probarlo» */
+  .compartir-fila { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .btn-compartir { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--btn-line); background: transparent; color: var(--ink); font: 600 15px Literata, Georgia, serif; cursor: pointer; }
+  .btn-compartir:hover, .btn-compartir:focus-visible { border-color: var(--gold); }
+  .c-ok { color: var(--leaf); font-size: 14px; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -203,6 +208,7 @@
         <span class="probar" data-en="Try it →">Probarlo →</span>
       </div></a></li>
   </ul>
+  <div class="compartir-fila"><button class="btn-compartir" type="button" onclick="compartir(this, LANG === 'en' ? 'Interactive experiments with nature-inspired genetic algorithms. Try them:' : 'Experimentos interactivos con algoritmos genéticos inspirados en la naturaleza. Pruébalos:', 'https://rasmorell.github.io/algoritmo-genetico/' + (LANG === 'en' ? '?lang=en' : ''), 'evolucion-comparte')"><svg class="c-ico" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span data-en="Share these experiments">Compartir estos experimentos</span></button><span class="c-ok" role="status" aria-live="polite"></span></div>
 </main>
 <footer><span data-en="Experiments by">Experimentos de</span> <a href="https://designingspring.substack.com/" target="_blank" rel="noopener">Designing Spring</a> · Ramona Santos. <span data-en="What you type in each experiment never leaves your device. We count visits anonymously, without cookies, with GoatCounter.">Lo que escribes en cada experimento no sale de tu dispositivo. Contamos visitas de forma anónima, sin cookies, con GoatCounter.</span></footer>
 <script>
@@ -680,6 +686,23 @@ function paint(g, W, H, s, u) {
   let rt = 0; addEventListener('resize', () => { if (rt) return; rt = requestAnimationFrame(() => { rt = 0; s = null; if (!raf) cuadro(); }); });
   new MutationObserver(() => { if (!raf) cuadro(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'lang'] });
 })();
+</script>
+<script>
+// ---- Compartir (17 nov 2026): en el teléfono abre el menú de compartir del propio teléfono; si no hay, copia el enlace.
+// Sin botones de redes sociales: no cargan rastreadores de otras empresas. El contador solo anota que alguien compartió.
+async function compartir(btn, texto, url, ev) {
+  if (typeof track === 'function') track(ev);
+  const en = (typeof LANG !== 'undefined' && LANG === 'en');
+  if (navigator.share) { try { await navigator.share({ title: document.title, text: texto, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+  let ok = false;
+  try { await navigator.clipboard.writeText(url); ok = true; } catch (e) {
+    const ta = document.createElement('textarea'); ta.value = url; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select(); try { ok = document.execCommand('copy'); } catch (_) {} ta.remove();
+  }
+  const s = btn.parentElement.querySelector('.c-ok'); if (!s) return;
+  s.textContent = ok ? (en ? '✓ Link copied' : '✓ Enlace copiado') : url;
+  clearTimeout(s._t); s._t = setTimeout(() => { s.textContent = ''; }, 3500);
+}
 </script>
 </body>
 </html>

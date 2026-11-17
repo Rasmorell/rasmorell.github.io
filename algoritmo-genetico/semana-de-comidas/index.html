@@ -1049,6 +1049,9 @@
   @media (max-width: 640px) { .mast:has(.step-tag:not(:empty)) { margin-bottom: 40px; } .step-tag { bottom: -28px; } }   /* en el celular la etiqueta no toca el título */
   .mast-vine { position: absolute; left: 0; right: 0; bottom: -8px; width: 100%; height: 16px; pointer-events: none; }
   :root[data-theme="light"] .mast .logo-night, :root:not([data-theme="light"]) .mast .logo-day { display: none; }
+  .compartir-fila { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end; margin-top: 12px; }
+  .btn.compartir { display: inline-flex; align-items: center; gap: 8px; }
+  .c-ok { color: var(--leaf-ink); font-size: 14px; font-weight: 600; }
 </style>
 </head>
 <body data-step="1">
@@ -1421,7 +1424,8 @@
   <div class="step-nav demo-nav5">
     <div class="right"><button class="btn primary go" onclick="usarMisDatos()">Ahora arma la tuya →</button></div></div>
   <div class="step-nav normal-nav5">
-    <div class="right"><button class="btn secondary" onclick="generarOtro()">Generar otro plan</button><button class="btn secondary" id="pdfBtnMain" onclick="downloadPDF(this)">Descargar tu plan (PDF)</button><a class="btn primary" id="presuLink" href="presupuesto/index.html" onclick="return irPresupuesto()">Crear mi presupuesto y lista →</a></div></div>
+    <div class="right"><button class="btn secondary" onclick="generarOtro()">Generar otro plan</button><button class="btn secondary" id="pdfBtnMain" onclick="downloadPDF(this)">Descargar tu plan (PDF)</button><a class="btn primary" id="presuLink" href="presupuesto/index.html" onclick="return irPresupuesto()">Crear mi presupuesto y lista →</a></div>
+    <div class="compartir-fila"><button class="btn secondary compartir" type="button" onclick="compartir(this, LANG === 'en' ? 'A genetic algorithm put together my week of meals to reach what my body needs. Build yours:' : 'Un algoritmo genético armó mi semana de comidas para llegar a lo que mi cuerpo necesita. Arma la tuya:', 'https://rasmorell.github.io/algoritmo-genetico/semana-de-comidas/' + (LANG === 'en' ? '?lang=en' : ''), '7-comparte')"><svg class="c-ico" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span>Compartir este experimento</span></button><span class="c-ok" role="status" aria-live="polite"></span></div></div>
 </section>
 
 </main>
@@ -4549,6 +4553,7 @@ i18nAdd({
   "Comentar en Designing Spring →": "Comment on Designing Spring →",
   "← Ver cómo evolucionó tu semana": "← See how your week evolved",
   "Generar otro plan": "Generate another plan",
+  "Compartir este experimento": "Share this experiment",
   "<a>Crear mi presupuesto y lista →</a>": "<a>My budget and list (in Spanish) →</a>",
   "poca proteína, poca grasa, pocos carbohidratos": "low protein, low fat, low carbs",
   "La semana de ejemplo": "The sample week",
@@ -4930,5 +4935,22 @@ paintSky();
 paintVine();
 </script>
 
+<script>
+// ---- Compartir (17 nov 2026): en el teléfono abre el menú de compartir del propio teléfono; si no hay, copia el enlace.
+// Sin botones de redes sociales: no cargan rastreadores de otras empresas. El contador solo anota que alguien compartió.
+async function compartir(btn, texto, url, ev) {
+  if (typeof track === 'function') track(ev);
+  const en = (typeof LANG !== 'undefined' && LANG === 'en');
+  if (navigator.share) { try { await navigator.share({ title: document.title, text: texto, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+  let ok = false;
+  try { await navigator.clipboard.writeText(url); ok = true; } catch (e) {
+    const ta = document.createElement('textarea'); ta.value = url; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select(); try { ok = document.execCommand('copy'); } catch (_) {} ta.remove();
+  }
+  const s = btn.parentElement.querySelector('.c-ok'); if (!s) return;
+  s.textContent = ok ? (en ? '✓ Link copied' : '✓ Enlace copiado') : url;
+  clearTimeout(s._t); s._t = setTimeout(() => { s.textContent = ''; }, 3500);
+}
+</script>
 </body>
 </html>
