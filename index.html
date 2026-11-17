@@ -387,6 +387,31 @@
   /* el rosa queda para los detalles: la invitación «Soy Ramona…» lo conserva (es el detalle que debe destacar); la luna de día va en tinta; el punto de las etiquetas toma su mismo color */
   :root[data-theme="day"] #skyBtn { color: var(--ink); }
   .cultivo .kicker::before { background: currentColor; }
+
+  /* Experimentos dentro de su algoritmo (17 nov 2026): sin tarjeta grande arriba; una tarjeta pequeña por experimento bajo la fila del algoritmo */
+  .minis { list-style: none; margin: 0; padding: 0 8px 24px calc(120px + 28px + 8px); display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }   /* tantas columnas como quepan: en fila en escritorio, una debajo de otra en el teléfono */
+  .mini { display: flex; align-items: center; height: 100%; border: 1px solid var(--card-line); border-radius: 16px; background: #1b2e25; text-decoration: none; color: inherit; overflow: hidden; transition: border-color .25s ease-out, transform .25s ease-out; }
+  :root[data-theme="day"] .mini { background: #d0dcd7; }
+  .mini:hover, .mini:focus-visible { border-color: var(--gold); transform: translateY(-2px); }
+  .mini.nuevo-mini { border-color: rgba(227, 167, 47, .42); }
+  :root[data-theme="day"] .mini.nuevo-mini { border-color: rgba(168, 116, 20, .45); }
+  .mini-img { width: 76px; flex: none; margin: 8px; aspect-ratio: 1; border-radius: 10px; background: var(--bg); display: grid; place-items: center; overflow: hidden; }
+  .mini-img img { width: 70%; height: 82%; object-fit: contain; }
+  .mini-txt { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 8px 12px 8px 4px; min-width: 0; }
+  .mini-txt b { font: 400 19px/1.15 Gloock, Georgia, serif; }
+  .mini-num { color: var(--soft); font-size: 14px; }
+  .mini .nuevo { margin-bottom: 2px; }
+  @media (max-width: 640px) { .minis { padding: 0 4px 20px; gap: 10px; } }
+  @media (prefers-reduced-motion: reduce) { .mini { transition: none; } }
+  .algo[hidden] { display: none; }
+  /* el algoritmo en curso se destaca: primero su nombre (Algoritmo Genético) en dorado, luego de qué trata (Evolución) (17 nov 2026) */
+  .algo.en-curso .algo-nombre { color: var(--gold); }
+  section.part .algo-txt p.algo-autor { margin-top: 4px; font-size: 14px; color: var(--soft); }   /* reconoce al creador original: el algoritmo no es de Ramona */
+  .algo-autor b { color: var(--ink); font-weight: 600; }
+  :root[data-theme="day"] .algo.en-curso .algo-nombre { color: #7a4f00; }
+  .algo.en-curso .algo-tipo { font: 400 22px/1.15 Gloock, Georgia, serif; color: var(--ink); }
+  .algo.en-curso .algo-tipo { border-left: 2px solid var(--soft); padding-left: 12px; }   /* una raya separa el nombre de su tema, para que no se lea como una oración */
+  @media (max-width: 640px) { .algo.en-curso .algo-tipo { font-size: 19px; border-left: 0; padding-left: 0; flex-basis: 100%; } }   /* en el teléfono va en su propia línea; no necesita raya */
 </style>
 </head>
 <body>
@@ -434,31 +459,32 @@
   <section class="part alt" id="experimentos">
     <h2>Experimentos</h2>
     <p class="cultivo"><span class="kicker">Lo que estoy cultivando · noviembre 2026</span>Experimentos con algoritmos genéticos, y aprendiendo a mirar cómo la naturaleza resuelve problemas.</p>   <!-- se cambia cada mes -->
-    <h3 class="sub-h" data-en="The newest">Lo más nuevo</h3>
-    <div class="vitrina">   <!-- solo el experimento más reciente, del algoritmo que sea; los demás viven en la página de su algoritmo -->
-      <a class="pieza" href="https://rasmorell.github.io/algoritmo-genetico/vestido-mutante/?intro" target="_blank" rel="noopener">
-        <figure class="muestra"><img src="algoritmo-genetico/img/vestido.svg" alt="" width="200" height="256"></figure>
-        <div class="pieza-txt">
-          <span class="kicker"><span class="nuevo" data-en="New">Nuevo</span><span data-en="Evolution · Experiment 03 · Nov 2026">Evolución · Experimento 03 · nov 2026</span></span>
-          <h3 data-en="The mutant dress">El vestido mutante</h3>
-          <p data-en="How do you design a dress that has never existed? Evolution crosses garments that suit you and lets them mutate with shapes borrowed from nature.">¿Cómo se diseña un vestido que nunca ha existido? La evolución cruza prendas que te favorecen y las deja mutar con formas de la naturaleza.</p>
-          <p class="meta" data-en="Interactive · 3 to 5 minutes · what you type never leaves your device">Interactivo · de 3 a 5 minutos · lo que escribes no sale de tu dispositivo</p>
-          <span class="btn gold"><span data-en="Try it →">Probarlo →</span><span class="sr-only" data-en=" (opens in a new tab)"> (se abre en otra pestaña)</span></span>
-        </div>
-      </a>
-    </div>
     <h3 class="sub-h" data-en="By algorithm">Por algoritmo</h3>
     <ul class="algos">   <!-- cada algoritmo es una planta; sus experimentos, las flores. Un algoritmo nuevo = una fila más -->
-      <li class="algo">
+      <li class="algo en-curso">
         <a class="algo-in" href="algoritmo-genetico/">
           <figure class="bloom"><canvas id="bloom" aria-hidden="true"></canvas></figure>
           <div class="algo-txt">
-            <h4>Evolución <span class="algo-tipo" data-en="genetic algorithm">algoritmo genético</span></h4>
+            <h4><span class="algo-nombre" data-en="Genetic Algorithm">Algoritmo Genético</span> <span class="algo-tipo" data-en="Evolution">Evolución</span></h4>
+            <p class="algo-autor" data-en="Created by &lt;b&gt;John Holland&lt;/b&gt; (University of Michigan, 1975). I use it in my experiments.">Creado por <b>John Holland</b> (Universidad de Michigan, 1975). Yo lo uso en mis experimentos.</p>
             <p data-en="The best adapted survive. Born from chapters 1 and 3 of The Spring Designer.">Sobreviven los mejor adaptados. Nace de los capítulos 1 y 3 del Diseñador de la primavera.</p>
-            <p class="algo-exp" data-en="3 experiments: The mutant dress · Your capsule wardrobe · Your week of meals">3 experimentos: El vestido mutante · Tu armario cápsula · Tu semana de comidas</p>
             <span class="algo-ver" data-en="See its experiments →">Ver sus experimentos →</span>
           </div>
         </a>
+        <ul class="minis">   <!-- una tarjeta por experimento, el más nuevo primero con «Nuevo»; experimento nuevo = una tarjeta más al inicio -->
+          <li><a class="mini nuevo-mini" href="algoritmo-genetico/vestido-mutante/?intro">
+            <figure class="mini-img"><img src="algoritmo-genetico/img/vestido.svg" alt="" width="200" height="256"></figure>
+            <span class="mini-txt"><span class="nuevo" data-en="New">Nuevo</span><b data-en="The mutant dress">El vestido mutante</b><span class="mini-num" data-en="Experiment 03">Experimento 03</span></span>
+          </a></li>
+          <li><a class="mini" href="algoritmo-genetico/armario-capsula/?intro">
+            <figure class="mini-img"><img src="algoritmo-genetico/img/armario.svg" alt="" width="150" height="220"></figure>
+            <span class="mini-txt"><b data-en="Your capsule wardrobe">Tu armario cápsula</b><span class="mini-num" data-en="Experiment 02">Experimento 02</span></span>
+          </a></li>
+          <li><a class="mini" href="algoritmo-genetico/semana-de-comidas/?intro">
+            <figure class="mini-img"><img class="logo-night" src="algoritmo-genetico/img/semana-noche.svg" alt="" width="200" height="200"><img class="logo-day" src="algoritmo-genetico/img/semana-dia.svg" alt="" width="200" height="200"></figure>
+            <span class="mini-txt"><b data-en="Your week of meals">Tu semana de comidas</b><span class="mini-num" data-en="Experiment 01">Experimento 01</span></span>
+          </a></li>
+        </ul>
       </li>
       <li class="algo pronto">
         <div class="algo-in">
@@ -469,7 +495,7 @@
           </div>
         </div>
       </li>
-      <li class="algo pronto">
+      <li class="algo pronto" hidden>   <!-- Flores (cap. 4) oculto el 17 nov 2026: faltan varios experimentos del GA antes; quitar «hidden» para mostrarlo -->
         <div class="algo-in">
           <figure class="emblema" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="27" r="5"/><path d="M32 22 C26 12 38 12 32 22 M37 27 C47 21 47 33 37 27 M32 32 C38 42 26 42 32 32 M27 27 C17 33 17 21 27 27"/><path d="M32 37 C32 44 31 50 32 56 M32 48 C36 44 40 44 43 45"/></svg></figure>
           <div class="algo-txt">
