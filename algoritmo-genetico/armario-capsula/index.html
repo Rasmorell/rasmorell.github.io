@@ -283,6 +283,7 @@ dialog.priv::backdrop{background:rgba(0,0,0,.55)}
 .compartir-fila{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0 0}
 .btn.compartir{display:inline-flex;align-items:center;gap:8px}
 .c-ok{color:var(--leaf);font-size:14px;font-weight:600}
+@media (max-width: 640px) { .compartir-fila { flex-direction: column; align-items: stretch; } .compartir-fila .btn, .compartir-fila .btn-compartir { width: 100%; justify-content: center; } .compartir-fila .c-ok { text-align: center; } }   /* en el teléfono, del ancho de los demás botones */
 </style>
 </head>
 <body>

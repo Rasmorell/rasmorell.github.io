@@ -141,6 +141,7 @@
   .btn-compartir { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--btn-line); background: transparent; color: var(--ink); font: 600 15px Literata, Georgia, serif; cursor: pointer; }
   .btn-compartir:hover, .btn-compartir:focus-visible { border-color: var(--gold); }
   .c-ok { color: var(--leaf); font-size: 14px; font-weight: 600; }
+@media (max-width: 640px) { .compartir-fila { flex-direction: column; align-items: stretch; } .compartir-fila .btn, .compartir-fila .btn-compartir { width: 100%; justify-content: center; } .compartir-fila .c-ok { text-align: center; } }   /* en el teléfono, del ancho de los demás botones */
 </style>
 </head>
 <body>
